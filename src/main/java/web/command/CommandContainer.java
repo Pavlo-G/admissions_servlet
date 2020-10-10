@@ -1,5 +1,7 @@
 package web.command;
 
+import entity.CandidateProfile;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,12 @@ public class CommandContainer {
         commandMap.put("admissionRequests", new AllAdmissionRequests());
         commandMap.put("loginForm", new LoginFormCommand());
         commandMap.put("submitRequest", new SubmitRequestCommand());
-        commandMap.put("registration_form", new RegistrationFormCommand());
+        commandMap.put("registrationForm", new RegistrationFormCommand());
+        commandMap.put("adminWorkspace", new AdminWorkspaceCommand());
+        commandMap.put("candidateProfile", new CandidateProfileCommand());
+        commandMap.put("candidateProfileEdit", new CandidateProfileEditCommand());
+        commandMap.put("updateCandidateProfile", new UpdateCandidateProfileCommand());
+        commandMap.put("getSubmitRequestForm", new GetSubmitRequestFormCommand());
 
     }
 

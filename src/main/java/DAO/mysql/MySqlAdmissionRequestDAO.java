@@ -17,14 +17,14 @@ import java.util.List;
 public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
 
-    private static MySqlAdmissionRequestDAO instance;
 
-    public static synchronized MySqlAdmissionRequestDAO getInstance() {
-        if (instance == null) {
-            instance = new MySqlAdmissionRequestDAO();
-        }
-        return instance;
+    private static Connection connection;
+
+
+    public MySqlAdmissionRequestDAO(Connection connection) {
+        this.connection = connection;
     }
+
 
 
     @Override
@@ -38,7 +38,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public Faculty findAdmissionRequest() {
+    public AdmissionRequest findAdmissionRequest() {
         return null;
     }
 
@@ -47,16 +47,13 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return false;
     }
 
-    @Override
-    public RowSet selectAdmissionRequestsRS() {
-        return null;
-    }
+
 
     @Override
     public Collection<AdmissionRequest> selectAdmissionRequestsTO() {
         List<AdmissionRequest> admissionRequests = new ArrayList<>();
 
-        try (Connection con = MySqlDAOFactory.createConnection();
+        try (Connection con = connection;
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_ADMISSION_REQUESTS)) {
 

@@ -16,21 +16,14 @@ import java.sql.SQLException;
 public class MySqlDAOFactory extends DAOFactory {
 
     private static MySqlDAOFactory instance;
+    private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
-    public static Connection createConnection() {
-        Connection con = null;
+    private Connection getConnection(){
         try {
-            Context context = (Context) new InitialContext().lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) context.lookup("jdbc/mysql");
-            System.out.println(dataSource.getClass().getName());
-            con = dataSource.getConnection();
-        } catch (NamingException e) {
-            e.printStackTrace();
-
+            return dataSource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return con;
     }
 
 
@@ -49,17 +42,17 @@ public class MySqlDAOFactory extends DAOFactory {
 
     @Override
     public CandidateDAO getCandidateDAO() {
-        return MySqlCandidateDAO.getInstance();
+        return new MySqlCandidateDAO(getConnection());
     }
 
     @Override
     public FacultyDAO getFacultyDAO() {
-        return MySqlFacultyDAO.getInstance();
+        return new MySqlFacultyDAO(getConnection());
     }
 
     @Override
     public AdmissionRequestDAO getAdmissionRequestDAO() {
-        return MySqlAdmissionRequestDAO.getInstance();
+        return new MySqlAdmissionRequestDAO(getConnection());
     }
 }
 

@@ -15,21 +15,14 @@ import java.util.List;
 
 public class MySqlFacultyDAO implements FacultyDAO {
 
-    private static MySqlFacultyDAO instance;
+
+    private static Connection connection;
 
 
-
-
-    public static synchronized MySqlFacultyDAO getInstance() {
-        if (instance == null) {
-            instance = new MySqlFacultyDAO();
-        }
-        return instance;
+    public MySqlFacultyDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    private MySqlFacultyDAO() {
-
-    }
 
 
     @Override
@@ -61,7 +54,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     public List<Faculty> getAllFacultiesTO() {
         List<Faculty> listFaculties = new ArrayList<>();
 
-        try (Connection con = MySqlDAOFactory.createConnection();
+        try (Connection con = connection;
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_FACULTIES)) {
 

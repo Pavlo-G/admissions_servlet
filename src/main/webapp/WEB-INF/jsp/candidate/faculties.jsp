@@ -7,12 +7,10 @@
 <c:set var="title" value="Faculties" scope="page" />
 <head>
     <title>Admission Board Application</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
-<br>
-<jsp:include page="fragments/navbar.jsp" />
+<jsp:include page="../fragments/navbar.jsp" />
 
 <div class="row">
 
@@ -56,7 +54,9 @@
                         <c:out value="${faculty.budgetCapacity}" />
                     </td>
                     <td><form action="/controller"  >
-                        <input type="hidden" name="command" value="submitRequest">
+                        <input type="hidden" name="command" value="getSubmitRequestForm">
+                        <input type="hidden" name="facultyId" value="${faculty.id}">
+                        <input type="hidden" name="facultyName" value="${faculty.name}">
                         <button  class="btn btn-success">Submit Admission Request</button>
                     </form></td>
                 </tr>

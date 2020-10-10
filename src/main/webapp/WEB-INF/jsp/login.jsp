@@ -17,7 +17,7 @@
 
 
 <body>
-<jsp:include page="/WEB-INF/jsp/fragments/navbar.jsp" />
+<jsp:include page="/WEB-INF/jsp/fragments/navbar-log-reg.jsp" />
 <section>
 
     <br>
@@ -25,7 +25,7 @@
         <input type="hidden"  name="command" value="login" >
         <dl>
             <dt>Login:</dt>
-            <dd><input type="text"  name="login" required></dd>
+            <dd><input type="text"  name="username" required></dd>
         </dl>
         <dl>
             <dt>Password:</dt>

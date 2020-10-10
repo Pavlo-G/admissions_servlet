@@ -1,30 +1,16 @@
 package web.command;
 
 import DAO.DAOFactory;
-import entity.Candidate;
 import entity.CandidateProfile;
-import entity.CandidateStatus;
-import entity.Role;
-import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
-public class RegistrationCommand implements Command {
-
+public class UpdateCandidateProfileCommand implements Command {
     private static final DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
-
-        Candidate candidate= new Candidate();
-        candidate.setUsername( request.getParameter("username"));
-        candidate.setPassword( BCrypt.hashpw(request.getParameter("password"),BCrypt.gensalt(12)));
-        candidate.setRole(Role.USER);
-        candidate.setCandidateStatus(CandidateStatus.ACTIVE);
-
 
         CandidateProfile candidateProfile =  new CandidateProfile();
         candidateProfile.setEmail(request.getParameter("email"));
@@ -35,15 +21,14 @@ public class RegistrationCommand implements Command {
         candidateProfile.setRegion(request.getParameter("region"));
         candidateProfile.setSchool(request.getParameter("school"));
         candidateProfile.setPhoneNumber(request.getParameter("phoneNumber"));
-        candidateProfile.setCandidate(candidate);
 
         try {
-            daoFactory.getCandidateDAO().insertCandidate(candidate, candidateProfile);
+            daoFactory.getCandidateDAO().updateCandidateProfile(candidateProfile);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
 
-        return "/WEB-INF/jsp/login.jsp";
+        return "/controller?command=candidateProfile";
     }
 }

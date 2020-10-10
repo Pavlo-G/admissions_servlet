@@ -17,8 +17,7 @@
 
 
 <body>
-
-<jsp:include page="fragments/navbar.jsp" />
+<jsp:include page="/WEB-INF/jsp/fragments/navbar-log-reg.jsp" />
 <section>
 
   <br>

@@ -4,24 +4,28 @@ import entity.Candidate;
 import entity.CandidateProfile;
 
 import javax.sql.RowSet;
+import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Optional;
 
 
 public interface CandidateDAO {
-    int insertCandidate(Candidate candidate);
+    void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
 
-    int insertCandidateProfile(CandidateProfile candidateProfile);
 
     boolean deleteCandidate();
 
     Candidate findCandidateById(int id);
 
-    Candidate findCandidateByLogin(String login);
+    Candidate findCandidateByUsername(String username);
 
     boolean updateCandidate();
+
+    void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
 
     RowSet selectCandidatesRS();
 
     Collection<Candidate> getAllCandidatesTO();
 
+    Optional<CandidateProfile> getCandidateProfile(Candidate candidate);
 }

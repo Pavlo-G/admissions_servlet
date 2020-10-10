@@ -1,6 +1,7 @@
 package DAO.mysql;
 
 import DAO.CandidateDAO;
+import DAO.mapper.CandidateProfileMapper;
 import entity.Candidate;
 import entity.CandidateProfile;
 import entity.CandidateStatus;
@@ -10,61 +11,48 @@ import javax.sql.RowSet;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class MySqlCandidateDAO implements CandidateDAO {
 
     private static MySqlCandidateDAO instance;
+    private static Connection connection;
 
-    public static synchronized MySqlCandidateDAO getInstance() {
-        if (instance == null) {
-            instance = new MySqlCandidateDAO();
-        }
-        return instance;
+
+    public MySqlCandidateDAO(Connection connection) {
+        this.connection = connection;
     }
 
-    private MySqlCandidateDAO() {
 
-    }
+
+
 
     @Override
-    public int insertCandidate(Candidate candidate) {
+    public void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException {
+        Connection conn = null;
         PreparedStatement pstmt = null;
-        int result = 0;
-        Connection con = null;
-
+        Long candidateId=null;
         try {
-            con = MySqlDAOFactory.createConnection();
-            pstmt = con.prepareStatement("INSERT INTO candidate (username,password,role,status) Values(?,?,?,?)");
+            conn = connection;
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
+            pstmt = conn.prepareStatement(
+                    "INSERT INTO candidate (username,password,role,status) Values(?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+
             pstmt.setString(1, candidate.getUsername());
             pstmt.setString(2, candidate.getPassword());
             pstmt.setString(3, candidate.getRole().getName());
             pstmt.setString(4, candidate.getCandidateStatus().name());
-            result = pstmt.executeUpdate();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                pstmt.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
-        }
-        return result;
-    }
+            candidateId =  getGeneratedKey(pstmt);
+//            pstmt.executeUpdate();
 
 
-    public int insertCandidateProfile(CandidateProfile candidateProfile) {
-        PreparedStatement pstmt = null;
-        int result = 0;
-        Connection con = null;
+            pstmt = conn.prepareStatement(
+                    "INSERT INTO candidate_profile(first_name,last_name,email,address,city,region,school,phone_number,candidate_id)" +
+                            " Values(?,?,?,?,?,?,?,?,?);");
 
-        try {
-            con = MySqlDAOFactory.createConnection();
-            pstmt = con.prepareStatement("INSERT INTO candidate_profile (" +
-                    "first_name,last_name,email,address,city,region,school,phone_number,candidate_id) Values(?,?,?,?,?,?,?,?,?)");
             pstmt.setString(1, candidateProfile.getFirstName());
             pstmt.setString(2, candidateProfile.getLastName());
             pstmt.setString(3, candidateProfile.getEmail());
@@ -73,23 +61,45 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(6, candidateProfile.getRegion());
             pstmt.setString(7, candidateProfile.getSchool());
             pstmt.setString(8, candidateProfile.getPhoneNumber());
-            pstmt.setLong(9, candidateProfile.getCandidate().getId());
-            result = pstmt.executeUpdate();
+            pstmt.setLong(9, candidateId);
+            pstmt.execute();
+            conn.commit();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            try {
+                assert conn != null;
+                conn.rollback();
+            } catch (SQLException exp) {
+                throw new SQLException("Can not make rollback of transaction ", exp);
+            }
+            throw new SQLException("Can not make  transaction" + ex.getMessage(), ex);
         } finally {
             try {
-                pstmt.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+                assert conn != null;
+                conn.close();
+            } catch (SQLException ex) {
 
+            }
         }
-        return result;
+
     }
 
 
+    private Long getGeneratedKey(PreparedStatement pstmt) throws SQLException {
+        ResultSet rs = null;
+        try {
+            if (pstmt.executeUpdate() > 0) {
+                rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new SQLException("Can not return generated keys!", ex);
+        }
+
+        return -1L;
+    }
 
 
     @Override
@@ -103,22 +113,22 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
     @Override
-    public Candidate findCandidateByLogin(String login) {
+    public Candidate findCandidateByUsername(String username) {
         Candidate candidate = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
         try {
-            con = MySqlDAOFactory.createConnection();
-            pstmt = con.prepareStatement(Constants.SQL_FIND_CANDIDATE_BY_LOGIN);
-            pstmt.setString(1, login);
+            con = connection;
+            pstmt = con.prepareStatement(Constants.SQL_FIND_CANDIDATE_BY_USERNAME);
+            pstmt.setString(1, username);
             rs = pstmt.executeQuery();
             if (rs.next())
                 candidate = mapCandidate(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
-            //  DBManager.getInstance().rollbackAndClose(con);
+
             ex.printStackTrace();
         } finally {
             try {
@@ -128,8 +138,6 @@ public class MySqlCandidateDAO implements CandidateDAO {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
-            //  DBManager.getInstance().commitAndClose(con);
         }
         return candidate;
     }
@@ -148,7 +156,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
     public List<Candidate> getAllCandidatesTO() {
         List<Candidate> listCandidates = new ArrayList<>();
 
-        try (Connection con = MySqlDAOFactory.createConnection();
+        try (Connection con = connection;
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_CANDIDATES)) {
 
@@ -175,5 +183,64 @@ public class MySqlCandidateDAO implements CandidateDAO {
         return candidate;
     }
 
+    @Override
+    public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) {
+        Optional<CandidateProfile> result = Optional.empty();
+        try(PreparedStatement ps = connection.prepareCall("SELECT * From candidate_profile Where candidate_id=?")){
+            ps.setLong( 1, candidate.getId());
+            ResultSet rs;
+            rs = ps.executeQuery();
+            CandidateProfileMapper mapper = new CandidateProfileMapper();
+            if (rs.next()){
+                result = Optional.of(mapper.extractFromResultSet(rs));
+            }
+        }catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
 
+        return result;
+    }
+
+
+    @Override
+    public void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        Long candidateId=null;
+        try {
+            conn = connection;
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            pstmt = conn.prepareStatement(
+                    "UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=? ;");
+            pstmt.setString(1, candidateProfile.getFirstName());
+            pstmt.setString(2, candidateProfile.getLastName());
+            pstmt.setString(3, candidateProfile.getEmail());
+            pstmt.setString(4, candidateProfile.getAddress());
+            pstmt.setString(5, candidateProfile.getCity());
+            pstmt.setString(6, candidateProfile.getRegion());
+            pstmt.setString(7, candidateProfile.getSchool());
+            pstmt.setString(8, candidateProfile.getPhoneNumber());
+            pstmt.execute();
+            conn.commit();
+
+        } catch (SQLException ex) {
+            try {
+                assert conn != null;
+                conn.rollback();
+            } catch (SQLException exp) {
+                throw new SQLException("Can not make rollback of transaction ", exp);
+            }
+            throw new SQLException("Can not make  transaction" + ex.getMessage(), ex);
+        } finally {
+            try {
+                assert conn != null;
+                conn.close();
+            } catch (SQLException ex) {
+
+            }
+        }
+
+
+    }
 }

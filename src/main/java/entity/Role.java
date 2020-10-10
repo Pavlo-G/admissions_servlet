@@ -8,7 +8,7 @@ package entity;
 
 
         public String getName() {
-            return name().toLowerCase();
+            return name();
         }
 
 
