@@ -5,6 +5,7 @@ import entity.Candidate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AllCandidatesCommand implements Command {
@@ -15,7 +16,12 @@ public class AllCandidatesCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         //  log.debug("Command starts");
         // get menu items list
-        List<Candidate> candidatesList = (List<Candidate>) daoFactory.getCandidateDAO().getAllCandidatesTO();
+        List<Candidate> candidatesList = null;
+        try {
+            candidatesList = (List<Candidate>) daoFactory.getCandidateDAO().getAllCandidatesTO();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();//add custom exception!
+        }
         // log.trace("Found in DB: menuItemsList --> " + menuItems);
 
         // sort menu by category

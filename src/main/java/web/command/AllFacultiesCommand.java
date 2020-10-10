@@ -6,6 +6,7 @@ import entity.Faculty;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AllFacultiesCommand implements Command{
@@ -14,7 +15,12 @@ public class AllFacultiesCommand implements Command{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         // get menu items list
-        List<Faculty> facultiesList= (List<Faculty>) daoFactory.getFacultyDAO().getAllFacultiesTO();
+        List<Faculty> facultiesList= null;
+        try {
+            facultiesList = (List<Faculty>) daoFactory.getFacultyDAO().getAllFacultiesTO();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
 
         // sort menu by category
