@@ -20,7 +20,7 @@
         <h2 class="text-danger">Candidate Profile</h2>
         <table class="table table-bordered success">
         <form class="form-inline ml-auto my-2 my-lg-0" action="/controller" method="post">
-            <input type="hidden" name="command" value="updateCandidateProfile">
+            <input type="hidden" name="command" value="updateCandidateProfile"/>
 
 
                 <thead>

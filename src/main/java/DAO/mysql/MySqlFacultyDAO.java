@@ -16,7 +16,7 @@ import java.util.List;
 public class MySqlFacultyDAO implements FacultyDAO {
 
 
-    private static Connection connection;
+    private final Connection connection;
 
 
     public MySqlFacultyDAO(Connection connection) {
@@ -51,7 +51,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
     @Override
-    public List<Faculty> getAllFacultiesTO() {
+    public List<Faculty> getAllFacultiesTO() throws SQLException {
         List<Faculty> listFaculties = new ArrayList<>();
 
         try (Connection con = connection;
@@ -63,8 +63,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            //LOGGER.severe("Cannot get all users!");
-            //  throw new SQLException("Cannot get all candidates!", ex);
+              throw new SQLException("Cannot get all faculties!", ex);
         }
         return listFaculties;
 

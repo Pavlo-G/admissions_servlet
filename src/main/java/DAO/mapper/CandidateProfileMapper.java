@@ -1,6 +1,5 @@
 package DAO.mapper;
 
-import entity.Candidate;
 import entity.CandidateProfile;
 
 import java.sql.ResultSet;
@@ -27,7 +26,7 @@ public class CandidateProfileMapper implements ObjectMapper<CandidateProfile> {
 
 
     @Override
-    public CandidateProfile makeUnique(Map<Integer, CandidateProfile> cache, CandidateProfile teacher) {
+    public CandidateProfile makeUnique(Map<Integer, CandidateProfile> cache, CandidateProfile entity) {
         return null;
     }
 }

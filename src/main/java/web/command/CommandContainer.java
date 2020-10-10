@@ -27,6 +27,8 @@ public class CommandContainer {
         commandMap.put("candidateProfileEdit", new CandidateProfileEditCommand());
         commandMap.put("updateCandidateProfile", new UpdateCandidateProfileCommand());
         commandMap.put("getSubmitRequestForm", new GetSubmitRequestFormCommand());
+        commandMap.put("getCandidateRequestsList", new GetCandidateRequestsListCommand());
+        commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand());
 
     }
 

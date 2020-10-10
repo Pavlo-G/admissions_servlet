@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class RegistrationCommand implements Command {
 
-    private static final DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
+
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

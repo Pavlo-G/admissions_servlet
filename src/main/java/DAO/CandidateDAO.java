@@ -25,7 +25,7 @@ public interface CandidateDAO {
 
     RowSet selectCandidatesRS();
 
-    Collection<Candidate> getAllCandidatesTO();
+    Collection<Candidate> getAllCandidatesTO() throws SQLException;
 
     Optional<CandidateProfile> getCandidateProfile(Candidate candidate);
 }

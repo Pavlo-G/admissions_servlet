@@ -1,6 +1,6 @@
 package web.command;
 
-import DAO.DAOFactory;
+import dto.AdmissionRequestDTO;
 import entity.AdmissionRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ public class AllAdmissionRequests  implements Command{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         //  log.debug("Command starts");
         // get menu items list
-        List<AdmissionRequest> admissionRequests = (List<AdmissionRequest>) daoFactory.getAdmissionRequestDAO().selectAdmissionRequestsTO();
+        List<AdmissionRequestDTO> admissionRequests = daoFactory.getAdmissionRequestDAO().selectAdmissionRequests();
         // log.trace("Found in DB: menuItemsList --> " + menuItems);
 
         // sort menu by category

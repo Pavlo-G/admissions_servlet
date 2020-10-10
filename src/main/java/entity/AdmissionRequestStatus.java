@@ -6,6 +6,6 @@ public enum AdmissionRequestStatus {
     private static AdmissionRequestStatus[] values = AdmissionRequestStatus.values();
 
     public static AdmissionRequestStatus getAdmissionRequestStatus(int i) {
-        return values[i - 1];
+        return values[i];
     }
 }

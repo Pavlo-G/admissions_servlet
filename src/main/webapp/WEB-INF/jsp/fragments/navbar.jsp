@@ -62,7 +62,7 @@
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdownPr">
                             <a class="dropdown-item" href="controller?command=candidateProfile" >my profile</a>
-                            <a class="dropdown-item" href="controller?command=candidateRequests" >my requests</a>
+                            <a class="dropdown-item" href="controller?command=getCandidateRequestsList" >my requests</a>
                             <a class="dropdown-item" href="controller?command=logout" >logout</a>
                         </div>
 

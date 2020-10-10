@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class MySqlCandidateDAO implements CandidateDAO {
+public class MySqlCandidateDAO  implements CandidateDAO {
 
-    private static MySqlCandidateDAO instance;
-    private static Connection connection;
+
+    private final Connection connection;
 
 
     public MySqlCandidateDAO(Connection connection) {
@@ -46,7 +46,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(3, candidate.getRole().getName());
             pstmt.setString(4, candidate.getCandidateStatus().name());
             candidateId =  getGeneratedKey(pstmt);
-//            pstmt.executeUpdate();
+
 
 
             pstmt = conn.prepareStatement(
@@ -153,7 +153,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
     @Override
-    public List<Candidate> getAllCandidatesTO() {
+    public List<Candidate> getAllCandidatesTO() throws SQLException {
         List<Candidate> listCandidates = new ArrayList<>();
 
         try (Connection con = connection;
@@ -164,9 +164,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
                 listCandidates.add(mapCandidate(rs));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            //LOGGER.severe("Cannot get all users!");
-            //  throw new SQLException("Cannot get all candidates!", ex);
+
+              throw new SQLException("Cannot get all candidates!", ex);
         }
         return listCandidates;
 

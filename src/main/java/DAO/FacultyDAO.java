@@ -4,6 +4,7 @@ package DAO;
 import entity.Faculty;
 
 import javax.sql.RowSet;
+import java.sql.SQLException;
 import java.util.Collection;
 
 
@@ -19,6 +20,6 @@ public interface FacultyDAO {
 
     public RowSet selectFacultyRS();
 
-    public Collection<Faculty> getAllFacultiesTO();
+    public Collection<Faculty> getAllFacultiesTO() throws SQLException;
 
 }
