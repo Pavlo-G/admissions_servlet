@@ -77,9 +77,11 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
                     Candidate candidate = candidateMapper.extractFromResultSet(rs);
                     CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
                     candidate.setCandidateProfile(candidateProfile);
-                    admissionRequest.ifPresent(x->{x.setCandidate(candidate);
+                    admissionRequest.ifPresent(x -> {
+                        x.setCandidate(candidate);
                         x.setFaculty(faculty);
-                    admissionRequestList.add(x);});
+                        admissionRequestList.add(x);
+                    });
 
                 }
             }
@@ -106,9 +108,44 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public AdmissionRequest findAdmissionRequest(Long id) {
+    public Optional<AdmissionRequest> findAdmissionRequest(Long id) {
 
-        return null;
+        String sql = "SELECT " +
+                "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
+                "f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
+                "admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
+                " c.id,c.username,c.password,c.role,c.candidate_status " +
+                "FROM admission_request " +
+                "Left JOIN candidate c on admission_request.candidate_id=c.id " +
+                "Left JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
+                "Left JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.candidate_id=?;";
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+            try (ResultSet rs = pstmt.executeQuery(sql)) {
+                AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+                FacultyMapper facultyMapper = new FacultyMapper();
+                CandidateMapper candidateMapper = new CandidateMapper();
+                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
+                while (rs.next()) {
+                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
+                    Faculty faculty = facultyMapper.extractFromResultSet(rs);
+                    Candidate candidate = candidateMapper.extractFromResultSet(rs);
+                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
+                    candidate.setCandidateProfile(candidateProfile);
+                    admissionRequest.ifPresent(x -> {
+                        x.setCandidate(candidate);
+                        x.setFaculty(faculty);
+
+                    });
+                    return admissionRequest;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return Optional.empty();
     }
 
     @Override

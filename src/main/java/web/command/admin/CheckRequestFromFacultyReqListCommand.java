@@ -11,10 +11,12 @@ public class CheckRequestFromFacultyReqListCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Long admissionRequestId = Long.valueOf(request.getParameter("requestId"));
 
-        AdmissionRequest admissionRequest =
-                daoFactory.getAdmissionRequestDAO().findAdmissionRequest(admissionRequestId);
 
 
-        return null;
+        daoFactory.getAdmissionRequestDAO().findAdmissionRequest(admissionRequestId)
+                .ifPresent(x -> request.setAttribute("admissionRequest", x));
+
+
+        return "WEB-INF\\jsp\\admin\\checkRequestFromFacultyRequestList.jsp";
     }
 }

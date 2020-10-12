@@ -4,6 +4,7 @@ import entity.AdmissionRequest;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface AdmissionRequestDAO {
 
@@ -12,7 +13,7 @@ public interface AdmissionRequestDAO {
 
     boolean deleteAdmissionRequest(Long id) throws SQLException;
 
-    AdmissionRequest findAdmissionRequest(Long id);
+    Optional<AdmissionRequest> findAdmissionRequest(Long id);
 
     boolean updateAdmissionRequest();
 
