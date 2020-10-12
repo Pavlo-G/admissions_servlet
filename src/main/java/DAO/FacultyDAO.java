@@ -3,9 +3,7 @@ package DAO;
 
 import entity.Faculty;
 
-import javax.sql.RowSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -15,11 +13,10 @@ public interface FacultyDAO {
 
     public boolean deleteFaculty();
 
-    public Faculty findFaculty(int id);
+    public Faculty findFaculty(Long id);
 
     public boolean updateFaculty();
 
-    public RowSet selectFacultyRS();
 
     public List<Faculty> getAllFacultiesTO() throws SQLException;
 

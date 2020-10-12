@@ -1,6 +1,8 @@
 package dto;
 
 import entity.AdmissionRequestStatus;
+import entity.Candidate;
+import entity.Faculty;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +17,8 @@ public class AdmissionRequestDTO {
     private Integer requiredSubject3Grade;
     private Long candidateId;
     private  Long facultyId;
+    private Candidate candidate;
+    private Faculty faculty;
     private AdmissionRequestStatus admissionRequestStatus;
 
     public Long getId() {

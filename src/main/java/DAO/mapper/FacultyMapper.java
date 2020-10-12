@@ -25,7 +25,8 @@ public class FacultyMapper implements ObjectMapper<Faculty> {
     }
 
     @Override
-    public Faculty makeUnique(Map<Integer, Faculty> cache, Faculty entity) {
-        return null;
+    public Faculty makeUnique(Map<Long, Faculty> cache, Faculty entity) {
+        cache.putIfAbsent(entity.getId(), entity);
+        return cache.get(entity.getId());
     }
 }

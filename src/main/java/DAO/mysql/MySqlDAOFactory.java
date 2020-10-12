@@ -5,13 +5,8 @@ import DAO.CandidateDAO;
 import DAO.DAOFactory;
 import DAO.FacultyDAO;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -20,7 +15,7 @@ public class MySqlDAOFactory extends DAOFactory {
     private static MySqlDAOFactory instance;
     private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
-    private Connection getConnection(){
+    private Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
@@ -56,7 +51,6 @@ public class MySqlDAOFactory extends DAOFactory {
     public AdmissionRequestDAO getAdmissionRequestDAO() {
         return new MySqlAdmissionRequestDAO(getConnection());
     }
-
 
 
 }

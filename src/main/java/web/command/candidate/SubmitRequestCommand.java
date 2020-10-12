@@ -1,7 +1,8 @@
-package web.command;
+package web.command.candidate;
 
 import entity.AdmissionRequest;
 import entity.AdmissionRequestStatus;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,7 @@ public class SubmitRequestCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        AdmissionRequest admissionRequest =  new AdmissionRequest();
+        AdmissionRequest admissionRequest = new AdmissionRequest();
         admissionRequest.setFacultyId(Long.valueOf(request.getParameter("facultyId")));
         admissionRequest.setCandidateId(Long.valueOf(request.getParameter("candidateId")));
         admissionRequest.setRequiredSubject1Grade(Integer.parseInt(request.getParameter("requiredSubject1Grade")));

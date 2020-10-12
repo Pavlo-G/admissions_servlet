@@ -11,9 +11,10 @@ public abstract class DAOFactory {
 //    public static final int SYBASE = 3;
 
 
-
     public abstract CandidateDAO getCandidateDAO();
+
     public abstract FacultyDAO getFacultyDAO();
+
     public abstract AdmissionRequestDAO getAdmissionRequestDAO();
 
 
@@ -23,7 +24,7 @@ public abstract class DAOFactory {
         switch (whichFactory) {
             case MYSQL:
                 return MySqlDAOFactory.getInstance();
-            default           :
+            default:
                 throw new RuntimeException("Unknown factory");
         }
     }

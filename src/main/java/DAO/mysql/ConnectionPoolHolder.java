@@ -4,11 +4,6 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class ConnectionPoolHolder {
     private static final Logger log = Logger.getLogger(ConnectionPoolHolder.class);
@@ -34,8 +29,6 @@ public class ConnectionPoolHolder {
         return dataSource;
 
     }
-
-
 
 
 }

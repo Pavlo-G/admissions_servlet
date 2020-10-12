@@ -1,7 +1,8 @@
-package web.command;
+package web.command.candidate;
 
 
 import entity.CandidateProfile;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +13,8 @@ public class UpdateCandidateProfileCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        CandidateProfile candidateProfile =  new CandidateProfile();
+        CandidateProfile candidateProfile = new CandidateProfile();
+        candidateProfile.setId(Long.valueOf(request.getParameter("candidateProfileId")));
         candidateProfile.setEmail(request.getParameter("email"));
         candidateProfile.setFirstName(request.getParameter("firstName"));
         candidateProfile.setLastName(request.getParameter("lastName"));

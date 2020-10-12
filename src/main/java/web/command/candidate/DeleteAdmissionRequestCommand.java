@@ -1,4 +1,6 @@
-package web.command;
+package web.command.candidate;
+
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

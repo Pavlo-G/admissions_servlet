@@ -10,6 +10,6 @@ public interface Command {
 
     DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
 
-    public String execute(HttpServletRequest request, HttpServletResponse response);
+    String execute(HttpServletRequest request, HttpServletResponse response);
 
 }

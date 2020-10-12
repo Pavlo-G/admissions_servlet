@@ -44,17 +44,17 @@
                         </thead>
                         <tbody>
 
-                        <c:forEach var="request" items="${requestsList}">
-<%--                            <jsp:useBean id="request" type="dto.AdmissionRequestDTO"/>--%>
+                        <c:forEach var="req" items="${requestsList}">
+
                             <tr>
 
-                                <td>${request.id}</td>
-                                <td>${request.firstName}</td>
-                                <td>${request.lastName}</td>
-                                <td>${request.facultyName}</td>
-                                <td>${request.admissionRequestStatus.name()}</td>
+                                <td>${req.id}</td>
+                                <td>${req.candidate.candidateProfile.firstName}</td>
+                                <td>${req.candidate.candidateProfile.lastName}</td>
+                                <td>${req.faculty.name}</td>
+                                <td>${req.admissionRequestStatus.name()}</td>
                                 <td>
-                                        ${request.creationDateTime}
+                                        ${req.creationDateTime}
                                 </td>
 
                                 <td align="center">

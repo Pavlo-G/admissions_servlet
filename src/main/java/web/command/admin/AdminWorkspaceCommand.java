@@ -1,6 +1,7 @@
-package web.command;
+package web.command.admin;
 
 import entity.Faculty;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,7 @@ public class AdminWorkspaceCommand implements Command {
 
         try {
             List<Faculty> facultyList = daoFactory.getFacultyDAO().getAllFacultiesTO();
-            request.setAttribute("facultiesList",facultyList);
+            request.setAttribute("facultiesList", facultyList);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

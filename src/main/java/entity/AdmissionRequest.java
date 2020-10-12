@@ -5,30 +5,43 @@ import java.time.LocalDateTime;
 public class AdmissionRequest {
 
 
-
     private Long id;
     private AdmissionRequestStatus admissionRequestStatus;
     private Long candidateId;
     private Long facultyId;
+    private Candidate candidate;
+    private Faculty faculty;
     private int requiredSubject1Grade;
-    private int  requiredSubject2Grade;
+    private int requiredSubject2Grade;
     private int requiredSubject3Grade;
 
     private LocalDateTime creationDateTime;
 
 
-
-    public int getSumOfGrades(){
-        return getRequiredSubject1Grade()+getRequiredSubject2Grade()+getRequiredSubject3Grade();
+    public int getSumOfGrades() {
+        return getRequiredSubject1Grade() + getRequiredSubject2Grade() + getRequiredSubject3Grade();
     }
-
-
-
 
 
     public static AdmissionRequest createAdmissionRequest() {
         return new AdmissionRequest();
 
+    }
+
+    public Candidate getCandidate() {
+        return candidate;
+    }
+
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public Long getId() {

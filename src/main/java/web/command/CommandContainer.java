@@ -1,16 +1,17 @@
 package web.command;
 
-import entity.CandidateProfile;
+import web.command.admin.*;
+import web.command.candidate.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandContainer {
-    private CommandContainer(){
+    private CommandContainer() {
 
     }
 
-    private static  Map<String, Command> commandMap = new HashMap<>();
+    private static Map<String, Command> commandMap = new HashMap<>();
 
     static {
         // common commands
@@ -18,6 +19,7 @@ public class CommandContainer {
         commandMap.put("candidatesList", new AllCandidatesCommand());
         commandMap.put("login", new LoginCommand());
         commandMap.put("registration", new RegistrationCommand());
+        commandMap.put("logout", new LogoutCommand());
         commandMap.put("admissionRequests", new AllAdmissionRequests());
         commandMap.put("loginForm", new LoginFormCommand());
         commandMap.put("submitRequest", new SubmitRequestCommand());
@@ -29,13 +31,18 @@ public class CommandContainer {
         commandMap.put("getSubmitRequestForm", new GetSubmitRequestFormCommand());
         commandMap.put("getCandidateRequestsList", new GetCandidateRequestsListCommand());
         commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand());
+        commandMap.put("showRequestsListOfFaculty", new ShowRequestsListOfFacultyCommand());
+        commandMap.put("checkRequestFromFacultyReqList", new CheckRequestFromFacultyReqListCommand());
+        commandMap.put("createNewFacultyForm", new createNewFacultyFormCommand());
+        commandMap.put("editFacultyForm", new editFacultyFormCommand());
+        commandMap.put("updateFaculty", new updateFacultyCommand());
 
     }
 
 
     public static Command get(String commandName) {
         if (commandName == null || !commandMap.containsKey(commandName)) {
-            // log.trace("Command not found, name --> " + commandName);
+
             return commandMap.get("noCommand");
         }
 

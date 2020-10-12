@@ -6,6 +6,7 @@
 </head>
 <body>
 <jsp:include page="../fragments/navbar.jsp"/>
+
 <br>
 <div class="container ml-4">
     <div class="row">
@@ -17,7 +18,8 @@
                             <h3 class="panel-title">Faculties</h3>
                         </div>
                         <div class=" pull-right">
-                            <form action="/admin/faculty/add" method="get">
+                            <form action="controller" method="get">
+                                <input type="hidden" name="command" value="createNewFacultyForm">
                                 <button type="submit" class="btn btn-primary btn-create">Create New Faculty
                                 </button>
                             </form>
@@ -35,8 +37,8 @@
                         <tr>
                             <th style="width: 10%">Name</th>
                             <th style="width: 5%">New Requests</th>
-                            <th style="width: 5%">Approved Requests</th>
                             <th style="width: 5%">Rejected Requests</th>
+                            <th style="width: 5%">Approved Requests</th>
                             <th style="width: 5%">Budget Capacity</th>
                             <th style="width: 5%">Total Capacity</th>
                             <th style="width: 13%">Work With Requests</th>
@@ -55,14 +57,16 @@
 
 
                                 <td>${faculty.name}</td>
-                                <td>${faculty.admissionRequestList.size()}</td>
-                                <td>${faculty.admissionRequestList.size()}</td>
-                                <td>${faculty.admissionRequestList.size()}</td>
+                                <td>${faculty.numberOfRequestsNew()}</td>
+                                <td>${faculty.numberOfRequestsRejected()}</td>
+                                <td>${faculty.numberOfRequestsApproved()}</td>
                                 <td>${faculty.budgetCapacity}</td>
                                 <td>${faculty.totalCapacity}</td>
                                 <td>
                                     <form class="form-inline my-2 my-lg-0"
-                                          action="/admin/requests_of_faculty/" method="get">
+                                          action="/controller" method="post">
+                                        <input type="hidden" name="command" value="showRequestsListOfFaculty" >
+                                        <input type="hidden" name="facultyId" value="${faculty.id}">
                                         <button class="btn btn-primary btn-xs" type="submit">Requests</button>
                                     </form>
                                 </td>
@@ -72,20 +76,6 @@
 
                                         <form class="form-inline my-2 my-lg-0"
                                               action="/admin/block_reg/" method="post">
-<%--                                            <input type="hidden" name="id" value="${faculty.getId()}">--%>
-<%--                                            <input type="hidden" name="name" value="${faculty.getName()}">--%>
-<%--                                            <input type="hidden" name="description" value="${faculty.getDescription()}">--%>
-<%--                                            <input type="hidden" name="budgetCapacity"--%>
-<%--                                                   value="${faculty.getBudgetCapacity()}">--%>
-<%--                                            <input type="hidden" name="totalCapacity"--%>
-<%--                                                   value="${faculty.getTotalCapacity()}">--%>
-<%--                                            <input type="hidden" name="requiredSubject1"--%>
-<%--                                                   value="${faculty.getRequiredSubject1()}">--%>
-<%--                                            <input type="hidden" name="requiredSubject2"--%>
-<%--                                                   value="${faculty.getRequiredSubject2()}">--%>
-<%--                                            <input type="hidden" name="requiredSubject3"--%>
-<%--                                                   value="${faculty.getRequiredSubject3()}">--%>
-<%--                                            <input type="hidden" name="admissionOpen" value="${false?string}">--%>
 
                                             <button class="btn btn-warning btn-xs" type="submit">Block</button>
                                         </form>
@@ -115,17 +105,12 @@
 
                                 <td>
                                     <form class="form-inline my-2 my-lg-0"
-                                          action="/admin/faculty/edit/${faculty.id}" method="get">
+                                          action="controller" method="post">
+                                        <input type="hidden" name="command" value="editFacultyForm">
+                                        <input type="hidden" name="facultyId" value="${faculty.id}">
+
                                         <button class="btn btn-primary btn-xs" type="submit">Edit</button>
-                                            <%--                                    <#--                                        <input type="hidden" name="id" value="${faculty.getId()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="name" value="${faculty.getName()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="description" value="${faculty.getDescription()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="budgetCapacity" value="${faculty.getBudgetCapacity()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="totalCapacity" value="${faculty.getTotalCapacity()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="requiredSubject1" value="${faculty.getRequiredSubject1()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="requiredSubject2" value="${faculty.getRequiredSubject2()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="requiredSubject3" value="${faculty.getRequiredSubject3()}">-->--%>
-                                            <%--                                    <#--                                        <input type="hidden" name="admissionOpen" value="${faculty.isAdmissionOpen()?string}">-->--%>
+
                                     </form>
                                 </td>
                                 <td class="col-lg-11 col-centered">

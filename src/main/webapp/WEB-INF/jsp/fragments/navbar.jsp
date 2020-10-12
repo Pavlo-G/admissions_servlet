@@ -25,7 +25,7 @@
             <a class="navbar-brand" href="/controller?command=facultiesList">Admission Board App</a>
         </c:when>
         <c:otherwise>
-            <a class="navbar-brand" href="/">Admission Board App</a>
+            <a class="navbar-brand" href="/controller?command=adminWorkspace">Admission Board App</a>
         </c:otherwise>
     </c:choose>
 

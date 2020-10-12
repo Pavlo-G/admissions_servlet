@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Faculty {
@@ -12,18 +13,26 @@ public class Faculty {
     private String requiredSubject2;
     private String requiredSubject3;
     private boolean admissionOpen;
-    private List<AdmissionRequest> admissionRequestList;
+    private List<AdmissionRequest> admissionRequestList = new ArrayList<>();
 
-
-
-
-
-    public static Faculty createFaculty(String name) {
-        Faculty faculty = new Faculty();
-        faculty.setName(name);
-        return faculty;
-
+    public Long numberOfRequestsNew() {
+        return getAdmissionRequestList().stream()
+                .filter(ar -> ar.getAdmissionRequestStatus().ordinal() == AdmissionRequestStatus.NEW.ordinal())
+                .count();
     }
+
+    public Long numberOfRequestsApproved() {
+        return getAdmissionRequestList().stream()
+                .filter(ar -> ar.getAdmissionRequestStatus().ordinal() == AdmissionRequestStatus.APPROVED.ordinal())
+                .count();
+    }
+
+    public Long numberOfRequestsRejected() {
+        return getAdmissionRequestList().stream()
+                .filter(ar -> ar.getAdmissionRequestStatus().ordinal() == AdmissionRequestStatus.REJECTED.ordinal())
+                .count();
+    }
+
 
     public Long getId() {
         return id;

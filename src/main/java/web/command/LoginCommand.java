@@ -1,6 +1,5 @@
 package web.command;
 
-import DAO.DAOFactory;
 import entity.Candidate;
 import entity.CandidateProfile;
 import entity.Role;
@@ -32,8 +31,8 @@ public class LoginCommand implements Command {
 
         Candidate candidate = daoFactory.getCandidateDAO().findCandidateByUsername(username);
         try {
-            CandidateProfile candidateProfile =daoFactory.getCandidateDAO().getCandidateProfile(candidate)
-                    .orElseThrow(()->new Exception());
+            CandidateProfile candidateProfile = daoFactory.getCandidateDAO().getCandidateProfile(candidate)
+                    .orElseThrow(() -> new Exception());
             candidate.setCandidateProfile(candidateProfile);
         } catch (Exception e) {
             errorMessage = "Candidate Profile not found!";
@@ -52,7 +51,8 @@ public class LoginCommand implements Command {
                 forward = "/controller?command=adminWorkspace";
 
             if (candidateRole == Role.USER)
-                forward = "/controller?command=facultiesList";;
+                forward = "/controller?command=facultiesList";
+            ;
 
             session.setAttribute("candidate", candidate);
             session.setAttribute("candidateRole", candidateRole);

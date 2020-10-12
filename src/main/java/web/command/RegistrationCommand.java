@@ -1,6 +1,5 @@
 package web.command;
 
-import DAO.DAOFactory;
 import entity.Candidate;
 import entity.CandidateProfile;
 import entity.CandidateStatus;
@@ -14,19 +13,18 @@ import java.sql.SQLException;
 public class RegistrationCommand implements Command {
 
 
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
 
-        Candidate candidate= new Candidate();
-        candidate.setUsername( request.getParameter("username"));
-        candidate.setPassword( BCrypt.hashpw(request.getParameter("password"),BCrypt.gensalt(12)));
+        Candidate candidate = new Candidate();
+        candidate.setUsername(request.getParameter("username"));
+        candidate.setPassword(BCrypt.hashpw(request.getParameter("password"), BCrypt.gensalt(12)));
         candidate.setRole(Role.USER);
         candidate.setCandidateStatus(CandidateStatus.ACTIVE);
 
 
-        CandidateProfile candidateProfile =  new CandidateProfile();
+        CandidateProfile candidateProfile = new CandidateProfile();
         candidateProfile.setEmail(request.getParameter("email"));
         candidateProfile.setFirstName(request.getParameter("firstName"));
         candidateProfile.setLastName(request.getParameter("lastName"));

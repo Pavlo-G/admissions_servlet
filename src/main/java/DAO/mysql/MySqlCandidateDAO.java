@@ -1,6 +1,7 @@
 package DAO.mysql;
 
 import DAO.CandidateDAO;
+import DAO.mapper.CandidateMapper;
 import DAO.mapper.CandidateProfileMapper;
 import entity.Candidate;
 import entity.CandidateProfile;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class MySqlCandidateDAO  implements CandidateDAO {
+public class MySqlCandidateDAO implements CandidateDAO {
 
 
     private final Connection connection;
@@ -25,14 +26,11 @@ public class MySqlCandidateDAO  implements CandidateDAO {
     }
 
 
-
-
-
     @Override
     public void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        Long candidateId=null;
+        Long candidateId = null;
         try {
             conn = connection;
             conn.setAutoCommit(false);
@@ -45,8 +43,7 @@ public class MySqlCandidateDAO  implements CandidateDAO {
             pstmt.setString(2, candidate.getPassword());
             pstmt.setString(3, candidate.getRole().getName());
             pstmt.setString(4, candidate.getCandidateStatus().name());
-            candidateId =  getGeneratedKey(pstmt);
-
+            candidateId = getGeneratedKey(pstmt);
 
 
             pstmt = conn.prepareStatement(
@@ -123,8 +120,9 @@ public class MySqlCandidateDAO  implements CandidateDAO {
             pstmt = con.prepareStatement(Constants.SQL_FIND_CANDIDATE_BY_USERNAME);
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
+            CandidateMapper candidateMapper = new CandidateMapper();
             if (rs.next())
-                candidate = mapCandidate(rs);
+                candidate =candidateMapper.extractFromResultSet(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -159,41 +157,41 @@ public class MySqlCandidateDAO  implements CandidateDAO {
         try (Connection con = connection;
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_CANDIDATES)) {
-
+            CandidateMapper candidateMapper = new CandidateMapper();
             while (rs.next()) {
-                listCandidates.add(mapCandidate(rs));
+                listCandidates.add(candidateMapper.extractFromResultSet(rs));
             }
         } catch (SQLException ex) {
 
-              throw new SQLException("Cannot get all candidates!", ex);
+            throw new SQLException("Cannot get all candidates!", ex);
         }
         return listCandidates;
 
 
     }
 
-    private Candidate mapCandidate(ResultSet rs) throws SQLException {
-        Candidate candidate = new Candidate();
-        candidate.setId(rs.getLong("id"));
-        candidate.setUsername(rs.getString("username"));
-        candidate.setPassword(rs.getString("password"));
-        candidate.setRole(Role.valueOf(rs.getString("role")));
-        candidate.setCandidateStatus(CandidateStatus.valueOf(rs.getString("status")));
-        return candidate;
-    }
+//    private Candidate mapCandidate(ResultSet rs) throws SQLException {
+//        Candidate candidate = new Candidate();
+//        candidate.setId(rs.getLong("id"));
+//        candidate.setUsername(rs.getString("username"));
+//        candidate.setPassword(rs.getString("password"));
+//        candidate.setRole(Role.valueOf(rs.getString("role")));
+//        candidate.setCandidateStatus(CandidateStatus.valueOf(rs.getString("candidate_status")));
+//        return candidate;
+//    }
 
     @Override
     public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) {
         Optional<CandidateProfile> result = Optional.empty();
-        try(PreparedStatement ps = connection.prepareCall("SELECT * From candidate_profile Where candidate_id=?")){
-            ps.setLong( 1, candidate.getId());
+        try (PreparedStatement ps = connection.prepareCall("SELECT * From candidate_profile Where candidate_id=?")) {
+            ps.setLong(1, candidate.getId());
             ResultSet rs;
             rs = ps.executeQuery();
             CandidateProfileMapper mapper = new CandidateProfileMapper();
-            if (rs.next()){
+            if (rs.next()) {
                 result = Optional.of(mapper.extractFromResultSet(rs));
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
@@ -205,13 +203,13 @@ public class MySqlCandidateDAO  implements CandidateDAO {
     public void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException {
         Connection conn = null;
         PreparedStatement pstmt = null;
-        Long candidateId=null;
         try {
             conn = connection;
             conn.setAutoCommit(false);
             conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             pstmt = conn.prepareStatement(
-                    "UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=? ;");
+                    "UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=? " +
+                            "WHERE id=?");
             pstmt.setString(1, candidateProfile.getFirstName());
             pstmt.setString(2, candidateProfile.getLastName());
             pstmt.setString(3, candidateProfile.getEmail());
@@ -220,6 +218,7 @@ public class MySqlCandidateDAO  implements CandidateDAO {
             pstmt.setString(6, candidateProfile.getRegion());
             pstmt.setString(7, candidateProfile.getSchool());
             pstmt.setString(8, candidateProfile.getPhoneNumber());
+            pstmt.setLong(9, candidateProfile.getId());
             pstmt.execute();
             conn.commit();
 

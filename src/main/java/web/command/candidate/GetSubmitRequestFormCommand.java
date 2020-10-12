@@ -1,6 +1,7 @@
-package web.command;
+package web.command.candidate;
 
 import entity.Candidate;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,10 +15,9 @@ public class GetSubmitRequestFormCommand implements Command {
         Candidate candidate = (Candidate) session.getAttribute("candidate");
 
 
-
-        request.setAttribute("candidate",candidate );
-        request.setAttribute("facultyId",request.getParameter("facultyId") );
-        request.setAttribute("facultyName",request.getParameter("facultyName") );
+        request.setAttribute("candidate", candidate);
+        request.setAttribute("facultyId", request.getParameter("facultyId"));
+        request.setAttribute("facultyName", request.getParameter("facultyName"));
 
         return "/WEB-INF/jsp/candidate/candidate-submit-request-form.jsp";
     }
