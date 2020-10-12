@@ -12,10 +12,7 @@ import entity.CandidateProfile;
 import entity.Faculty;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class MySqlFacultyDAO implements FacultyDAO {
@@ -56,8 +53,17 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
     @Override
-    public boolean deleteFaculty() {
-        return false;
+    public boolean deleteFaculty(Long id) throws SQLException {
+        boolean res = false;
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM faculty WHERE  id= ?")) {
+            pstmt.setLong(1, id);
+            res = pstmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot delete a faculty with id:" + id, ex);
+        }
+        return res;
     }
 
     @Override
@@ -72,9 +78,9 @@ public class MySqlFacultyDAO implements FacultyDAO {
                 "c.id, c.candidate_status, c.password, c.role, c.username," +
                 "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id " +
                 "FROM faculty f " +
-                "Join admission_request  on f.id = admission_request.faculty_id " +
-                "Join candidate c on admission_request.candidate_id = c.id  " +
-                "Join candidate_profile cp on c.id = cp.candidate_id" +
+                "Left Join admission_request  on f.id = admission_request.faculty_id " +
+                "Left Join candidate c on admission_request.candidate_id = c.id  " +
+                "Left Join candidate_profile cp on c.id = cp.candidate_id" +
                 " WHERE f.id=?";
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -85,14 +91,16 @@ public class MySqlFacultyDAO implements FacultyDAO {
                 CandidateMapper candidateMapper = new CandidateMapper();
                 CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
                 while (rs.next()) {
-                    AdmissionRequest admissionRequest = admissionRequestMapper.extractFromResultSet(rs);
-                    Candidate candidate = candidateMapper.extractFromResultSet(rs);
-                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
-                    candidate.setCandidateProfile(candidateProfile);
-                    admissionRequest.setCandidate(candidate);
+                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
                     faculty = facultyMapper.extractFromResultSet(rs);
                     facultyUnique = facultyMapper.makeUnique(facultyMap, faculty);
-                    facultyUnique.getAdmissionRequestList().add(admissionRequest);
+                    if (admissionRequest.isPresent()) {
+                        Candidate candidate = candidateMapper.extractFromResultSet(rs);
+                        CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
+                        candidate.setCandidateProfile(candidateProfile);
+                        admissionRequest.get().setCandidate(candidate);
+                        facultyUnique.getAdmissionRequestList().add(admissionRequest.get());
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -134,19 +142,25 @@ public class MySqlFacultyDAO implements FacultyDAO {
     @Override
     public List<Faculty> getAllFacultiesTO() throws SQLException {
         Map<Long, Faculty> faculties = new HashMap<>();
+
         try (Connection con = connection;
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * From faculty f JOIN admission_request on f.id = admission_request.faculty_id")) {
+             ResultSet rs = stmt.executeQuery("SELECT * From faculty f LEFT JOIN admission_request on f.id = admission_request.faculty_id")) {
             FacultyMapper facultyMapper = new FacultyMapper();
             AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
             while (rs.next()) {
-                AdmissionRequest admissionRequest = admissionRequestMapper.extractFromResultSet(rs);
+
+                Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
                 Faculty faculty = facultyMapper.extractFromResultSet(rs);
                 Faculty uniqueFaculty = facultyMapper.makeUnique(faculties, faculty);
-                uniqueFaculty.getAdmissionRequestList().add(admissionRequest);
+                if (admissionRequest.isPresent()) {
+                    uniqueFaculty.getAdmissionRequestList().add(admissionRequest.get());
+                }
+
 
             }
-        } catch (SQLException ex) {
+        } catch (
+                SQLException ex) {
             ex.printStackTrace();
             throw new SQLException("Cannot get all faculties!", ex);
         }

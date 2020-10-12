@@ -122,7 +122,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             rs = pstmt.executeQuery();
             CandidateMapper candidateMapper = new CandidateMapper();
             if (rs.next())
-                candidate =candidateMapper.extractFromResultSet(rs);
+                candidate = candidateMapper.extractFromResultSet(rs);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -170,26 +170,19 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     }
 
-//    private Candidate mapCandidate(ResultSet rs) throws SQLException {
-//        Candidate candidate = new Candidate();
-//        candidate.setId(rs.getLong("id"));
-//        candidate.setUsername(rs.getString("username"));
-//        candidate.setPassword(rs.getString("password"));
-//        candidate.setRole(Role.valueOf(rs.getString("role")));
-//        candidate.setCandidateStatus(CandidateStatus.valueOf(rs.getString("candidate_status")));
-//        return candidate;
-//    }
 
     @Override
     public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) {
         Optional<CandidateProfile> result = Optional.empty();
-        try (PreparedStatement ps = connection.prepareCall("SELECT * From candidate_profile Where candidate_id=?")) {
+        try (Connection con = connection;
+             PreparedStatement ps = con.prepareCall("SELECT * From candidate_profile Where candidate_id=?")) {
             ps.setLong(1, candidate.getId());
-            ResultSet rs;
-            rs = ps.executeQuery();
-            CandidateProfileMapper mapper = new CandidateProfileMapper();
-            if (rs.next()) {
-                result = Optional.of(mapper.extractFromResultSet(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+
+                CandidateProfileMapper mapper = new CandidateProfileMapper();
+                if (rs.next()) {
+                    result = Optional.of(mapper.extractFromResultSet(rs));
+                }
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -220,6 +213,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(8, candidateProfile.getPhoneNumber());
             pstmt.setLong(9, candidateProfile.getId());
             pstmt.execute();
+            pstmt.close();
             conn.commit();
 
         } catch (SQLException ex) {

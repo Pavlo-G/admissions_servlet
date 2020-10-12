@@ -52,13 +52,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="req" items="${requestsList}">
-                            <jsp:useBean id="req" type="entity.AdmissionRequest"/>
+                        <jsp:useBean id="faculty" type="entity.Faculty" scope="request"/>
+                        <c:forEach var="req" items="${faculty.admissionRequestList}">
+
                             <tr>
 
                                 <td>${req.id}</td>
                                 <td>${req.candidate.candidateProfile.firstName} ${req.candidate.candidateProfile.lastName}</td>
-                                <td>${req.faculty.name}</td>
+                                <td>${faculty.name}</td>
                                 <td>${req.admissionRequestStatus.name()}</td>
                                 <td>
                                     <form

@@ -13,6 +13,7 @@ import entity.Faculty;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
@@ -58,9 +59,9 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
                 "admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
                 " c.id,c.username,c.password,c.role,c.candidate_status " +
                 "FROM admission_request " +
-                "JOIN candidate c on admission_request.candidate_id=c.id " +
-                "JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
-                "JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.candidate_id=?;";
+                "Left JOIN candidate c on admission_request.candidate_id=c.id " +
+                "Left JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
+                "Left JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.candidate_id=?;";
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setLong(1, id);
@@ -68,16 +69,17 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
                 AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
                 FacultyMapper facultyMapper = new FacultyMapper();
                 CandidateMapper candidateMapper = new CandidateMapper();
-                CandidateProfileMapper candidateProfileMapper =  new CandidateProfileMapper();
+                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
                 while (rs.next()) {
-                    AdmissionRequest admissionRequest = admissionRequestMapper.extractFromResultSet(rs);
-                    Faculty faculty =  facultyMapper.extractFromResultSet(rs);
+
+                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
+                    Faculty faculty = facultyMapper.extractFromResultSet(rs);
                     Candidate candidate = candidateMapper.extractFromResultSet(rs);
                     CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
                     candidate.setCandidateProfile(candidateProfile);
-                    admissionRequest.setCandidate(candidate);
-                    admissionRequest.setFaculty(faculty);
-                    admissionRequestList.add(admissionRequest);
+                    admissionRequest.ifPresent(x->{x.setCandidate(candidate);
+                        x.setFaculty(faculty);
+                    admissionRequestList.add(x);});
 
                 }
             }

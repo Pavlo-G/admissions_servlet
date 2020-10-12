@@ -115,7 +115,9 @@
                                 </td>
                                 <td class="col-lg-11 col-centered">
                                     <form class="form-inline my-2 my-lg-0"
-                                          action="/admin/faculties/delete/${faculty.id}" method="post">
+                                          action="controller" method="post">
+                                        <input type="hidden" name="command" value="deleteFaculty">
+                                        <input type="hidden" name="facultyId" value="${faculty.id}">
                                         <button class="btn btn-danger btn-xs" type="submit">Delete</button>
                                     </form>
                                 </td>

@@ -61,7 +61,7 @@
                                     <form
                                             action="controller" method="post">
                                         <input type="hidden" name="command" value="deleteAdmissionRequest">
-                                        <input type="hidden" name="admissionRequestId" value="${request.id}">
+                                        <input type="hidden" name="admissionRequestId" value="${req.id}">
                                         <button class="btn btn-primary" type="submit">Delete request</button>
                                     </form>
 

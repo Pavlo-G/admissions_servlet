@@ -13,7 +13,7 @@ public class ShowRequestsListOfFacultyCommand implements Command {
         Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
 
 
-        request.setAttribute("requestsList", faculty.getAdmissionRequestList());
+        request.setAttribute("faculty", faculty);
         return "/WEB-INF/jsp/admin/admin-faculty-requests.jsp";
     }
 }

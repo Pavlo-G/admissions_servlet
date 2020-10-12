@@ -15,7 +15,7 @@ public class AllFacultiesCommand implements Command {
 
         List<Faculty> facultiesList = null;
         try {
-            facultiesList = (List<Faculty>) daoFactory.getFacultyDAO().getAllFacultiesTO();
+            facultiesList =  daoFactory.getFacultyDAO().getAllFacultiesTO();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

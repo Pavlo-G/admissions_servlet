@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface FacultyDAO {
 
-    public int createFaculty(Faculty fcaulty);
+    public int createFaculty(Faculty faculty);
 
-    public boolean deleteFaculty();
+    public boolean deleteFaculty(Long id) throws SQLException;
 
     public Faculty findFaculty(Long id);
 
