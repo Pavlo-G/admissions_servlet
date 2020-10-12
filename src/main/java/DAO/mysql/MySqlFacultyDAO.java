@@ -30,9 +30,30 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
     @Override
-    public int createFaculty() {
+    public int createFaculty(Faculty faculty) {
+        String sql = " INSERT INTO faculty  " +
+                " (name,description,budget_capacity, total_capacity,req_subject1,req_subject2,req_subject3,admission_open)VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, faculty.getName());
+            pstmt.setString(2, faculty.getDescription());
+            pstmt.setInt(3, faculty.getBudgetCapacity());
+            pstmt.setInt(4, faculty.getTotalCapacity());
+            pstmt.setString(5, faculty.getRequiredSubject1());
+            pstmt.setString(6, faculty.getRequiredSubject2());
+            pstmt.setString(7, faculty.getRequiredSubject3());
+            pstmt.setBoolean(8, faculty.isAdmissionOpen());
+            return pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
         return 0;
     }
+
 
     @Override
     public boolean deleteFaculty() {
@@ -81,7 +102,31 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
     @Override
-    public boolean updateFaculty() {
+    public boolean updateFaculty(Faculty faculty) {
+
+
+        String sql = " UPDATE  faculty " +
+                "SET name=?,description=?,budget_capacity=?, total_capacity=?,req_subject1=?,req_subject2=?,req_subject3=? " +
+                "WHERE id=?;";
+
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, faculty.getName());
+            pstmt.setString(2, faculty.getDescription());
+            pstmt.setInt(3, faculty.getBudgetCapacity());
+            pstmt.setInt(4, faculty.getTotalCapacity());
+            pstmt.setString(5, faculty.getRequiredSubject1());
+            pstmt.setString(6, faculty.getRequiredSubject2());
+            pstmt.setString(7, faculty.getRequiredSubject3());
+            pstmt.setLong(8, faculty.getId());
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
         return false;
     }
 

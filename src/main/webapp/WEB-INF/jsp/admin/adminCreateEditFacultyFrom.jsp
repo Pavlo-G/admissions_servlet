@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <@errors.errors/>
                         <form action="/controller" method="POST">
-                            <input type="hidden" name="command" value="createNewFaculty">
+                            <input type="hidden" name="command" value="createFaculty">
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">Faculty Name </label>
                                 <div class="col-md-6">

@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface FacultyDAO {
 
-    public int createFaculty();
+    public int createFaculty(Faculty fcaulty);
 
     public boolean deleteFaculty();
 
     public Faculty findFaculty(Long id);
 
-    public boolean updateFaculty();
+    public boolean updateFaculty(Faculty faculty);
 
 
     public List<Faculty> getAllFacultiesTO() throws SQLException;

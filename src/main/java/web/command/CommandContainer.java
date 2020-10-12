@@ -33,9 +33,10 @@ public class CommandContainer {
         commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand());
         commandMap.put("showRequestsListOfFaculty", new ShowRequestsListOfFacultyCommand());
         commandMap.put("checkRequestFromFacultyReqList", new CheckRequestFromFacultyReqListCommand());
-        commandMap.put("createNewFacultyForm", new createNewFacultyFormCommand());
+        commandMap.put("createNewFacultyForm", new CreateNewFacultyFormCommand());
+        commandMap.put("createNewFaculty", new CreateNewFacultyCommand());
         commandMap.put("editFacultyForm", new editFacultyFormCommand());
-        commandMap.put("updateFaculty", new updateFacultyCommand());
+        commandMap.put("updateFaculty", new UpdateFacultyCommand());
 
     }
 
