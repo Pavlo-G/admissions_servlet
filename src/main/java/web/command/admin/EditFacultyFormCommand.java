@@ -6,7 +6,7 @@ import web.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class editFacultyFormCommand implements Command {
+public class EditFacultyFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Long facultyId =Long.valueOf( request.getParameter("facultyId"));

@@ -13,6 +13,7 @@
 <body>
 <jsp:include page="../fragments/navbar.jsp" />
 <jsp:useBean id="candidate" type="entity.Candidate" scope="request"/>
+<jsp:useBean id="faculty" type="entity.Faculty" scope="request"/>
 <br>
 <main class="login-form">
     <div class="container">
@@ -30,7 +31,7 @@
 <%--                </div>--%>
 <%--                <#else>--%>
                 <div class="card">
-                    <div class="card-header">Admission request to ${requestScope.facultyName} </div>
+                    <div class="card-header">Admission request to ${faculty.name} </div>
                     <div class="card-body">
                         <form action="controller" method="post">
                             <input type="hidden" name="command" value="submitRequest">
@@ -74,19 +75,19 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject1Grade" class="col-md-4 col-form-label text-md-right">Grade For ${faculty.getRequiredSubject1()} </label>
+                                <label for="requiredSubject1Grade" class="col-md-4 col-form-label text-md-right">Grade For ${faculty.requiredSubject1} </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject1Grade" min="1" max="12" class="form-control" name="requiredSubject1Grade" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject2Grade" class="col-md-4 col-form-label text-md-right">Grade For ${faculty.getRequiredSubject2()} </label>
+                                <label for="requiredSubject2Grade" class="col-md-4 col-form-label text-md-right">Grade For ${faculty.requiredSubject2} </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject2Grade" min="1" max="12" class="form-control" name="requiredSubject2Grade" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject3Grade"  class="col-md-4 col-form-label text-md-right">Grade For ${faculty.getRequiredSubject3()} </label>
+                                <label for="requiredSubject3Grade"  class="col-md-4 col-form-label text-md-right">Grade For ${faculty.requiredSubject3} </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject3Grade" min="1" max="12" class="form-control" name="requiredSubject3Grade" required>
                                 </div>
@@ -94,7 +95,7 @@
 
 
                             <input type="hidden" id="candidateId" name="candidateId" value="${candidate.id}"/>
-                            <input type="hidden" id="facultyId" name="facultyId" value="${requestScope.facultyId}"/>
+                            <input type="hidden" id="facultyId" name="facultyId" value="${faculty.id}"/>
 
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -103,7 +104,7 @@
                             </div>
 
                         </form>
-                    </#if>
+
                 </div>
             </div>
         </div>

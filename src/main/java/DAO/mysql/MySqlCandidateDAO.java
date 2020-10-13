@@ -175,7 +175,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
     public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) {
         Optional<CandidateProfile> result = Optional.empty();
         try (Connection con = connection;
-             PreparedStatement ps = con.prepareCall("SELECT * From candidate_profile Where candidate_id=?")) {
+             PreparedStatement ps = con.prepareCall("SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id From candidate_profile cp Where candidate_id=?")) {
             ps.setLong(1, candidate.getId());
             try (ResultSet rs = ps.executeQuery()) {
 

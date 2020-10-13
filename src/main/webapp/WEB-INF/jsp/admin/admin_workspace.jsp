@@ -65,40 +65,32 @@
                                 <td>
                                     <form class="form-inline my-2 my-lg-0"
                                           action="/controller" method="post">
-                                        <input type="hidden" name="command" value="showRequestsListOfFaculty" >
+                                        <input type="hidden" name="command" value="showRequestsListOfFaculty">
                                         <input type="hidden" name="facultyId" value="${faculty.id}">
                                         <button class="btn btn-primary btn-xs" type="submit">Requests</button>
                                     </form>
                                 </td>
                                 <td>
                                     <c:choose>
-                                    <c:when test="${faculty.admissionOpen==true}">
+                                        <c:when test="${faculty.admissionOpen==true}">
 
-                                        <form class="form-inline my-2 my-lg-0"
-                                              action="/admin/block_reg/" method="post">
-
-                                            <button class="btn btn-warning btn-xs" type="submit">Block</button>
-                                        </form>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <form class="form-inline my-2 my-lg-0"
-                                          action="/admin/block_reg/${faculty.id}" method="post">
-<%--                                        <input type="hidden" name="id" value="${faculty.id}">--%>
-<%--                                        <input type="hidden" name="name" value="${faculty.name}">--%>
-<%--                                        <input type="hidden" name="description" value="${faculty.getDescription()}">--%>
-<%--                                        <input type="hidden" name="budgetCapacity"--%>
-<%--                                               value="${faculty.getBudgetCapacity()}">--%>
-<%--                                        <input type="hidden" name="totalCapacity" value="${faculty.getTotalCapacity()}">--%>
-<%--                                        <input type="hidden" name="requiredSubject1"--%>
-<%--                                               value="${faculty.getRequiredSubject1()}">--%>
-<%--                                        <input type="hidden" name="requiredSubject2"--%>
-<%--                                               value="${faculty.getRequiredSubject2()}">--%>
-<%--                                        <input type="hidden" name="requiredSubject3"--%>
-<%--                                               value="${faculty.getRequiredSubject3()}">--%>
-<%--                                        <input type="hidden" name="admissionOpen" value="${true?string}">--%>
-                                        <button class="btn btn-success btn-xs" type="submit">Unblock</button>
-                                    </form>
-                                    </c:otherwise>
+                                            <form class="form-inline my-2 my-lg-0" action="controller" method="post">
+                                                <input type="hidden" name="command"
+                                                       value="blockUnblockFacultyRegistration">
+                                                <input type="hidden" name="action" value="block">
+                                                <input type="hidden" name="facultyId" value="${faculty.id}">
+                                                <button class="btn btn-warning btn-xs" type="submit">Block</button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form class="form-inline my-2 my-lg-0" action="controller" method="post">
+                                                <input type="hidden" name="command"
+                                                       value="blockUnblockFacultyRegistration">
+                                                <input type="hidden" name="action" value="unblock">
+                                                <input type="hidden" name="facultyId" value="${faculty.id}">
+                                                <button class="btn btn-success btn-xs" type="submit">Unblock</button>
+                                            </form>
+                                        </c:otherwise>
                                     </c:choose>
 
                                 </td>
@@ -123,8 +115,10 @@
                                 </td>
                                 <td class="col-lg-11 col-centered">
                                     <form class="form-inline my-2 my-lg-0"
-                                          action="/admin/statement/faculty/${faculty.id}" method="get">
-                                        <button class="btn btn-primary btn-xs" type="submit">Statement</button>
+                                          action="controller" method="post">
+                                        <input type="hidden" name="command" value="getStatementOfFaculty">
+                                        <input type="hidden" name="facultyId" value="${faculty.id}">
+                                        <button class="btn btn-danger btn-xs" type="submit">Statement</button>
                                     </form>
                                 </td>
                             </tr>

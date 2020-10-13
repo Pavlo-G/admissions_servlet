@@ -53,12 +53,19 @@
                     <td>
                         <c:out value="${faculty.budgetCapacity}" />
                     </td>
-                    <td><form action="/controller"  >
+
+                    <td>
+                        <c:choose>
+                        <c:when test="${faculty.admissionOpen==true}">
+                        <form action="/controller"  >
                         <input type="hidden" name="command" value="getSubmitRequestForm">
                         <input type="hidden" name="facultyId" value="${faculty.id}">
                         <input type="hidden" name="facultyName" value="${faculty.name}">
                         <button  class="btn btn-success">Submit Admission Request</button>
-                    </form></td>
+                    </form>
+                        </c:when>
+                        </c:choose>
+                    </td>
                 </tr>
             </c:forEach>
             <!-- } -->

@@ -140,6 +140,27 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
     @Override
+    public boolean changeAdmissionOpenStatus(String action, Long facultyId) {
+        String sql = " UPDATE  faculty " +
+                "SET admission_open=?" +
+                " WHERE id=?;";
+
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setBoolean(1, !action.equals("block"));
+            pstmt.setLong(2, facultyId);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return false;
+    }
+
+    @Override
     public List<Faculty> getAllFacultiesTO() throws SQLException {
         Map<Long, Faculty> faculties = new HashMap<>();
 
