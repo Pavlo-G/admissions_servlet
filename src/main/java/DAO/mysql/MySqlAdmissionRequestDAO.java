@@ -5,10 +5,7 @@ import DAO.mapper.AdmissionRequestMapper;
 import DAO.mapper.CandidateMapper;
 import DAO.mapper.CandidateProfileMapper;
 import DAO.mapper.FacultyMapper;
-import entity.AdmissionRequest;
-import entity.Candidate;
-import entity.CandidateProfile;
-import entity.Faculty;
+import entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,6 +22,21 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         this.connection = connection;
     }
 
+
+    @Override
+    public boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException {
+        boolean res = false;
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE  admission_request SET status=? WHERE  id= ?")) {
+            pstmt.setInt(1, status.ordinal());
+            pstmt.setLong(2, id);
+            res = pstmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot delete a admission request with id:" + id, ex);
+        }
+        return res;
+    }
 
     @Override
     public int saveAdmissionRequest(AdmissionRequest admissionRequest) {
@@ -110,19 +122,18 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     @Override
     public Optional<AdmissionRequest> findAdmissionRequest(Long id) {
 
-        String sql = "SELECT " +
-                "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
-                "f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
-                "admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
-                " c.id,c.username,c.password,c.role,c.candidate_status " +
-                "FROM admission_request " +
-                "Left JOIN candidate c on admission_request.candidate_id=c.id " +
-                "Left JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
-                "Left JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.candidate_id=?;";
+        String sql = "SELECT cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
+                "                f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open, " +
+                "                admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id, " +
+                "                 c.id,c.username,c.password,c.role,c.candidate_status " +
+                "                FROM admission_request  " +
+                "                Left JOIN candidate c on admission_request.candidate_id=c.id " +
+                "                Left JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
+                "                Left JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.id=?";
         try (Connection conn = connection;
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setLong(1, id);
-            try (ResultSet rs = pstmt.executeQuery(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
                 AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
                 FacultyMapper facultyMapper = new FacultyMapper();
                 CandidateMapper candidateMapper = new CandidateMapper();

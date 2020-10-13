@@ -1,6 +1,7 @@
 package DAO;
 
 import entity.AdmissionRequest;
+import entity.AdmissionRequestStatus;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface AdmissionRequestDAO {
 
     boolean updateAdmissionRequest();
 
+    boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException;
 
     List<AdmissionRequest> selectAdmissionRequests() throws SQLException;
 

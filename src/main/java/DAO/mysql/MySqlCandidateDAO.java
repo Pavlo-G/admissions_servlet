@@ -117,7 +117,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
         Connection con = null;
         try {
             con = connection;
-            pstmt = con.prepareStatement(Constants.SQL_FIND_CANDIDATE_BY_USERNAME);
+            pstmt = con.prepareStatement("SELECT c.id, c.candidate_status, c.password, c.role, c.username FROM  candidate c  WHERE username = ?");
             pstmt.setString(1, username);
             rs = pstmt.executeQuery();
             CandidateMapper candidateMapper = new CandidateMapper();

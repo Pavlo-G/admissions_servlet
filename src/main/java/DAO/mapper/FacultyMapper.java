@@ -11,7 +11,7 @@ public class FacultyMapper implements ObjectMapper<Faculty> {
     public Faculty extractFromResultSet(ResultSet rs) throws SQLException {
 
         Faculty faculty = new Faculty();
-        faculty.setId(rs.getLong("id"));
+        faculty.setId(rs.getLong("f.id"));
         faculty.setName(rs.getString("name"));
         faculty.setDescription(rs.getString("description"));
         faculty.setBudgetCapacity(rs.getInt("budget_capacity"));

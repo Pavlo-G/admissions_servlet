@@ -12,7 +12,7 @@ public class CandidateProfileMapper implements ObjectMapper<CandidateProfile> {
     @Override
     public CandidateProfile extractFromResultSet(ResultSet rs) throws SQLException {
         CandidateProfile candidateProfile = new CandidateProfile();
-        candidateProfile.setId(rs.getLong("id"));
+        candidateProfile.setId(rs.getLong("cp.id"));
         candidateProfile.setFirstName(rs.getString("first_name"));
         candidateProfile.setLastName(rs.getString("last_name"));
         candidateProfile.setEmail(rs.getString("email"));

@@ -10,7 +10,7 @@ public class CandidateMapper implements ObjectMapper<Candidate> {
     @Override
     public Candidate extractFromResultSet(ResultSet rs) throws SQLException {
         Candidate candidate = new Candidate();
-        candidate.setId(rs.getLong("id"));
+        candidate.setId(rs.getLong("c.id"));
         candidate.setUsername(rs.getString("username"));
         candidate.setPassword(rs.getString("password"));
         candidate.setRole(Role.valueOf(rs.getString("role")));

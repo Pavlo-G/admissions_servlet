@@ -1,12 +1,11 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<jsp:include page="../fragments/navbar.jsp" />
-<jsp:useBean  id="admissionRequest" type="entity.AdmissionRequest" scope="request"/>
+<jsp:include page="../fragments/navbar.jsp"/>
+<jsp:useBean id="admissionRequest" type="entity.AdmissionRequest" scope="request"/>
 <br>
 <div class="container">
     <div class="row">
@@ -23,42 +22,42 @@
                 <td>${admissionRequest.candidate.candidateProfile.lastName}</td>
             </tr>
             <tr>
-                <th >Email</th>
+                <th>Email</th>
                 <td>${admissionRequest.candidate.candidateProfile.email}</td>
             </tr>
             <tr>
-                <th >Address</th>
+                <th>Address</th>
                 <td>${admissionRequest.candidate.candidateProfile.address}</td>
             </tr>
 
             <tr>
-                <th >City</th>
+                <th>City</th>
                 <td>${admissionRequest.candidate.candidateProfile.city}</td>
             </tr>
             <tr>
-                <th >Region</th>
+                <th>Region</th>
                 <td>${admissionRequest.candidate.candidateProfile.region}</td>
             </tr>
             <tr>
-                <th >School</th>
+                <th>School</th>
                 <td>${admissionRequest.candidate.candidateProfile.school}</td>
             </tr>
             <tr>
-                <th >Contact Number</th>
+                <th>Contact Number</th>
                 <td>${admissionRequest.candidate.candidateProfile.phoneNumber}</td>
             </tr>
 
             <tr>
-                <th >Grade for ${request.faculty.getRequiredSubject1()} </th>
-                <td>${admissionRequest.getRequiredSubject1Grade()}</td>
+                <th>Grade for ${admissionRequest.faculty.requiredSubject1} </th>
+                <td>${admissionRequest.faculty.requiredSubject1}</td>
             </tr>
             <tr>
-                <th >Grade for ${request.faculty.getRequiredSubject2()}</th>
-                <td>${admissionRequest.getRequiredSubject2Grade()}</td>
+                <th>Grade for ${admissionRequest.faculty.requiredSubject2}</th>
+                <td>${admissionRequest.faculty.requiredSubject2}</td>
             </tr>
             <tr>
-                <th >Grade for ${request.faculty.getRequiredSubject3()}</th>
-                <td>${admissionRequest.getRequiredSubject3Grade()}</td>
+                <th>Grade for ${admissionRequest.faculty.requiredSubject3}</th>
+                <td>${admissionRequest.faculty.requiredSubject3}</td>
             </tr>
 
             </thead>
@@ -68,20 +67,23 @@
         <div class="container h-100">
             <div class="row h-100 justify-content-center align-items-center">
 
-                <form action="/admin/request_update" method="POST">
+                <form action="controller" method="POST">
+                    <input type="hidden" id="command" name="command" value="changeAdmissionRequestStatus">
                     <input type="hidden" id="id" name="id" value="${admissionRequest.id}">
                     <input type="hidden" id="facultyId" name="facultyId" value="${admissionRequest.faculty.id}">
+                    <input type="hidden" id="facultyName" name="facultyName" value="${admissionRequest.faculty.name}">
                     <input type="hidden" id="admissionRequestStatus" name="admissionRequestStatus" value="APPROVED">
                     <button class="btn btn-primary mr-2" type="submit">Approve</button>
                 </form>
-                <form action="/admin/request_update" method="POST">
+                <form action="controller" method="POST">
+                    <input type="hidden" id="command" name="command" value="changeAdmissionRequestStatus">
                     <input type="hidden" id="id" name="id" value="${admissionRequest.id}">
                     <input type="hidden" id="facultyId" name="facultyId" value="${admissionRequest.faculty.id}">
                     <input type="hidden" id="admissionRequestStatus" name="admissionRequestStatus" value="REJECTED">
                     <button class="btn btn-danger mr-2" type="submit">Reject</button>
                 </form>
-                <form action="/admin/requests_of_faculty/${admissionRequest.faculty.id}" method="get">
-                    <button class="btn btn-warning mr-2" type="submit"> Back</button>
+                <form>
+                    <button class="btn btn-warning mr-2" onclick="window.history.back()" type="button"> Back</button>
                 </form>
 
             </div>
