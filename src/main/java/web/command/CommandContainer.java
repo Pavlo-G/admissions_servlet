@@ -41,6 +41,7 @@ public class CommandContainer {
         commandMap.put("changeAdmissionRequestStatus", new ChangeAdmissionRequestStatusCommand());
         commandMap.put("blockUnblockFacultyRegistration", new BlockUnblockFacultyRegistrationCommand());
         commandMap.put("getStatementOfFaculty", new GetStatementOfFacultyCommand());
+        commandMap.put("finalizeStatementForFaculty", new FinalizeStatementForFacultyCommand());
 
     }
 

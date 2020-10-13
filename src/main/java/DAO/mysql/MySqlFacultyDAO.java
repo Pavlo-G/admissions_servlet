@@ -99,6 +99,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
                         CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
                         candidate.setCandidateProfile(candidateProfile);
                         admissionRequest.get().setCandidate(candidate);
+                        admissionRequest.get().setFaculty(facultyUnique);
                         facultyUnique.getAdmissionRequestList().add(admissionRequest.get());
                     }
                 }

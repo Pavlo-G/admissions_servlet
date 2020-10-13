@@ -17,13 +17,18 @@ public class ControllerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
+
+
         process(request, response);
+
     }
 
 
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
+
         process(request, response);
+
     }
 
 
@@ -31,6 +36,8 @@ public class ControllerServlet extends HttpServlet {
         String commandName = request.getParameter("command");
         Command command = CommandContainer.get(commandName);
         String forward = command.execute(request, response);
+
+
         if (forward != null) {
             RequestDispatcher disp = request.getRequestDispatcher(forward);
             disp.forward(request, response);

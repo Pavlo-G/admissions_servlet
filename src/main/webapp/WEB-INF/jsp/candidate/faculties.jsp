@@ -1,9 +1,14 @@
-<%@ page  contentType="text/html; charset=UTF-8"
-          pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page session="true" %>
 
-<html>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="resources"/>
+
+<html lang="${sessionScope.lang}">
 <c:set var="title" value="Faculties" scope="page" />
 <head>
     <title>Admission Board Application</title>
@@ -25,7 +30,7 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Name</th>
+                <th><fmt:message key="login.username"/></th>
                 <th>Description</th>
                 <th>Total Capacity</th>
                 <th>Budget Capacity</th>

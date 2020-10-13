@@ -10,8 +10,7 @@
   <packaging>war</packaging>
 
   <name>admissions_servlet Maven Webapp</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,9 +35,8 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/jstl/jstl -->
     <dependency>
-      <groupId>jstl</groupId>
+      <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
@@ -47,6 +45,13 @@
       <groupId>org.mindrot</groupId>
       <artifactId>jbcrypt</artifactId>
       <version>0.4</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina</artifactId>
+      <version>10.0.0-M9</version>
     </dependency>
 
 
@@ -70,6 +75,15 @@
       <artifactId>commons-dbcp</artifactId>
       <version>1.4</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+    <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+      <version>6.14.0</version>
+    </dependency>
+
+
 
   </dependencies>
 
