@@ -37,7 +37,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             pstmt = conn.prepareStatement(
-                    "INSERT INTO candidate (username,password,role,status) Values(?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO candidate (username,password,role,candidate_status) Values(?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
 
             pstmt.setString(1, candidate.getUsername());
             pstmt.setString(2, candidate.getPassword());
