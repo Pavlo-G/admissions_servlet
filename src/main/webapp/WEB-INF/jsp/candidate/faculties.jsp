@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="resources"/>
 
 <html lang="${sessionScope.lang}">
-<c:set var="title" value="Faculties" scope="page" />
+<c:set var="title" value="Faculties" scope="page"/>
 <head>
     <title>Admission Board Application</title>
     <meta charset="utf-8">
@@ -46,12 +46,7 @@
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdown">
-                            <%--                            <form action="controller" method="post">--%>
-                            <%--                                <input type="hidden" name="command" value="changeLanguage">--%>
-                            <%--                                <input type="hidden" name="lang" value="en">--%>
-                            <%--                            <button type="submit">--%>
-                            <%--                                <fmt:message key="navbar.English" /></button>>--%>
-                            <%--                            </form>--%>
+
                             <a class="dropdown-item" href="/controller?command=facultiesList&sessionLocale=en">
                                 <fmt:message key="navbar.English"/></a>
                             <a class="dropdown-item" href="/controller?command=facultiesList&sessionLocale=uk">
@@ -86,10 +81,6 @@
 </nav>
 
 
-
-
-
-
 <div class="row">
 
     <div class="container">
@@ -103,12 +94,20 @@
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th><fmt:message key="faculty.name"/></th>
+                <th><fmt:message key="faculty.name"/>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=name&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=name&sortDir=DESC">&#8595</a>
+                </th>
                 <th><fmt:message key="faculty.description"/></th>
-                <th><fmt:message key="faculty.total_capacity"/></th>
-                <th><fmt:message key="faculty.budget_capacity"/></th>
+                <th><fmt:message key="faculty.total_capacity"/>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=total_capacity&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=total_capacity&sortDir=DESC">&#8595</a>
+                </th>
+                <th><fmt:message key="faculty.budget_capacity"/>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=budget_capacity&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=budget_capacity&sortDir=DESC">&#8595</a>
+                </th>
                 <th><fmt:message key="faculty.submit_request"/></th>
-
 
 
             </tr>
@@ -120,28 +119,29 @@
 
                 <tr>
                     <td>
-                        <c:out value="${faculty.name}" />
+                        <c:out value="${faculty.name}"/>
+
                     </td>
                     <td>
-                        <c:out value="${faculty.description}" />
+                        <c:out value="${faculty.description}"/>
                     </td>
                     <td>
-                        <c:out value="${faculty.totalCapacity}" />
+                        <c:out value="${faculty.totalCapacity}"/>
                     </td>
                     <td>
-                        <c:out value="${faculty.budgetCapacity}" />
+                        <c:out value="${faculty.budgetCapacity}"/>
                     </td>
 
                     <td>
                         <c:choose>
-                        <c:when test="${faculty.admissionOpen==true}">
-                        <form action="/controller"  >
-                        <input type="hidden" name="command" value="getSubmitRequestForm">
-                        <input type="hidden" name="facultyId" value="${faculty.id}">
-                        <input type="hidden" name="facultyName" value="${faculty.name}">
-                        <button  class="btn btn-success"><fmt:message key="faculty.submit_request"/></button>
-                    </form>
-                        </c:when>
+                            <c:when test="${faculty.admissionOpen==true}">
+                                <form action="/controller">
+                                    <input type="hidden" name="command" value="getSubmitRequestForm">
+                                    <input type="hidden" name="facultyId" value="${faculty.id}">
+                                    <input type="hidden" name="facultyName" value="${faculty.name}">
+                                    <button class="btn btn-success"><fmt:message key="faculty.submit_request"/></button>
+                                </form>
+                            </c:when>
                         </c:choose>
                     </td>
                 </tr>
