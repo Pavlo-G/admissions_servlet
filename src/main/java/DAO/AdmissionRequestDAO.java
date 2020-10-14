@@ -16,13 +16,11 @@ public interface AdmissionRequestDAO {
 
     Optional<AdmissionRequest> findAdmissionRequest(Long id);
 
-    boolean updateAdmissionRequest();
-
     boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException;
 
     List<AdmissionRequest> selectAdmissionRequests() throws SQLException;
 
     List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id);
 
-    List<AdmissionRequest> selectAdmissionRequestsForFacultyWithId(Long id);
+
 }

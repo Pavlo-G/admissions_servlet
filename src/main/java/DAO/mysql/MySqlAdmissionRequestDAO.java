@@ -159,10 +159,6 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return Optional.empty();
     }
 
-    @Override
-    public boolean updateAdmissionRequest() {
-        return false;
-    }
 
 
     @Override
@@ -184,8 +180,5 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return admissionRequests;
     }
 
-    @Override
-    public List<AdmissionRequest> selectAdmissionRequestsForFacultyWithId(Long id) {
-        return null;
-    }
+
 }

@@ -23,7 +23,6 @@ public interface CandidateDAO {
 
     void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
 
-    RowSet selectCandidatesRS();
 
     Collection<Candidate> getAllCandidatesTO() throws SQLException;
 

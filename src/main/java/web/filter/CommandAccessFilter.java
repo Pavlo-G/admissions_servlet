@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-public class CommandAccessFilter {
+public class CommandAccessFilter implements Filter {
     private static final Logger log = Logger.getLogger(CommandAccessFilter.class);
     // commands access
     private static Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
@@ -34,7 +34,7 @@ public class CommandAccessFilter {
             request.setAttribute("errorMessage", errorMessasge);
             log.trace("Set the request attribute: errorMessage --> " + errorMessasge);
 
-            request.getRequestDispatcher("Path.PAGE__ERROR_PAGE")
+            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp")
                     .forward(request, response);
         }
     }
@@ -53,7 +53,7 @@ public class CommandAccessFilter {
         if (session == null)
             return false;
 
-        Role userRole = (Role)session.getAttribute("userRole");
+        Role userRole = (Role)session.getAttribute("candidateRole");
         if (userRole == null)
             return false;
 
@@ -66,7 +66,7 @@ public class CommandAccessFilter {
 
         // roles
         accessMap.put(Role.ADMIN, asList(fConfig.getInitParameter("admin")));
-        accessMap.put(Role.USER, asList(fConfig.getInitParameter("client")));
+        accessMap.put(Role.USER, asList(fConfig.getInitParameter("user")));
         log.trace("Access map --> " + accessMap);
 
         // commons
