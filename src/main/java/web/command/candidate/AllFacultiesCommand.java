@@ -1,7 +1,8 @@
-package web.command;
+package web.command.candidate;
 
 
 import entity.Faculty;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ public class AllFacultiesCommand implements Command {
 
         List<Faculty> facultiesList = null;
         try {
-            facultiesList =  daoFactory.getFacultyDAO().getAllFacultiesTO();
+            facultiesList =  daoFactory.getFacultyDAO().getAllFaculties();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

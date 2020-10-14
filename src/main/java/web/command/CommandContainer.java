@@ -42,7 +42,6 @@ public class CommandContainer {
         commandMap.put("blockUnblockFacultyRegistration", new BlockUnblockFacultyRegistrationCommand());
         commandMap.put("getStatementOfFaculty", new GetStatementOfFacultyCommand());
         commandMap.put("finalizeStatementForFaculty", new FinalizeStatementForFacultyCommand());
-        commandMap.put("changeLanguage", new ChangeLanguageCommand());
 
     }
 

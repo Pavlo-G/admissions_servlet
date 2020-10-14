@@ -162,7 +162,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
     @Override
-    public List<Faculty> getAllFacultiesTO() throws SQLException {
+    public List<Faculty> getAllFaculties() throws SQLException {
         Map<Long, Faculty> faculties = new HashMap<>();
 
         try (Connection con = connection;

@@ -11,15 +11,13 @@ import java.util.*;
 
 public class CommandAccessFilter implements Filter {
     private static final Logger log = Logger.getLogger(CommandAccessFilter.class);
-    // commands access
-    private static Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
-    private static List<String> commons = new ArrayList<String>();
-    private static List<String> outOfControl = new ArrayList<String>();
+
+    private final static Map<Role, List<String>> accessMap = new HashMap<>();
+    private static List<String> commons = new ArrayList<>();
+    private static List<String> outOfControl = new ArrayList<>();
 
     public void destroy() {
-        log.debug("Filter destruction starts");
         // do nothing
-        log.debug("Filter destruction finished");
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -145,10 +145,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
         return false;
     }
 
-    @Override
-    public RowSet selectCandidatesRS() {
-        return null;
-    }
+
 
     @Override
     public List<Candidate> getAllCandidatesTO() throws SQLException {

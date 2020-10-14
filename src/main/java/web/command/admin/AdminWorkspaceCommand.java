@@ -13,7 +13,7 @@ public class AdminWorkspaceCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            List<Faculty> facultyList = daoFactory.getFacultyDAO().getAllFacultiesTO();
+            List<Faculty> facultyList = daoFactory.getFacultyDAO().getAllFaculties();
             request.setAttribute("facultiesList", facultyList);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

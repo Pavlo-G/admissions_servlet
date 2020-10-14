@@ -18,7 +18,7 @@ public interface FacultyDAO {
     public boolean updateFaculty(Faculty faculty);
 
 
-    public List<Faculty> getAllFacultiesTO() throws SQLException;
+    public List<Faculty> getAllFaculties() throws SQLException;
 
     boolean changeAdmissionOpenStatus(String action, Long facultyId);
 }
