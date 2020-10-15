@@ -195,20 +195,21 @@ public class MySqlFacultyDAO implements FacultyDAO {
     public List<Faculty> getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException {
         List<Faculty> faculties = new ArrayList<>();
 
+
         int fromItem = (page - 1) * itemsPerPage;
         int toItem = ((page - 1) * itemsPerPage) + itemsPerPage;
+        String sql = "select f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
+                "(select count(*) from faculty) as count from faculty f ORDER BY " + name + " " + direction + " LIMIT " + fromItem + "," + toItem + ";";
+
         try (Connection con = connection;
              PreparedStatement pstmt =
-                     con.prepareStatement("select f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open,(select count(*) from faculty) as count from faculty f ORDER BY ? LIMIT ?,?;")) {
-            pstmt.setString(1, name + "' '" + direction);
-            pstmt.setInt(2, fromItem);
-            pstmt.setInt(3, toItem);
+                     con.prepareStatement(sql)) {
             try (ResultSet rs = pstmt.executeQuery()) {
                 FacultyMapper facultyMapper = new FacultyMapper();
 
                 while (rs.next()) {
                     Faculty faculty = facultyMapper.extractFromResultSet(rs);
-                   int  count=rs.getInt("count");
+                    int count = rs.getInt("count");
                     faculties.add(faculty);
 
                 }

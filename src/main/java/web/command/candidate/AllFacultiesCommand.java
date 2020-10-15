@@ -21,36 +21,32 @@ public class AllFacultiesCommand implements Command {
         int pageNumber;
         int itemsPerPager;
 
-        if (request.getParameter("sortBy") != null) {
-            sortBy = request.getParameter("sortBy");
-        } else {
+        if ((sortBy = request.getParameter("sortBy")) == null) {
             sortBy = "name";
-
         }
-        if (request.getParameter("sortDir") != null) {
-            sortDir = request.getParameter("sortDir");
-        } else {
+
+        if ((sortDir = request.getParameter("sortDir")) == null) {
             sortDir = "ASC";
         }
+
         if (request.getParameter("page") != null) {
             pageNumber = Integer.parseInt(request.getParameter("page"));
         } else {
             pageNumber = 1;
         }
-        if (request.getParameter("size")!=(null)) {
+        if (request.getParameter("size") != (null)) {
             itemsPerPager = Integer.parseInt(request.getParameter("size"));
         } else {
             itemsPerPager = 2;
         }
 
 
-        List< Faculty> facultiesList = null;
+        List<Faculty> facultiesList = null;
         try {
             facultiesList = daoFactory.getFacultyDAO().getAllFaculties2(sortBy, sortDir, pageNumber, itemsPerPager);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
 
 
 //        int totalPages = 1;
@@ -59,8 +55,6 @@ public class AllFacultiesCommand implements Command {
 //        } else {
 //            totalPages = totalFaculties / itemsPerPager + 1;
 //        }
-
-
 
 
         request.setAttribute("facultiesList", facultiesList);
