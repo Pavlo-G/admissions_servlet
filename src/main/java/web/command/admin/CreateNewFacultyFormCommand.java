@@ -10,8 +10,8 @@ public class CreateNewFacultyFormCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
 
-        request.setAttribute("action","create");
 
-        return "WEB-INF\\jsp\\admin\\adminCreateEditFacultyFrom.jsp";
+
+        return "WEB-INF\\jsp\\admin\\adminCreateFacultyFrom.jsp";
     }
 }
