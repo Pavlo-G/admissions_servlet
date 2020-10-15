@@ -74,8 +74,6 @@ public class FinalizeStatementForFacultyCommand implements Command {
           templateFile= new File(resource.toURI());
         }
 
-
-
         JasperReport jasperReport = JasperCompileManager.compileReport(templateFile.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(statementElementList);
         Map<String, Object> parameters = new HashMap<>();
