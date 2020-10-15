@@ -100,7 +100,23 @@
             <div class="col-md-8">
 
                 <div class="card">
-                    <div class="card-header"><fmt:message key="candidate.admission.requests_to" /> ${faculty.name} </div>
+                    <div class="card-header"><fmt:message key="candidate.admission.requests_to" />
+                        <c:choose>
+                            <c:when test="${sessionScope.lang eq 'uk'}">
+                                <c:choose>
+                                    <c:when test="${empty faculty.nameUk}">
+                                        ${faculty.nameEn}
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${faculty.nameUk}
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                ${faculty.nameEn}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                     <div class="card-body">
                         <form action="controller" method="post">
                             <input type="hidden" name="command" value="submitRequest">
@@ -140,19 +156,75 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject1Grade" class="col-md-4 col-form-label text-md-right"><fmt:message key="candidate.admission.requests.grade.for" /> ${faculty.requiredSubject1} </label>
+                                <label for="requiredSubject1Grade" class="col-md-4 col-form-label text-md-right">
+                                    <fmt:message key="candidate.admission.requests.grade.for" />
+
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang eq 'uk'}">
+                                            <c:choose>
+                                                <c:when test="${empty faculty.requiredSubject1Uk}">
+                                                    ${faculty.requiredSubject1En}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${faculty.requiredSubject1Uk}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${faculty.requiredSubject1En}
+                                        </c:otherwise>
+                                    </c:choose>
+
+
+                                </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject1Grade" min="1" max="12" class="form-control" name="requiredSubject1Grade" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject2Grade" class="col-md-4 col-form-label text-md-right"><fmt:message key="candidate.admission.requests.grade.for" /> ${faculty.requiredSubject2} </label>
+                                <label for="requiredSubject2Grade" class="col-md-4 col-form-label text-md-right">
+                                    <fmt:message key="candidate.admission.requests.grade.for" />
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang eq 'uk'}">
+                                            <c:choose>
+                                                <c:when test="${empty faculty.requiredSubject2Uk}">
+                                                    ${faculty.requiredSubject2En}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${faculty.requiredSubject2Uk}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${faculty.requiredSubject2En}
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject2Grade" min="1" max="12" class="form-control" name="requiredSubject2Grade" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject3Grade"  class="col-md-4 col-form-label text-md-right"><fmt:message key="candidate.admission.requests.grade.for" /> ${faculty.requiredSubject3} </label>
+                                <label for="requiredSubject3Grade"  class="col-md-4 col-form-label text-md-right">
+                                    <fmt:message key="candidate.admission.requests.grade.for" />
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang eq 'uk'}">
+                                            <c:choose>
+                                                <c:when test="${empty faculty.requiredSubject3Uk}">
+                                                    ${faculty.requiredSubject3En}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${faculty.requiredSubject3Uk}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${faculty.requiredSubject3En}
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </label>
                                 <div class="col-md-6">
                                     <input type="number" id="requiredSubject3Grade" min="1" max="12" class="form-control" name="requiredSubject3Grade" required>
                                 </div>

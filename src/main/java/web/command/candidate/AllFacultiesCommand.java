@@ -23,7 +23,7 @@ public class AllFacultiesCommand implements Command {
         int itemsPerPage;
 
         if ((sortBy = request.getParameter("sortBy")) == null) {
-            sortBy = "name";
+            sortBy = "name_en";
         }
 
         if ((sortDir = request.getParameter("sortDir")) == null) {

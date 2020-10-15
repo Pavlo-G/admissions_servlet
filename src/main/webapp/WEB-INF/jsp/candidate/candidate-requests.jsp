@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -45,9 +45,11 @@
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdown">
-                            <a class="dropdown-item" href="/controller?command=getCandidateRequestsList&sessionLocale=en&facultyId=${faculty.id}">
+                            <a class="dropdown-item"
+                               href="/controller?command=getCandidateRequestsList&sessionLocale=en&facultyId=${faculty.id}">
                                 <fmt:message key="navbar.English"/></a>
-                            <a class="dropdown-item" href="/controller?command=getCandidateRequestsList&sessionLocale=uk&facultyId=${faculty.id}">
+                            <a class="dropdown-item"
+                               href="/controller?command=getCandidateRequestsList&sessionLocale=uk&facultyId=${faculty.id}">
                                 <fmt:message key="navbar.Ukrainian"/></a>
                         </div>
 
@@ -102,10 +104,6 @@
 </nav>
 
 
-
-
-
-
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -114,7 +112,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col col-xs-6">
-                            <h2 class="text-danger"><fmt:message key="candidate.admission.requests"/> </h2>
+                            <h2 class="text-danger"><fmt:message key="candidate.admission.requests"/></h2>
                         </div>
                     </div>
                 </div>
@@ -144,7 +142,25 @@
                                 <td>${req.id}</td>
                                 <td>${req.candidate.candidateProfile.firstName}</td>
                                 <td>${req.candidate.candidateProfile.lastName}</td>
-                                <td>${req.faculty.name}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang eq 'uk'}">
+                                            <c:choose>
+                                                <c:when test="${empty req.faculty.nameUk}">
+                                                    ${req.faculty.nameEn}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${req.faculty.nameUk}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${req.faculty.nameEn}
+                                        </c:otherwise>
+                                    </c:choose>
+
+
+                                </td>
                                 <td>${req.admissionRequestStatus.name()}</td>
                                 <td>
                                         ${req.creationDateTime}
@@ -155,7 +171,8 @@
                                             action="controller" method="post">
                                         <input type="hidden" name="command" value="deleteAdmissionRequest">
                                         <input type="hidden" name="admissionRequestId" value="${req.id}">
-                                        <button class="btn btn-primary" type="submit"><fmt:message key="candidate.admission.requests.delete"/></button>
+                                        <button class="btn btn-primary" type="submit"><fmt:message
+                                                key="candidate.admission.requests.delete"/></button>
                                     </form>
 
                                 </td>

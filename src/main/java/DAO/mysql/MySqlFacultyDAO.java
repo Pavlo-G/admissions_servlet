@@ -30,19 +30,24 @@ public class MySqlFacultyDAO implements FacultyDAO {
     @Override
     public int createFaculty(Faculty faculty) {
         String sql = " INSERT INTO faculty  " +
-                " (name,description,budget_capacity, total_capacity,req_subject1,req_subject2,req_subject3,admission_open)VALUES (?,?,?,?,?,?,?,?)";
+                " (name_en,name_uk,description_en,description_uk,budget_capacity, total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en,req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            pstmt.setString(1, faculty.getName());
-            pstmt.setString(2, faculty.getDescription());
-            pstmt.setInt(3, faculty.getBudgetCapacity());
-            pstmt.setInt(4, faculty.getTotalCapacity());
-            pstmt.setString(5, faculty.getRequiredSubject1());
-            pstmt.setString(6, faculty.getRequiredSubject2());
-            pstmt.setString(7, faculty.getRequiredSubject3());
-            pstmt.setBoolean(8, faculty.isAdmissionOpen());
+            pstmt.setString(1, faculty.getNameEn());
+            pstmt.setString(2, faculty.getNameUk());
+            pstmt.setString(3, faculty.getDescriptionEn());
+            pstmt.setString(4, faculty.getDescriptionUk());
+            pstmt.setInt(5, faculty.getBudgetCapacity());
+            pstmt.setInt(6, faculty.getTotalCapacity());
+            pstmt.setString(7, faculty.getRequiredSubject1En());
+            pstmt.setString(8, faculty.getRequiredSubject1Uk());
+            pstmt.setString(9, faculty.getRequiredSubject2En());
+            pstmt.setString(10, faculty.getRequiredSubject2Uk());
+            pstmt.setString(11, faculty.getRequiredSubject3En());
+            pstmt.setString(12, faculty.getRequiredSubject3Uk());
+            pstmt.setBoolean(13, faculty.isAdmissionOpen());
             return pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -74,7 +79,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
         Map<Long, Faculty> facultyMap = new HashMap<>();
 
         String sql = "SELECT  " +
-                "f.id, f.budget_capacity, f.description, f.name, f.req_subject1, f.req_subject2, f.req_subject3, f.total_capacity, f.admission_open," +
+                "f.id, f.budget_capacity, f.description_en, f.name_en,f.description_uk,f.name_uk, f.req_subject1_en, f.req_subject1_uk, f.req_subject2_en ,f.req_subject2_uk, f.req_subject3_en ,f.req_subject3_uk, f.total_capacity, f.admission_open," +
                 "admission_request.id, admission_request.status, admission_request.creation_date_time, admission_request.req_subject1_grade, admission_request.req_subject2_grade, admission_request.req_subject3_grade, admission_request.candidate_id, admission_request.faculty_id," +
                 "c.id, c.candidate_status, c.password, c.role, c.username," +
                 "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id " +
@@ -116,21 +121,26 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
         String sql = " UPDATE  faculty " +
-                "SET name=?,description=?,budget_capacity=?, total_capacity=?,req_subject1=?,req_subject2=?,req_subject3=? " +
+                "SET name_en=?, name_uk=?,description_en=?,description_uk=?,budget_capacity=?, total_capacity=?,req_subject1_en=?,req_subject1_uk=?,req_subject2_en=?, req_subject2_uk=?,req_subject3_en=?,req_subject3_uk=? " +
                 "WHERE id=?;";
 
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            pstmt.setString(1, faculty.getName());
-            pstmt.setString(2, faculty.getDescription());
-            pstmt.setInt(3, faculty.getBudgetCapacity());
-            pstmt.setInt(4, faculty.getTotalCapacity());
-            pstmt.setString(5, faculty.getRequiredSubject1());
-            pstmt.setString(6, faculty.getRequiredSubject2());
-            pstmt.setString(7, faculty.getRequiredSubject3());
-            pstmt.setLong(8, faculty.getId());
+            pstmt.setString(1, faculty.getNameEn());
+            pstmt.setString(2, faculty.getNameUk());
+            pstmt.setString(3, faculty.getDescriptionEn());
+            pstmt.setString(4, faculty.getDescriptionUk());
+            pstmt.setInt(5, faculty.getBudgetCapacity());
+            pstmt.setInt(6, faculty.getTotalCapacity());
+            pstmt.setString(7, faculty.getRequiredSubject1En());
+            pstmt.setString(8, faculty.getRequiredSubject1Uk());
+            pstmt.setString(9, faculty.getRequiredSubject2En());
+            pstmt.setString(10, faculty.getRequiredSubject2Uk());
+            pstmt.setString(11, faculty.getRequiredSubject3En());
+            pstmt.setString(12, faculty.getRequiredSubject3Uk());
+            pstmt.setLong(13, faculty.getId());
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
@@ -187,20 +197,20 @@ public class MySqlFacultyDAO implements FacultyDAO {
             ex.printStackTrace();
             throw new SQLException("Cannot get all faculties!", ex);
         }
-        return new ArrayList<Faculty>(faculties.values());
+        return new ArrayList<>(faculties.values());
 
 
     }
 
 
-    public FacultyDTO getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException {
+    public FacultyDTO getAllFaculties2(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
 
         List<Faculty> faculties = new ArrayList<>();
         int count=0;
         int fromItem = (page - 1) * itemsPerPage;
         int toItem = ((page - 1) * itemsPerPage) + itemsPerPage;
-        String sql = "select f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
-                "(select count(*) from faculty) as count from faculty f ORDER BY " + name + " " + direction + " LIMIT " + fromItem + "," + toItem + ";";
+        String sql = "select f.id, budget_capacity, description_en, description_uk, name_en,name_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open," +
+                "(select count(*) from faculty) as count from faculty f ORDER BY " + name_en + " " + direction + " LIMIT " + fromItem + "," + toItem + ";";
 
         try (Connection con = connection;
              PreparedStatement pstmt =

@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="resources"/>
 
 <html lang="${sessionScope.lang}">
-<c:set var="title" value="Faculties" scope="page" />
+<c:set var="title" value="Faculties" scope="page"/>
 <head>
     <title>Admin Workspace</title>
     <meta charset="utf-8">
@@ -23,8 +23,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-            <a class="navbar-brand" href="/controller?command=adminWorkspace"><fmt:message
-                    key="navbar.Admission_Board_App"/></a>
+    <a class="navbar-brand" href="/controller?command=adminWorkspace"><fmt:message
+            key="navbar.Admission_Board_App"/></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +85,8 @@
                         <div class=" pull-right">
                             <form action="controller" method="get">
                                 <input type="hidden" name="command" value="createNewFacultyForm">
-                                <button type="submit" class="btn btn-primary btn-create"><fmt:message key="admin.create_new_faculty"/>
+                                <button type="submit" class="btn btn-primary btn-create"><fmt:message
+                                        key="admin.create_new_faculty"/>
                                 </button>
                             </form>
                         </div>
@@ -121,7 +122,23 @@
                             <tr>
 
 
-                                <td>${faculty.name}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.lang eq 'uk'}">
+                                            <c:choose>
+                                                <c:when test="${empty faculty.nameUk}">
+                                                    ${faculty.nameEn}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${faculty.nameUk}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${faculty.nameEn}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
                                 <td>${faculty.numberOfRequestsNew()}</td>
                                 <td>${faculty.numberOfRequestsRejected()}</td>
                                 <td>${faculty.numberOfRequestsApproved()}</td>
@@ -132,7 +149,8 @@
                                           action="/controller" method="post">
                                         <input type="hidden" name="command" value="showRequestsListOfFaculty">
                                         <input type="hidden" name="facultyId" value="${faculty.id}">
-                                        <button class="btn btn-primary btn-xs" type="submit"><fmt:message key="admin.requests"/></button>
+                                        <button class="btn btn-primary btn-xs" type="submit"><fmt:message
+                                                key="admin.requests"/></button>
                                     </form>
                                 </td>
                                 <td>
@@ -144,7 +162,8 @@
                                                        value="blockUnblockFacultyRegistration">
                                                 <input type="hidden" name="action" value="block">
                                                 <input type="hidden" name="facultyId" value="${faculty.id}">
-                                                <button class="btn btn-warning btn-xs" type="submit"><fmt:message key="admin.block"/></button>
+                                                <button class="btn btn-warning btn-xs" type="submit"><fmt:message
+                                                        key="admin.block"/></button>
                                             </form>
                                         </c:when>
                                         <c:otherwise>
@@ -153,7 +172,8 @@
                                                        value="blockUnblockFacultyRegistration">
                                                 <input type="hidden" name="action" value="unblock">
                                                 <input type="hidden" name="facultyId" value="${faculty.id}">
-                                                <button class="btn btn-success btn-xs" type="submit"><fmt:message key="admin.unblock"/></button>
+                                                <button class="btn btn-success btn-xs" type="submit"><fmt:message
+                                                        key="admin.unblock"/></button>
                                             </form>
                                         </c:otherwise>
                                     </c:choose>
@@ -166,7 +186,8 @@
                                         <input type="hidden" name="command" value="editFacultyForm">
                                         <input type="hidden" name="facultyId" value="${faculty.id}">
 
-                                        <button class="btn btn-primary btn-xs" type="submit"><fmt:message key="admin.edit_faculty"/></button>
+                                        <button class="btn btn-primary btn-xs" type="submit"><fmt:message
+                                                key="admin.edit_faculty"/></button>
 
                                     </form>
                                 </td>
@@ -175,7 +196,8 @@
                                           action="controller" method="post">
                                         <input type="hidden" name="command" value="deleteFaculty">
                                         <input type="hidden" name="facultyId" value="${faculty.id}">
-                                        <button class="btn btn-danger btn-xs" type="submit"><fmt:message key="admin.delete_faculty"/></button>
+                                        <button class="btn btn-danger btn-xs" type="submit"><fmt:message
+                                                key="admin.delete_faculty"/></button>
                                     </form>
                                 </td>
                                 <td class="col-lg-11 col-centered">
@@ -183,7 +205,8 @@
                                           action="controller" method="post">
                                         <input type="hidden" name="command" value="getStatementOfFaculty">
                                         <input type="hidden" name="facultyId" value="${faculty.id}">
-                                        <button class="btn btn-danger btn-xs" type="submit"><fmt:message key="admin.statement"/></button>
+                                        <button class="btn btn-danger btn-xs" type="submit"><fmt:message
+                                                key="admin.statement"/></button>
                                     </form>
                                 </td>
                             </tr>

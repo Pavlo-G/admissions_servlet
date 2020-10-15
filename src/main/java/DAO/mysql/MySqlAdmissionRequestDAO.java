@@ -67,7 +67,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
         String sql = "SELECT " +
                 "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
-                "f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
+                "f.id, budget_capacity, description_en, name_en,description_uk,name_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open," +
                 "admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
                 " c.id,c.username,c.password,c.role,c.candidate_status " +
                 "FROM admission_request " +
@@ -123,7 +123,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     public Optional<AdmissionRequest> findAdmissionRequest(Long id) {
 
         String sql = "SELECT cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
-                "                f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open, " +
+                "                f.id, budget_capacity, description_en, name_en, name_uk,description_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open, " +
                 "                admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id, " +
                 "                 c.id,c.username,c.password,c.role,c.candidate_status " +
                 "                FROM admission_request  " +

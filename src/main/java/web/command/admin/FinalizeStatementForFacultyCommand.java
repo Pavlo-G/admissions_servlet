@@ -51,7 +51,7 @@ public class FinalizeStatementForFacultyCommand implements Command {
 
         for (int i = 0; i < admissionRequests.size(); i++) {
             StatementElement statementElement = new StatementElement();
-            statementElement.setFacultyName(admissionRequests.get(i).getFaculty().getName());
+            statementElement.setFacultyName(admissionRequests.get(i).getFaculty().getNameEn());
             statementElement.setFirstName(admissionRequests.get(i).getCandidate().getCandidateProfile().getFirstName());
             statementElement.setLastName(admissionRequests.get(i).getCandidate().getCandidateProfile().getLastName());
             statementElement.setEmail(admissionRequests.get(i).getCandidate().getCandidateProfile().getEmail());

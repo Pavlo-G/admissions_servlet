@@ -52,7 +52,7 @@ public class LoginCommand implements Command {
 
             if (candidateRole == Role.USER)
                 forward = "/controller?command=facultiesList";
-            ;
+
 
             session.setAttribute("candidate", candidate);
             session.setAttribute("candidateRole", candidateRole);

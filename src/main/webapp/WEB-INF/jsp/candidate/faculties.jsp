@@ -122,8 +122,8 @@
             <thead>
             <tr>
                 <th><fmt:message key="faculty.name"/>
-                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=name&sortDir=ASC">&#8593</a>
-                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=name&sortDir=DESC">&#8595</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sessionScope.lang eq 'uk'? 'name_uk':'name_en'} &sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sessionScope.lang eq 'uk'? 'name_uk':'name_en'}&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.description"/></th>
                 <th><fmt:message key="faculty.total_capacity"/>
@@ -146,11 +146,39 @@
 
                 <tr>
                     <td>
-                        <c:out value="${faculty.name}"/>
+                        <c:choose>
+                            <c:when test="${sessionScope.lang eq 'uk'}">
+                                <c:choose>
+                                    <c:when test="${empty faculty.nameUk}">
+                                        ${faculty.nameEn}
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${faculty.nameUk}
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                ${faculty.nameEn}
+                            </c:otherwise>
+                        </c:choose>
 
                     </td>
                     <td>
-                        <c:out value="${faculty.description}"/>
+                        <c:choose>
+                            <c:when test="${sessionScope.lang eq 'uk'}">
+                                <c:choose>
+                                    <c:when test="${empty faculty.descriptionUk}">
+                                        ${faculty.descriptionEn}
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${faculty.descriptionUk}
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                ${faculty.descriptionEn}
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                     <td>
                         <c:out value="${faculty.totalCapacity}"/>
@@ -165,7 +193,7 @@
                                 <form action="/controller">
                                     <input type="hidden" name="command" value="getSubmitRequestForm">
                                     <input type="hidden" name="facultyId" value="${faculty.id}">
-                                    <input type="hidden" name="facultyName" value="${faculty.name}">
+                                    <input type="hidden" name="facultyName" value="${faculty.nameEn}">
                                     <button class="btn btn-success"><fmt:message key="faculty.submit_request"/></button>
                                 </form>
                             </c:when>

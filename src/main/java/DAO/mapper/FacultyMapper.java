@@ -12,13 +12,18 @@ public class FacultyMapper implements ObjectMapper<Faculty> {
 
         Faculty faculty = new Faculty();
         faculty.setId(rs.getLong("f.id"));
-        faculty.setName(rs.getString("name"));
-        faculty.setDescription(rs.getString("description"));
+        faculty.setNameEn(rs.getString("name_en"));
+        faculty.setNameUk(rs.getString("name_uk"));
+        faculty.setDescriptionEn(rs.getString("description_en"));
+        faculty.setDescriptionUk(rs.getString("description_uk"));
         faculty.setBudgetCapacity(rs.getInt("budget_capacity"));
         faculty.setTotalCapacity(rs.getInt("total_capacity"));
-        faculty.setRequiredSubject1(rs.getString("req_subject1"));
-        faculty.setRequiredSubject2(rs.getString("req_subject2"));
-        faculty.setRequiredSubject3(rs.getString("req_subject3"));
+        faculty.setRequiredSubject1En(rs.getString("req_subject1_en"));
+        faculty.setRequiredSubject1Uk(rs.getString("req_subject1_uk"));
+        faculty.setRequiredSubject2En(rs.getString("req_subject2_en"));
+        faculty.setRequiredSubject2Uk(rs.getString("req_subject2_uk"));
+        faculty.setRequiredSubject3En(rs.getString("req_subject3_en"));
+        faculty.setRequiredSubject3Uk(rs.getString("req_subject3_uk"));
         faculty.setAdmissionOpen(rs.getBoolean("admission_open"));
 
         return faculty;
