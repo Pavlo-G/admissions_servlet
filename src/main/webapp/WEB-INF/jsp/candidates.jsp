@@ -50,14 +50,10 @@
                 <th>Email</th>
                 <th>Country</th>
                 <th>Actions</th>
-
-
             </tr>
             </thead>
             <tbody>
-
             <c:forEach var="candidate" items="${candidatesList}">
-
                 <tr>
                     <td>
                         <c:out value="${candidate.id}" />

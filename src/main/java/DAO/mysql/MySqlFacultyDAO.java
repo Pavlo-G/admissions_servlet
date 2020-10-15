@@ -6,6 +6,7 @@ import DAO.mapper.AdmissionRequestMapper;
 import DAO.mapper.CandidateMapper;
 import DAO.mapper.CandidateProfileMapper;
 import DAO.mapper.FacultyMapper;
+import dto.FacultyDTO;
 import entity.AdmissionRequest;
 import entity.Candidate;
 import entity.CandidateProfile;
@@ -192,10 +193,10 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
 
-    public List<Faculty> getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException {
+    public FacultyDTO getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException {
+
         List<Faculty> faculties = new ArrayList<>();
-
-
+        int count=0;
         int fromItem = (page - 1) * itemsPerPage;
         int toItem = ((page - 1) * itemsPerPage) + itemsPerPage;
         String sql = "select f.id, budget_capacity, description, name, req_subject1, req_subject2, req_subject3, total_capacity, admission_open," +
@@ -209,7 +210,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
                 while (rs.next()) {
                     Faculty faculty = facultyMapper.extractFromResultSet(rs);
-                    int count = rs.getInt("count");
+                    count = rs.getInt("count");
                     faculties.add(faculty);
 
                 }
@@ -221,6 +222,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
         }
-        return faculties;
+        return new FacultyDTO(count,faculties);
     }
 }

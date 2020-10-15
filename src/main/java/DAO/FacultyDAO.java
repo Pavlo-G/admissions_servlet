@@ -1,6 +1,7 @@
 package DAO;
 
 
+import dto.FacultyDTO;
 import entity.Faculty;
 
 import java.sql.SQLException;
@@ -23,5 +24,5 @@ public interface FacultyDAO {
 
     boolean changeAdmissionOpenStatus(String action, Long facultyId);
 
-   List<Faculty> getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException ;
+   FacultyDTO getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException ;
 }

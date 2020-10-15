@@ -1,6 +1,7 @@
 package web.command.candidate;
 
 
+import dto.FacultyDTO;
 import entity.Faculty;
 import web.command.Command;
 
@@ -18,8 +19,8 @@ public class AllFacultiesCommand implements Command {
 
         String sortBy;
         String sortDir;
-        int pageNumber;
-        int itemsPerPager;
+        int currentPage;
+        int itemsPerPage;
 
         if ((sortBy = request.getParameter("sortBy")) == null) {
             sortBy = "name";
@@ -30,35 +31,42 @@ public class AllFacultiesCommand implements Command {
         }
 
         if (request.getParameter("page") != null) {
-            pageNumber = Integer.parseInt(request.getParameter("page"));
+            currentPage = Integer.parseInt(request.getParameter("page"));
         } else {
-            pageNumber = 1;
+            currentPage = 1;
         }
-        if (request.getParameter("size") != (null)) {
-            itemsPerPager = Integer.parseInt(request.getParameter("size"));
+        if (request.getParameter("itemsPerPage") != (null)) {
+            itemsPerPage = Integer.parseInt(request.getParameter("itemsPerPage"));
         } else {
-            itemsPerPager = 2;
+            itemsPerPage = 5;
         }
 
 
-        List<Faculty> facultiesList = null;
+        FacultyDTO facultyDTO = null;
         try {
-            facultiesList = daoFactory.getFacultyDAO().getAllFaculties2(sortBy, sortDir, pageNumber, itemsPerPager);
+            facultyDTO = daoFactory.getFacultyDAO().getAllFaculties2(sortBy, sortDir, currentPage, itemsPerPage);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        int totalFaculties = facultyDTO.getCount();
 
+        int totalPages = 0;
+        if (totalFaculties % itemsPerPage == 0) {
+            totalPages = totalFaculties / itemsPerPage;
+        } else {
+            totalPages = totalFaculties / itemsPerPage + 1;
+        }
 
-//        int totalPages = 1;
-//        if (totalFaculties % itemsPerPager == 0) {
-//            totalPages = totalFaculties / itemsPerPager;
-//        } else {
-//            totalPages = totalFaculties / itemsPerPager + 1;
-//        }
+        int[]itemsPerPageArray = {5,10,15};
 
+        request.setAttribute("facultiesList", facultyDTO.getFacultyList());
+        request.setAttribute("noOfPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("itemsPerPage", itemsPerPage);
+        request.setAttribute("sortBy", sortBy);
+        request.setAttribute("sortDir", sortDir);
+        request.setAttribute("itemsPerPageArray", itemsPerPageArray);
 
-        request.setAttribute("facultiesList", facultiesList);
-//        request.setAttribute("totalPages", totalPages);
 
         return "/WEB-INF/jsp/candidate/faculties.jsp";
     }

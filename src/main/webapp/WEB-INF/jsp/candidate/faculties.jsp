@@ -81,31 +81,58 @@
 </nav>
 
 
+
 <div class="row">
 
     <div class="container">
 
         <h3 class="text-center"><fmt:message key="faculty.list_of_faculties"/></h3>
         <hr>
-        <div class="container text-left">
 
+
+        <%--    For displaying Items per page--%>
+        <div class="mt-3">
+            <ul class="pagination">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><fmt:message key="faculty.items_per_page"/></a>
+                </li>
+
+
+                <c:forEach var="ar" items="${itemsPerPageArray}">
+                    <c:choose>
+                        <c:when test="${itemsPerPage eq ar}">
+                            <li class="page-item active">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">${ar}</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${ar}&sortBy=${sortBy}&sortDir=${sortDir}"
+                                   tabindex="-1"
+                                   aria-disabled="true">${ar}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </ul>
         </div>
         <br>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th><fmt:message key="faculty.name"/>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=name&sortDir=ASC">&#8593</a>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=name&sortDir=DESC">&#8595</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=name&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=name&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.description"/></th>
                 <th><fmt:message key="faculty.total_capacity"/>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=total_capacity&sortDir=ASC">&#8593</a>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=total_capacity&sortDir=DESC">&#8595</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.budget_capacity"/>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=budget_capacity&sortDir=ASC">&#8593</a>
-                    <a href="/controller?command=facultiesList&page=1&size=2&sortBy=budget_capacity&sortDir=DESC">&#8595</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=budget_capacity&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=budget_capacity&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.submit_request"/></th>
 
@@ -148,8 +175,36 @@
             </c:forEach>
             <!-- } -->
             </tbody>
-
         </table>
+
+
+
+
+        <div class="mt-3">
+            <ul class="pagination ">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><fmt:message key="faculty.page"/></a>
+                </li>
+                <c:forEach begin="1" end="${noOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${currentPage eq i}">
+                            <li class="page-item disabled">
+                                <a class="page-link"
+                                   href="#">${i}</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="/controller?command=facultiesList&page=${i}&sortBy=${sortBy}&sortDir=${sortDir}&itemsPerPage=${itemsPerPage}">${i}</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </ul>
+        </div>
+
+
     </div>
 </div>
 </body>
