@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface AdmissionRequestDAO {
 
 
-    int saveAdmissionRequest(AdmissionRequest admissionRequest);
+    int saveAdmissionRequest(AdmissionRequest admissionRequest) throws SQLException;
 
     boolean deleteAdmissionRequest(Long id) throws SQLException;
 

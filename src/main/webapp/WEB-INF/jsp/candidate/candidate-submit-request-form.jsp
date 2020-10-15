@@ -98,6 +98,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <c:choose>
+                    <c:when test="${empty errorMessage}">
+                    </c:when>
+                    <c:otherwise>
+
+                        <div class="alert alert-primary" role="alert">
+                                ${errorMessage}
+                        </div>
+                    </c:otherwise>
+                </c:choose>
 
                 <div class="card">
                     <div class="card-header"><fmt:message key="candidate.admission.requests_to" />

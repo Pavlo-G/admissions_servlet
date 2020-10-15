@@ -18,13 +18,20 @@ public class LoginCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession();
+        String lang = (String) session.getAttribute("lang");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         String errorMessage = null;
-        String forward = "WEB-INF\\jsp\\errorPage.jsp";
+        String forward = "WEB-INF\\jsp\\login.jsp";
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            errorMessage = "Login/password cannot be empty";
+            if(lang!=null
+                    &&lang.equals("uk")) {
+                errorMessage = "Логін/Пароль не можуть буди пустими";
+            }else {
+                errorMessage = "Login/password cannot be empty";
+            }
+
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
@@ -40,7 +47,13 @@ public class LoginCommand implements Command {
 
 
         if (candidate == null || !BCrypt.checkpw(password, candidate.getPassword())) {
-            errorMessage = "Cannot find user with such login/password";
+            if(lang!=null
+                    &&lang.equals("uk")) {
+                errorMessage = "Юзера з таким логіном/паролем неіснує!";
+            }else {
+                errorMessage = "Cannot find user with such login/password!";
+            }
+
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         } else {
@@ -58,21 +71,6 @@ public class LoginCommand implements Command {
             session.setAttribute("candidateRole", candidateRole);
 
             log.info("Candidate " + candidate + " logged as " + candidateRole.getName());
-
-//            // work with i18n
-//            String userLocaleName = candidate.getLocaleName();
-
-
-//            if (userLocaleName != null && !userLocaleName.isEmpty()) {
-//                Config.set(session, "javax.servlet.jsp.jstl.fmt.locale", userLocaleName);
-
-//                session.setAttribute("defaultLocale", userLocaleName);
-//                log.trace("Set the session attribute: defaultLocaleName --> " + userLocaleName);
-//
-//                log.info("Locale for user: defaultLocale --> " + userLocaleName);
-//            }
-//        }
-//
 
             return forward;
 

@@ -39,7 +39,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public int saveAdmissionRequest(AdmissionRequest admissionRequest) {
+    public int saveAdmissionRequest(AdmissionRequest admissionRequest) throws SQLException {
 
         String sql = "INSERT INTO admission_request " +
                 "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,status)" +
@@ -55,9 +55,8 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
             return pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot save admission request !");
         }
-        return 0;
     }
 
     @Override

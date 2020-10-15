@@ -62,16 +62,26 @@
                 <div class="card">
                     <div class="card-header"><fmt:message key="login.user_login"/></div>
                     <div class="card-body">
+                        <c:choose>
+                            <c:when test="${empty errorMessage}">
+                            </c:when>
+                            <c:otherwise>
 
+                                <div class="alert alert-primary" role="alert">
+                                        ${errorMessage}
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
 
-                        <form class="mx-auto"  method="post" id="login_form" action="/controller">
+                        <form class="mx-auto" method="post" id="login_form" action="/controller">
                             <input type="hidden" name="command" value="login">
 
                             <div class="form-group row">
                                 <label for="username" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="login.username"/></label>
                                 <div class="col-md-6">
-                                    <input type="text" id="username" class="form-control" name="username"  placeholder="<fmt:message key="login.username"/>" required autofocus>
+                                    <input type="text" id="username" class="form-control" name="username"
+                                           placeholder="<fmt:message key="login.username"/>" required autofocus>
                                 </div>
                             </div>
 

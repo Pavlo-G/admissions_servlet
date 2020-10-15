@@ -54,106 +54,133 @@
 </nav>
 
 
+<br>
+<main class="registration-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><fmt:message key="reg.detail.please_fill_your_profile"/></div>
+                    <div class="card-body">
+                        <c:choose>
+                            <c:when test="${empty errorMessage}">
+                            </c:when>
+                            <c:otherwise>
 
-
-    <br>
-    <main class="registration-form">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header"><fmt:message key="reg.detail.please_fill_your_profile"/></div>
-                        <div class="card-body">
-<%--                            <@error.error/>--%>
-
-                            <form  id="registration"  method="post" action="controller" >
-                                <input type="hidden" name="command" value="registration"/>
-
-
-                                <div class="form-group row">
-                                    <label for="username" class="col-md-4 col-form-label text-md-right"><fmt:message key="login.username"/></label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="username" class="form-control" name="username" placeholder="<fmt:message key="login.username"/>" required autofocus>
-                                    </div>
+                                <div class="alert alert-primary" role="alert">
+                                        ${errorMessage}
                                 </div>
+                            </c:otherwise>
+                        </c:choose>
 
-                                <div class="form-group row">
-                                    <label for="password" class="col-md-4 col-form-label text-md-right"><fmt:message key="login.password"/></label>
-                                    <div class="col-md-6">
-                                        <input type="password" id="password" class="form-control" name="password" placeholder="<fmt:message key="login.password"/>" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="firstName" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.first_name"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="firstName" class="form-control" name="firstName" placeholder="<fmt:message key="reg.detail.first_name"/>"
-                                               required >
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="lastName" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.last_name"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="lastName" class="form-control" name="lastName" placeholder="<fmt:message key="reg.detail.last_name"/>" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="email_address" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.email"/></label>
-                                    <div class="col-md-6">
-                                        <input type="email" id="email_address" class="form-control" name="email" placeholder="<fmt:message key="reg.detail.email"/>" required>
-                                    </div>
-                                </div>
+                        <form id="registration" method="post" action="controller">
+                            <input type="hidden" name="command" value="registration"/>
 
 
-                                <div class="form-group row">
-                                    <label for="address" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.address"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="address" class="form-control" name="address" placeholder="<fmt:message key="reg.detail.address"/>" required>
-                                    </div>
+                            <div class="form-group row">
+                                <label for="username" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="login.username"/></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="username" class="form-control" name="username"
+                                           placeholder="<fmt:message key="login.username"/>" required autofocus>
                                 </div>
+                            </div>
 
-                                <div class="form-group row">
-                                    <label for="city" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.city"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="city" class="form-control" name="city" placeholder="<fmt:message key="reg.detail.city"/>"required>
-                                    </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="login.password"/></label>
+                                <div class="col-md-6">
+                                    <input type="password" id="password" class="form-control" name="password"
+                                           placeholder="<fmt:message key="login.password"/>">
                                 </div>
-                                <div class="form-group row">
-                                    <label for="region" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.region"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="region" class="form-control" name="region"   placeholder="<fmt:message key="reg.detail.region"/>" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="school" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.school"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="school" class="form-control" name="school" placeholder="<fmt:message key="reg.detail.school"/>" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="phoneNumber" class="col-md-4 col-form-label text-md-right"><fmt:message key="reg.detail.phoneNumber"/> </label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" placeholder="<fmt:message key="reg.detail.phoneNumber"/>" required>
-                                    </div>
-                                </div>
+                            </div>
 
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <fmt:message key="login.registration"/>
-                                    </button>
-                                    <a href="/" class="btn btn-link"> <fmt:message key="login.back"/></a>
+                            <div class="form-group row">
+                                <label for="firstName" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.first_name"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="firstName" class="form-control" name="firstName"
+                                           placeholder="<fmt:message key="reg.detail.first_name"/> "
+                                    >
                                 </div>
+                            </div>
 
-                            </form>
-                        </div>
+                            <div class="form-group row">
+                                <label for="lastName" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.last_name"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="lastName" class="form-control" name="lastName"
+                                           placeholder="<fmt:message key="reg.detail.last_name"/>" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="email_address" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.email"/></label>
+                                <div class="col-md-6">
+                                    <input type="email" id="email_address" class="form-control" name="email"
+                                           placeholder="<fmt:message key="reg.detail.email"/>" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label for="address" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.address"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="address" class="form-control" name="address"
+                                           placeholder="<fmt:message key="reg.detail.address"/>" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="city" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.city"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="city" class="form-control" name="city"
+                                           placeholder="<fmt:message key="reg.detail.city"/>" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="region" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.region"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="region" class="form-control" name="region"
+                                           placeholder="<fmt:message key="reg.detail.region"/>" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="school" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.school"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="school" class="form-control" name="school"
+                                           placeholder="<fmt:message key="reg.detail.school"/>" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="phoneNumber" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                        key="reg.detail.phoneNumber"/> </label>
+                                <div class="col-md-6">
+                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber"
+                                           placeholder="xxx-xxx-xxx" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <fmt:message key="login.registration"/>
+                                </button>
+                                <a href="/" class="btn btn-link"> <fmt:message key="login.back"/></a>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    </main>
+</main>
 </body>
 </html>
 <!-- Optional JavaScript -->
