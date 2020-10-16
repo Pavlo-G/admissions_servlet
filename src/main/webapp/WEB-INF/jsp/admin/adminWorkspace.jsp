@@ -63,11 +63,9 @@
                 </form>
 
             </li>
-
-
-            <li class="nav-item dropdown my-2 ml-auto">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown "><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
+            <div class="nav-item dropdown my-2 ">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown ml-auto"><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
                                                     data-toggle="dropdown"><fmt:message
                             key="navbar.Account"/> ${sessionScope.candidate.username}
                         <b class="caret"></b></a>
@@ -80,17 +78,19 @@
                                     key="navbar.logout"/></a>
                         </div>
 
+
                     </li>
                 </ul>
-            </li>
+            </div>
+
         </ul>
     </li>
 </nav>
 
 <br>
-<div class="container ml-4">
+<div class="container ml-4 align-content-around ">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div >
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
                     <div class="row">
@@ -112,9 +112,9 @@
                     <div class="float-left">
                     </div>
                 </div>
-                <div class="panel-body  row align-items-center">
-                    <table class="table table-striped table-bordered table-list">
-                        <thead class="col-md-10 col-md-offset-1">
+                <div>
+                    <table class="table table-striped table-bordered table-responsive">
+                        <thead>
                         <tr>
                             <th style="width: 10%"><fmt:message key="admin.name"/></th>
                             <th style="width: 5%"><fmt:message key="admin.new_requests"/></th>

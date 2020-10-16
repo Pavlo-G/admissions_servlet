@@ -6,7 +6,6 @@ import entity.Faculty;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 
 public interface FacultyDAO {
@@ -24,5 +23,5 @@ public interface FacultyDAO {
 
     boolean changeAdmissionOpenStatus(String action, Long facultyId);
 
-   FacultyDTO getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException ;
+    FacultyDTO getAllFaculties2(String name, String direction, int page, int itemsPerPage) throws SQLException;
 }

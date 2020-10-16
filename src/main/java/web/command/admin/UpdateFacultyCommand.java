@@ -15,7 +15,7 @@ public class UpdateFacultyCommand implements Command {
         String lang = (String) request.getSession().getAttribute("lang");
         String errorMessage = null;
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
-        String forward = "/controller?command=editFacultyForm&facultyIf="+facultyId;
+        String forward = "/controller?command=editFacultyForm&facultyIf=" + facultyId;
 
         String totalCapacity = request.getParameter("totalCapacity");
         String budgetCapacity = request.getParameter("budgetCapacity");

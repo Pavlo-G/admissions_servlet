@@ -17,11 +17,11 @@ public class ChangeAdmissionRequestStatusCommand implements Command {
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
 
         try {
-            daoFactory.getAdmissionRequestDAO().changeAdmissionRequestStatus(admissionRequestId,newAdmissionRequestStatus);
+            daoFactory.getAdmissionRequestDAO().changeAdmissionRequestStatus(admissionRequestId, newAdmissionRequestStatus);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        request.setAttribute("facultyId",facultyId);
+        request.setAttribute("facultyId", facultyId);
         return "/controller?command=showRequestsListOfFaculty";
     }
 }

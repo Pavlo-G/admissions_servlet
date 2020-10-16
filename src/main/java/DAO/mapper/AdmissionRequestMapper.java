@@ -26,7 +26,7 @@ public class AdmissionRequestMapper implements ObjectMapper<AdmissionRequest> {
         if (rs.getLong("admission_request.id") != 0) {
             AdmissionRequest admissionRequest = new AdmissionRequest();
             admissionRequest.setId(rs.getLong("admission_request.id"));
-            admissionRequest.setAdmissionRequestStatus(AdmissionRequestStatus.getAdmissionRequestStatus(rs.getInt("status")));
+            admissionRequest.setAdmissionRequestStatus(AdmissionRequestStatus.getAdmissionRequestStatus(rs.getInt("admission_request.status")));
             admissionRequest.setRequiredSubject1Grade(rs.getInt("req_subject1_grade"));
             admissionRequest.setRequiredSubject2Grade(rs.getInt("req_subject2_grade"));
             admissionRequest.setRequiredSubject3Grade(rs.getInt("req_subject3_grade"));

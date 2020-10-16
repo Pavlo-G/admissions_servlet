@@ -3,6 +3,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://admissions_servlet/functions" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -91,7 +92,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div >
             <div class="panel-body">
 
                 <td align="center">
@@ -107,17 +108,17 @@
 
                 </td>
                 <br>
-                <table class="table table-striped table-bordered table-list">
+                <table class="table table-striped table-bordered table-responsive ">
                     <thead>
                     <tr>
 
-                        <th style="width: 14.28%"><fmt:message key="statement.faculty.name"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_name"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_mail"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_number"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_grade"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.date_time"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.budget_contract"/></th>
+                        <th><fmt:message key="statement.faculty.name"/></th>
+                        <th><fmt:message key="statement.candidate_name"/></th>
+                        <th><fmt:message key="statement.candidate_mail"/></th>
+                        <th><fmt:message key="statement.candidate_number"/></th>
+                        <th><fmt:message key="statement.candidate_grade"/></th>
+                        <th><fmt:message key="statement.date_time"/></th>
+                        <th><fmt:message key="statement.budget_contract"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -144,12 +145,12 @@
 
 
                             </td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.firstName} ${req.candidate.candidateProfile.lastName} </td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.email}</td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.phoneNumber}</td>
-                            <td style="width: 14.28%">${req.getSumOfGrades()}</td>
-                            <td style="width: 14.28%">${req.creationDateTime}</td>
-                            <td style="width: 14.28%">
+                            <td>${req.candidate.candidateProfile.firstName} ${req.candidate.candidateProfile.lastName} </td>
+                            <td>${req.candidate.candidateProfile.email}</td>
+                            <td>${req.candidate.candidateProfile.phoneNumber}</td>
+                            <td>${req.getSumOfGrades()}</td>
+                            <td>${fn:formatDateTime(req.creationDateTime)}</td>
+                            <td>
                                 <c:choose>
                                     <c:when test="${loop.index < req.faculty.budgetCapacity}">
                                         Budget

@@ -10,12 +10,12 @@ public class EditFacultyFormCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        Long facultyId =Long.valueOf( request.getParameter("facultyId"));
+        Long facultyId = Long.valueOf(request.getParameter("facultyId"));
 
         Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
 
 
-        request.setAttribute("faculty",faculty);
+        request.setAttribute("faculty", faculty);
         return "WEB-INF\\jsp\\admin\\adminEditFaculty.jsp";
     }
 }

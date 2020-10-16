@@ -16,7 +16,7 @@ public class EditCandidateFormCommand implements Command {
 
         try {
             Optional<Candidate> candidate = daoFactory.getCandidateDAO().findCandidateById(candidateId);
-            candidate.ifPresent(c->request.setAttribute("candidate",c));
+            candidate.ifPresent(c -> request.setAttribute("candidate", c));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

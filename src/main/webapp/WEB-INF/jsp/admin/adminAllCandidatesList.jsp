@@ -78,7 +78,7 @@
                                     key="navbar.logout"/></a>
                         </div>
 
-                        </form>
+
                     </li>
                 </ul>
             </div>
@@ -113,7 +113,6 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Status</th>
-
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>

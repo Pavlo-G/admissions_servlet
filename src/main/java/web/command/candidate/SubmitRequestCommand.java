@@ -1,6 +1,7 @@
 package web.command.candidate;
 
-import entity.*;
+import entity.AdmissionRequest;
+import entity.AdmissionRequestStatus;
 import web.command.Command;
 import web.validation.GradeValidator;
 
@@ -12,17 +13,17 @@ public class SubmitRequestCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        String lang= (String) request.getSession().getAttribute("lang");
-        String facultyId=request.getParameter("facultyId");
+        String lang = (String) request.getSession().getAttribute("lang");
+        String facultyId = request.getParameter("facultyId");
 
-        String errorMessage=null;
-        String forward="/controller?command=getSubmitRequestForm";
+        String errorMessage = null;
+        String forward = "/controller?command=getSubmitRequestForm";
 
-        GradeValidator gradeValidator= new GradeValidator();
+        GradeValidator gradeValidator = new GradeValidator();
         String requiredSubject1Grade = request.getParameter("requiredSubject1Grade");
         String requiredSubject2Grade = request.getParameter("requiredSubject2Grade");
         String requiredSubject3Grade = request.getParameter("requiredSubject3Grade");
-        if (!gradeValidator.validate(requiredSubject1Grade)||!gradeValidator.validate(requiredSubject2Grade)||!gradeValidator.validate(requiredSubject3Grade)) {
+        if (!gradeValidator.validate(requiredSubject1Grade) || !gradeValidator.validate(requiredSubject2Grade) || !gradeValidator.validate(requiredSubject3Grade)) {
             if (lang != null
                     && lang.equals("uk")) {
                 errorMessage = "Оцінка може бути від 1 до 12";
@@ -30,9 +31,8 @@ public class SubmitRequestCommand implements Command {
                 errorMessage = "Grade should be from 1 to 12";
             }
             request.setAttribute("errorMessage", errorMessage);
-            return forward+"&facultyId="+facultyId;
+            return forward + "&facultyId=" + facultyId;
         }
-
 
 
         AdmissionRequest admissionRequest = new AdmissionRequest();
@@ -54,7 +54,7 @@ public class SubmitRequestCommand implements Command {
                 errorMessage = "You have  already sent request to this faculty";
             }
             request.setAttribute("errorMessage", errorMessage);
-            return forward+"&facultyId="+facultyId;
+            return forward + "&facultyId=" + facultyId;
         }
 
 

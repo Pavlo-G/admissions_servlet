@@ -3,9 +3,7 @@ package DAO;
 import entity.Candidate;
 import entity.CandidateProfile;
 
-import javax.sql.RowSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

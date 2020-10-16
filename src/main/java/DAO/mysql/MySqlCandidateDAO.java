@@ -69,6 +69,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
             throw new SQLException("Can not make  transaction" + ex.getMessage(), ex);
         } finally {
             try {
+                assert pstmt != null;
+                pstmt.close();
                 assert conn != null;
                 conn.close();
             } catch (SQLException ex) {
@@ -105,10 +107,10 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setLong(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
 
+            return false;
         }
-        return false;
+
     }
 
     @Override

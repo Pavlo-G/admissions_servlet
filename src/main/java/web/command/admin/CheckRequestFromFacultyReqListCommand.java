@@ -1,6 +1,5 @@
 package web.command.admin;
 
-import entity.AdmissionRequest;
 import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +9,6 @@ public class CheckRequestFromFacultyReqListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Long admissionRequestId = Long.valueOf(request.getParameter("requestId"));
-
-
 
         daoFactory.getAdmissionRequestDAO().findAdmissionRequest(admissionRequestId)
                 .ifPresent(x -> request.setAttribute("admissionRequest", x));

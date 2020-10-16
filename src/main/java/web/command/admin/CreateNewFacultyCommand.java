@@ -4,7 +4,6 @@ import entity.Faculty;
 import web.command.Command;
 import web.validation.FacultyCapacityValidator;
 import web.validation.FieldValidator;
-import web.validation.GradeValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,7 +53,7 @@ public class CreateNewFacultyCommand implements Command {
         }
 
 
-        String nameEn=request.getParameter("name_en");
+        String nameEn = request.getParameter("name_en");
         if (fieldValidator.validate(nameEn)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -65,7 +64,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String nameUk=request.getParameter("name_uk");
+        String nameUk = request.getParameter("name_uk");
         if (fieldValidator.validate(nameUk)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -76,7 +75,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String descriptionEn=request.getParameter("description_en");
+        String descriptionEn = request.getParameter("description_en");
         if (fieldValidator.validate(descriptionEn)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -87,7 +86,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String descriptionUk=request.getParameter("description_uk");
+        String descriptionUk = request.getParameter("description_uk");
         if (fieldValidator.validate(descriptionUk)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -98,7 +97,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject1En=request.getParameter("requiredSubject1_en");
+        String requiredSubject1En = request.getParameter("requiredSubject1_en");
         if (fieldValidator.validate(requiredSubject1En)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -109,7 +108,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject1Uk=request.getParameter("requiredSubject1_uk");
+        String requiredSubject1Uk = request.getParameter("requiredSubject1_uk");
         if (fieldValidator.validate(requiredSubject1Uk)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -120,7 +119,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject2En=request.getParameter("requiredSubject2_en");
+        String requiredSubject2En = request.getParameter("requiredSubject2_en");
         if (fieldValidator.validate(requiredSubject2En)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -131,7 +130,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject2Uk=request.getParameter("requiredSubject2_uk");
+        String requiredSubject2Uk = request.getParameter("requiredSubject2_uk");
         if (fieldValidator.validate(requiredSubject2Uk)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -142,7 +141,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject3En=request.getParameter("requiredSubject3_en");
+        String requiredSubject3En = request.getParameter("requiredSubject3_en");
         if (fieldValidator.validate(requiredSubject3En)) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -153,7 +152,7 @@ public class CreateNewFacultyCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
-        String requiredSubject3Uk=request.getParameter("requiredSubject3_uk");
+        String requiredSubject3Uk = request.getParameter("requiredSubject3_uk");
         if (fieldValidator.validate(requiredSubject3Uk)) {
             if (lang != null
                     && lang.equals("uk")) {

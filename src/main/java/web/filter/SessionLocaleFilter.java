@@ -15,6 +15,10 @@ public class SessionLocaleFilter implements Filter {
         }
         chain.doFilter(request, response);
     }
-    public void destroy() {}
-    public void init(FilterConfig arg0) throws ServletException {}
+
+    public void destroy() {
+    }
+
+    public void init(FilterConfig arg0) throws ServletException {
+    }
 }

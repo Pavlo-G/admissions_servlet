@@ -31,7 +31,6 @@ public class CommandAccessFilter implements Filter {
             String errorMessasge = "You do not have permission to access the requested resource";
 
             request.setAttribute("errorMessage", errorMessasge);
-            LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
 
             request.getRequestDispatcher("/WEB-INF/jsp/errorPage.jsp")
                     .forward(request, response);
@@ -66,15 +65,13 @@ public class CommandAccessFilter implements Filter {
         // roles
         accessMap.put(Role.ADMIN, asList(fConfig.getInitParameter("admin")));
         accessMap.put(Role.USER, asList(fConfig.getInitParameter("user")));
-        LOG.trace("Access map --> " + accessMap);
 
         // commons
         commons = asList(fConfig.getInitParameter("common"));
-        LOG.trace("Common commands --> " + commons);
+
 
         // out of control
         outOfControl = asList(fConfig.getInitParameter("out-of-control"));
-        LOG.trace("Out of control commands --> " + outOfControl);
 
         LOG.debug("Filter initialization finished");
     }

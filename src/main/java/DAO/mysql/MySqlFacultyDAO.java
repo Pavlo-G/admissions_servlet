@@ -206,7 +206,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     public FacultyDTO getAllFaculties2(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
 
         List<Faculty> faculties = new ArrayList<>();
-        int count=0;
+        int count = 0;
         int fromItem = (page - 1) * itemsPerPage;
         int toItem = ((page - 1) * itemsPerPage) + itemsPerPage;
         String sql = "select f.id, budget_capacity, description_en, description_uk, name_en,name_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open," +
@@ -232,6 +232,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
         }
-        return new FacultyDTO(count,faculties);
+        return new FacultyDTO(count, faculties);
     }
 }

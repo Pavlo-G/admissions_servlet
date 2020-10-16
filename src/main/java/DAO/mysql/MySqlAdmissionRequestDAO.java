@@ -27,7 +27,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     public boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException {
         boolean res = false;
         try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("UPDATE  admission_request SET status=? WHERE  id= ?")) {
+             PreparedStatement pstmt = conn.prepareStatement("UPDATE  admission_request SET admission_request.status=? WHERE  id= ?")) {
             pstmt.setInt(1, status.ordinal());
             pstmt.setLong(2, id);
             res = pstmt.executeUpdate() > 0;
@@ -42,7 +42,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     public int saveAdmissionRequest(AdmissionRequest admissionRequest) throws SQLException {
 
         String sql = "INSERT INTO admission_request " +
-                "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,status)" +
+                "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,admission_request.status)" +
                 "Values(?,?,?,?,?,?);";
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         String sql = "SELECT " +
                 "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
                 "f.id, budget_capacity, description_en, name_en,description_uk,name_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open," +
-                "admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
+                "admission_request.id, admission_request.status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id," +
                 " c.id,c.username,c.password,c.role,c.candidate_status " +
                 "FROM admission_request " +
                 "Left JOIN candidate c on admission_request.candidate_id=c.id " +
@@ -123,7 +123,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
         String sql = "SELECT cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
                 "                f.id, budget_capacity, description_en, name_en, name_uk,description_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open, " +
-                "                admission_request.id, status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id, " +
+                "                admission_request.id, admission_request.status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id, " +
                 "                 c.id,c.username,c.password,c.role,c.candidate_status " +
                 "                FROM admission_request  " +
                 "                Left JOIN candidate c on admission_request.candidate_id=c.id " +
@@ -157,7 +157,6 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
         return Optional.empty();
     }
-
 
 
     @Override

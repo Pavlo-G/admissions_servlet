@@ -4,7 +4,6 @@ package web.command.admin;
 import entity.AdmissionRequest;
 import entity.Faculty;
 import entity.StatementElement;
-import exception.CanNotMakePDFException;
 import exception.StatementCreationException;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -12,10 +11,12 @@ import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +36,7 @@ public class FinalizeStatementForFacultyCommand implements Command {
         List<AdmissionRequest> admissionRequestsListSorted = new GetStatementOfFacultyCommand().getSortedListOfRequestForFaculty(faculty);
         List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
         try {
-            createPdfReport(statementElementList ,response);
+            createPdfReport(statementElementList, response);
         } catch (FileNotFoundException | JRException | URISyntaxException e) {
             throw new StatementCreationException("Can not create statement report");
         }
@@ -65,13 +66,13 @@ public class FinalizeStatementForFacultyCommand implements Command {
         return statementElementList;
     }
 
-    private void createPdfReport(final List<StatementElement> statementElementList , HttpServletResponse response) throws JRException, FileNotFoundException, URISyntaxException {
-        File templateFile =null;
+    private void createPdfReport(final List<StatementElement> statementElementList, HttpServletResponse response) throws JRException, FileNotFoundException, URISyntaxException {
+        File templateFile = null;
         URL resource = getClass().getClassLoader().getResource(FILE_NAME);
         if (resource == null) {
             throw new IllegalArgumentException("file not found!");
         } else {
-          templateFile= new File(resource.toURI());
+            templateFile = new File(resource.toURI());
         }
 
         JasperReport jasperReport = JasperCompileManager.compileReport(templateFile.getAbsolutePath());

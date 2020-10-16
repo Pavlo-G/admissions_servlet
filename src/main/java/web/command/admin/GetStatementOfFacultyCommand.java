@@ -18,14 +18,13 @@ public class GetStatementOfFacultyCommand implements Command {
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
         Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
 
-        List<AdmissionRequest> admissionRequestsList= getSortedListOfRequestForFaculty(faculty);
+        List<AdmissionRequest> admissionRequestsList = getSortedListOfRequestForFaculty(faculty);
 
         request.setAttribute("admissionRequestsList", admissionRequestsList);
         request.setAttribute("facultyId", facultyId);
 
         return "/WEB-INF/jsp/admin/statementOfFaculty.jsp";
     }
-
 
 
     protected List<AdmissionRequest> getSortedListOfRequestForFaculty(Faculty faculty) {

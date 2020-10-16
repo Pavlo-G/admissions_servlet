@@ -15,7 +15,6 @@ import java.sql.SQLException;
 
 public class RegistrationCommand implements Command {
 
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 

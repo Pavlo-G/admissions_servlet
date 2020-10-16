@@ -3,6 +3,7 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://admissions_servlet/functions" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -163,7 +164,7 @@
                                 </td>
                                 <td>${req.admissionRequestStatus.name()}</td>
                                 <td>
-                                        ${req.creationDateTime}
+                                        ${fn:formatDateTime(req.creationDateTime)}
                                 </td>
 
                                 <td align="center">

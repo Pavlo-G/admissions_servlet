@@ -17,6 +17,7 @@ public class DeleteFacultyCommand implements Command {
             throwables.printStackTrace();
         }
 
+
         return "/controller?command=adminWorkspace";
 
     }

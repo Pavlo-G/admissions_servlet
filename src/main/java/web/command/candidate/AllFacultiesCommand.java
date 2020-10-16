@@ -2,15 +2,11 @@ package web.command.candidate;
 
 
 import dto.FacultyDTO;
-import entity.Faculty;
 import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class AllFacultiesCommand implements Command {
 
@@ -57,7 +53,7 @@ public class AllFacultiesCommand implements Command {
             totalPages = totalFaculties / itemsPerPage + 1;
         }
 
-        int[]itemsPerPageArray = {5,10,15};
+        int[] itemsPerPageArray = {5, 10, 15};
 
         request.setAttribute("facultiesList", facultyDTO.getFacultyList());
         request.setAttribute("noOfPages", totalPages);

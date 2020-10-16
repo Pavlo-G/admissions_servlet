@@ -18,3 +18,17 @@
 2020-10-16 15:25:22,475 INFO [http-nio-8080-exec-10] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@bb94620 logged as ADMIN
 2020-10-16 15:25:49,929 INFO [http-nio-8080-exec-9] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@5cca850 logged as USER
 2020-10-16 15:27:05,161 INFO [http-nio-8080-exec-3] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@3b9444f0 logged as ADMIN
+2020-10-16 15:50:16,241 INFO [http-nio-8080-exec-7] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@7e833cd8 logged as USER
+2020-10-16 16:03:16,370 INFO [http-nio-8080-exec-6] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@347e05ed logged as ADMIN
+2020-10-16 16:47:55,720 INFO [http-nio-8080-exec-7] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@342f4a4d logged as USER
+2020-10-16 16:51:42,559 INFO [http-nio-8080-exec-5] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@6a611bc7 logged as USER
+2020-10-16 16:54:39,646 INFO [http-nio-8080-exec-3] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@9500c08 logged as USER
+2020-10-16 16:55:16,469 INFO [http-nio-8080-exec-3] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@78f18795 logged as ADMIN
+2020-10-16 16:57:31,294 INFO [http-nio-8080-exec-6] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@50ecf324 logged as ADMIN
+2020-10-16 16:58:11,522 INFO [http-nio-8080-exec-7] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@2afd251f logged as USER
+2020-10-16 16:58:27,950 INFO [http-nio-8080-exec-7] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@52d0fc42 logged as ADMIN
+2020-10-16 17:15:36,189 INFO [http-nio-8080-exec-6] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@4ef485f7 logged as ADMIN
+2020-10-16 17:18:08,484 INFO [http-nio-8080-exec-5] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@35b86b8e logged as ADMIN
+2020-10-16 17:18:32,799 INFO [http-nio-8080-exec-1] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@4201ab7b logged as USER
+2020-10-16 17:19:37,631 INFO [http-nio-8080-exec-9] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@7df4b23 logged as ADMIN
+2020-10-16 17:22:44,246 INFO [http-nio-8080-exec-4] w.c.LoginCommand [LoginCommand.java:91] Candidate entity.Candidate@cc3b6e2 logged as ADMIN

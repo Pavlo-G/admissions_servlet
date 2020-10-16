@@ -6,7 +6,6 @@ import java.io.IOException;
 public class EncodingFilter implements Filter {
 
 
-
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
 

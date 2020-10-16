@@ -16,7 +16,7 @@ public class AllCandidatesCommand implements Command {
 
         List<Candidate> candidatesList = null;
         try {
-            candidatesList =  daoFactory.getCandidateDAO().getAllCandidates();
+            candidatesList = daoFactory.getCandidateDAO().getAllCandidates();
         } catch (SQLException throwables) {
             throwables.printStackTrace();//add custom exception!
         }
