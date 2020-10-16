@@ -30,10 +30,10 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <li class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown my-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
@@ -49,9 +49,25 @@
                 </ul>
             </li>
 
-            <div class="nav-item dropdown ">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown ml-auto"><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
+            <li class="nav-item ml-4 mr-2">
+                <form class="form-inline ">
+                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=adminWorkspace" role="button">
+                        <fmt:message key="navbar.Admin_workspace_faculty"/></a>
+                </form>
+
+            </li>
+            <li class="nav-item mr-2 ">
+                <form class="form-inline">
+                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=allCandidates" role="button">
+                        <fmt:message key="navbar.Admin_workspace_candidates"/></a>
+                </form>
+
+            </li>
+
+
+            <li class="nav-item dropdown my-2 ml-auto">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown "><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
                                                     data-toggle="dropdown"><fmt:message
                             key="navbar.Account"/> ${sessionScope.candidate.username}
                         <b class="caret"></b></a>
@@ -64,12 +80,11 @@
                                     key="navbar.logout"/></a>
                         </div>
 
-                        </form>
                     </li>
                 </ul>
-            </div>
+            </li>
         </ul>
-    </div>
+    </li>
 </nav>
 
 <br>

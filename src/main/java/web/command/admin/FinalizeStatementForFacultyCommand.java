@@ -57,7 +57,7 @@ public class FinalizeStatementForFacultyCommand implements Command {
             statementElement.setEmail(admissionRequests.get(i).getCandidate().getCandidateProfile().getEmail());
             statementElement.setGrade(admissionRequests.get(i).getSumOfGrades());
             statementElement.setContactNumber(admissionRequests.get(i).getCandidate().getCandidateProfile().getPhoneNumber());
-            statementElement.setStatus((i > admissionRequests.get(i).getFaculty().getBudgetCapacity() ? "Contract" : "Budget"));
+            statementElement.setStatus((i < admissionRequests.get(i).getFaculty().getBudgetCapacity() ? "Budget" : "Contract"));
 
             statementElementList.add(statementElement);
 

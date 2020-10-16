@@ -15,7 +15,7 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #D6EAF8 ">
         <div>
-            <a href="../../index.jsp" class="navbar-brand" style="color:black" > Admission Board App </a>
+            <a href="../../../index.jsp" class="navbar-brand" style="color:black" > Admission Board App </a>
         </div>
 
         <ul class="navbar-nav">

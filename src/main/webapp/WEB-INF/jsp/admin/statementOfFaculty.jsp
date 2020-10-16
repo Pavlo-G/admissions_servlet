@@ -33,7 +33,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown my-2">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
@@ -50,11 +50,26 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item ml-4 mr-2">
+                <form class="form-inline ">
+                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=adminWorkspace" role="button">
+                        <fmt:message key="navbar.Admin_workspace_faculty"/></a>
+                </form>
 
-            <div class="nav-item dropdown ">
+            </li>
+            <li class="nav-item mr-2 ">
+                <form class="form-inline">
+                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=allCandidates" role="button">
+                        <fmt:message key="navbar.Admin_workspace_candidates"/></a>
+                </form>
+
+            </li>
+
+
+            <div class="nav-item dropdown my-2 ml-auto-auto ">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown ml-auto"><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
-                                                    data-toggle="dropdown"><fmt:message
+                    <li class="dropdown "><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
+                                             data-toggle="dropdown"><fmt:message
                             key="navbar.Account"/> ${sessionScope.candidate.username}
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdownPr">
@@ -66,7 +81,6 @@
                                     key="navbar.logout"/></a>
                         </div>
 
-                        </form>
                     </li>
                 </ul>
             </div>
@@ -86,8 +100,9 @@
                           action="controller" method="Post">
 
                         <input type="hidden" name="command" value="finalizeStatementForFaculty">
-                        <input type="hidden" name="facultyId"  value="${facultyId}">
-                        <button class="btn btn-danger" type="submit"><fmt:message key="statement.finalize_statement"/></button>
+                        <input type="hidden" name="facultyId" value="${facultyId}">
+                        <button class="btn btn-danger" type="submit"><fmt:message
+                                key="statement.finalize_statement"/></button>
                     </form>
 
                 </td>
@@ -101,17 +116,17 @@
                         <th style="width: 14.28%"><fmt:message key="statement.candidate_mail"/></th>
                         <th style="width: 14.28%"><fmt:message key="statement.candidate_number"/></th>
                         <th style="width: 14.28%"><fmt:message key="statement.candidate_grade"/></th>
+                        <th style="width: 14.28%"><fmt:message key="statement.date_time"/></th>
                         <th style="width: 14.28%"><fmt:message key="statement.budget_contract"/></th>
-
                     </tr>
                     </thead>
                     <tbody>
 
-                    <c:forEach var="req" items="${admissionRequestsList}">
+                    <c:forEach var="req" items="${admissionRequestsList}" varStatus="loop">
 
                         <tr>
 
-                            <td style="width: 14.28%"> <c:choose>
+                            <td style="width: 14.28%"><c:choose>
                                 <c:when test="${sessionScope.lang eq 'uk'}">
                                     <c:choose>
                                         <c:when test="${empty req.faculty.nameUk}">
@@ -133,7 +148,16 @@
                             <td style="width: 14.28%">${req.candidate.candidateProfile.email}</td>
                             <td style="width: 14.28%">${req.candidate.candidateProfile.phoneNumber}</td>
                             <td style="width: 14.28%">${req.getSumOfGrades()}</td>
+                            <td style="width: 14.28%">${req.creationDateTime}</td>
                             <td style="width: 14.28%">
+                                <c:choose>
+                                    <c:when test="${loop.index < req.faculty.budgetCapacity}">
+                                        Budget
+                                    </c:when>
+                                    <c:otherwise>
+                                        Contract
+                                    </c:otherwise>
+                                </c:choose>
 
 
                             </td>

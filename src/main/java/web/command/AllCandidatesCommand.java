@@ -21,6 +21,6 @@ public class AllCandidatesCommand implements Command {
         }
 
         request.setAttribute("candidatesList", candidatesList);
-        return "/WEB-INF/jsp/candidates.jsp";
+        return "/WEB-INF/jsp/adminAllCandidatesList.jsp";
     }
 }
