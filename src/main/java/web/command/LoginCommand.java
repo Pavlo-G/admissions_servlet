@@ -1,18 +1,22 @@
 package web.command;
 
+import DAO.mysql.ConnectionPoolHolder;
 import entity.Candidate;
 import entity.CandidateProfile;
+import entity.CandidateStatus;
 import entity.Role;
-import org.apache.log4j.Logger;
+
+
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
-    private static final Logger log = Logger.getLogger(LoginCommand.class);
-
+    static final Logger LOG = LoggerFactory.getLogger(LoginCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,10 +29,10 @@ public class LoginCommand implements Command {
         String errorMessage = null;
         String forward = "WEB-INF\\jsp\\login.jsp";
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            if(lang!=null
-                    &&lang.equals("uk")) {
+            if (lang != null
+                    && lang.equals("uk")) {
                 errorMessage = "Логін/Пароль не можуть буди пустими";
-            }else {
+            } else {
                 errorMessage = "Login/password cannot be empty";
             }
 
@@ -47,33 +51,47 @@ public class LoginCommand implements Command {
 
 
         if (candidate == null || !BCrypt.checkpw(password, candidate.getPassword())) {
-            if(lang!=null
-                    &&lang.equals("uk")) {
+            if (lang != null
+                    && lang.equals("uk")) {
                 errorMessage = "Юзера з таким логіном/паролем неіснує!";
-            }else {
+            } else {
                 errorMessage = "Cannot find user with such login/password!";
             }
 
             request.setAttribute("errorMessage", errorMessage);
             return forward;
-        } else {
-            Role candidateRole = candidate.getRole();
-
-
-            if (candidateRole == Role.ADMIN)
-                forward = "/controller?command=adminWorkspace";
-
-            if (candidateRole == Role.USER)
-                forward = "/controller?command=facultiesList";
-
-
-            session.setAttribute("candidate", candidate);
-            session.setAttribute("candidateRole", candidateRole);
-
-            log.info("Candidate " + candidate + " logged as " + candidateRole.getName());
-
-            return forward;
-
         }
+
+
+        if (candidate.getCandidateStatus() == CandidateStatus.BLOCKED) {
+            if (lang != null
+                    && lang.equals("uk")) {
+                errorMessage = "Юзер заблокований, зверніться до адміністратора";
+            } else {
+                errorMessage = "User blocked, contact admin";
+            }
+
+            request.setAttribute("errorMessage", errorMessage);
+            return forward;
+        }
+
+        Role candidateRole = candidate.getRole();
+
+
+        if (candidateRole == Role.ADMIN)
+            forward = "/controller?command=adminWorkspace";
+
+        if (candidateRole == Role.USER)
+            forward = "/controller?command=facultiesList";
+
+
+        session.setAttribute("candidate", candidate);
+        session.setAttribute("candidateRole", candidateRole);
+
+        LOG.info("Candidate " + candidate + " logged as " + candidateRole.getName());
+
+        return forward;
+
     }
 }
+

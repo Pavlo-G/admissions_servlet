@@ -17,6 +17,9 @@ public class CommandContainer {
         // common commands
         commandMap.put("facultiesList", new AllFacultiesCommand());
         commandMap.put("candidatesList", new AllCandidatesCommand());
+        commandMap.put("editCandidate", new EditCandidateCommand());
+        commandMap.put("editCandidateForm", new EditCandidateFormCommand());
+        commandMap.put("deleteCandidate", new DeleteCandidateCommand());
         commandMap.put("login", new LoginCommand());
         commandMap.put("registration", new RegistrationCommand());
         commandMap.put("logout", new LogoutCommand());

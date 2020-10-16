@@ -19,6 +19,6 @@ public class AdminWorkspaceCommand implements Command {
             throwables.printStackTrace();
         }
 
-        return "/WEB-INF/jsp/admin/admin_workspace.jsp";
+        return "/WEB-INF/jsp/admin/adminWorkspace.jsp";
     }
 }

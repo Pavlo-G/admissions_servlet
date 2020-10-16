@@ -10,11 +10,11 @@
 
 <html lang="${sessionScope.lang}">
 <c:set var="title" value="Faculties" scope="page"/>
+
 <head>
-    <title>Admin Workspace</title>
+    <title>Create Faculty</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -40,13 +40,12 @@
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdown">
                             <a class="dropdown-item"
-                               href="/controller?command=getStatementOfFaculty&facultyId=${facultyId}&sessionLocale=en">
+                               href="/controller?command=editCandidateForm&candidateId=${candidate.id}&sessionLocale=en">
                                 <fmt:message key="navbar.English"/></a>
                             <a class="dropdown-item"
-                               href="/controller?command=getStatementOfFaculty&facultyId=${facultyId}&sessionLocale=uk">
+                               href="/controller?command=editCandidateForm&candidateId=${candidate.id}&sessionLocale=uk">
                                 <fmt:message key="navbar.Ukrainian"/></a>
                         </div>
-
                     </li>
                 </ul>
             </li>
@@ -66,10 +65,11 @@
             </li>
 
 
-            <div class="nav-item dropdown my-2 ml-auto-auto ">
+
+            <div class="nav-item dropdown my-2 ">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown "><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
-                                             data-toggle="dropdown"><fmt:message
+                    <li class="dropdown ml-auto"><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
+                                                    data-toggle="dropdown"><fmt:message
                             key="navbar.Account"/> ${sessionScope.candidate.username}
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdownPr">
@@ -88,100 +88,77 @@
     </div>
 </nav>
 <br>
+<main class="registration-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Create new faculty</div>
+                    <div class="card-body">
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel-body">
-
-                <td align="center">
-
-                    <form class="form-inline my-2 my-lg-0"
-                          action="controller" method="Post">
-
-                        <input type="hidden" name="command" value="finalizeStatementForFaculty">
-                        <input type="hidden" name="facultyId" value="${facultyId}">
-                        <button class="btn btn-danger" type="submit"><fmt:message
-                                key="statement.finalize_statement"/></button>
-                    </form>
-
-                </td>
-                <br>
-                <table class="table table-striped table-bordered table-list">
-                    <thead>
-                    <tr>
-
-                        <th style="width: 14.28%"><fmt:message key="statement.faculty.name"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_name"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_mail"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_number"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.candidate_grade"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.date_time"/></th>
-                        <th style="width: 14.28%"><fmt:message key="statement.budget_contract"/></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <c:forEach var="req" items="${admissionRequestsList}" varStatus="loop">
-
-                        <tr>
-
-                            <td style="width: 14.28%"><c:choose>
-                                <c:when test="${sessionScope.lang eq 'uk'}">
-                                    <c:choose>
-                                        <c:when test="${empty req.faculty.nameUk}">
-                                            ${req.faculty.nameEn}
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${req.faculty.nameUk}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-                                <c:otherwise>
-                                    ${req.faculty.nameEn}
-                                </c:otherwise>
-                            </c:choose>
+                        <form action="controller" method="POST">
+                            <input type="hidden" name="command" value="editCandidate">
+                            <input type="hidden" name="candidateId" value="${candidate.id}">
 
 
-                            </td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.firstName} ${req.candidate.candidateProfile.lastName} </td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.email}</td>
-                            <td style="width: 14.28%">${req.candidate.candidateProfile.phoneNumber}</td>
-                            <td style="width: 14.28%">${req.getSumOfGrades()}</td>
-                            <td style="width: 14.28%">${req.creationDateTime}</td>
-                            <td style="width: 14.28%">
-                                <c:choose>
-                                    <c:when test="${loop.index < req.faculty.budgetCapacity}">
-                                        Budget
-                                    </c:when>
-                                    <c:otherwise>
-                                        Contract
-                                    </c:otherwise>
-                                </c:choose>
+
+                            <div class="form-group row">
+                                <label  class="col-md-4 col-form-label text-md-right">Username :</label>
+                                <div class="col-md-6 my-2">
+                                    ${candidate.username}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Email : </label>
+                                <div class="col-md-6 my-2">
+                                    ${candidate.candidateProfile.email}
+                                </div>
+                            </div>
 
 
-                            </td>
+                            <div class="form-group row">
+                                <label  class="col-md-4 col-form-label text-md-right">Role Of Candidate : </label>
+                                <div class="form-group">
+                                    <select  class="custom-select" name ="role" required>
+                                        <option selected="${candidate.getRole().name()}" value="USER">USER</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        </tr>
-                    </c:forEach>
+                            <div class="form-group row">
+                                <label for="candidateStatus" class="col-md-4 col-form-label text-md-right">Candidate Status :  </label>
+                                <div class="form-group">
+                                    <select class="custom-select" id="candidateStatus"  name="candidateStatus" required>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="BLOCKED">BLOCKED</option>
+                                    </select>
+                                </div>
+                            </div>
 
 
-                    </tbody>
 
-                </table>
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Save
+                                </button>
+                            </div>
 
-
+                        </form>
+                    </div>
+                </div>
             </div>
-
         </div>
-
-
     </div>
-</div>
+
+</main>
 
 
 </body>
 </html>
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

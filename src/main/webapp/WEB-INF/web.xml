@@ -63,11 +63,11 @@
               <param-name>admin</param-name>
               <param-value>adminWorkspace showRequestsListOfFaculty checkRequestFromFacultyReqList createNewFacultyForm
                 createNewFaculty editFacultyForm updateFaculty deleteFaculty changeAdmissionRequestStatus
-                blockUnblockFacultyRegistration getStatementOfFaculty finalizeStatementForFaculty </param-value>
+                blockUnblockFacultyRegistration getStatementOfFaculty finalizeStatementForFaculty candidatesList editCandidate deleteCandidate editCandidateForm</param-value>
           </init-param>
           <init-param>
               <param-name>user</param-name>
-              <param-value>facultiesList submitRequest  getSubmitRequestForm deleteAdmissionRequest</param-value>
+              <param-value>facultiesList submitRequest  getSubmitRequestForm deleteAdmissionRequest </param-value>
           </init-param>
           <init-param>
               <param-name>common</param-name>

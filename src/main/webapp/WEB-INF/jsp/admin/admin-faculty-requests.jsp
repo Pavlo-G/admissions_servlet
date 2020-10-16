@@ -58,7 +58,7 @@
             </li>
             <li class="nav-item mr-2 ">
                 <form class="form-inline">
-                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=allCandidates" role="button">
+                    <a class="btn btn-primary my-2 my-sm-0" href="/controller?command=candidatesList" role="button">
                         <fmt:message key="navbar.Admin_workspace_candidates"/></a>
                 </form>
 

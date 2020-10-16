@@ -1,6 +1,8 @@
 package web;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import web.command.Command;
 import web.command.CommandContainer;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
 
 public class ControllerServlet extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger(ControllerServlet.class);
+    static final Logger LOG = LoggerFactory.getLogger(ControllerServlet.class);
 
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {

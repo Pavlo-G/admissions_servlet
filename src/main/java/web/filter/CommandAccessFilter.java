@@ -1,7 +1,8 @@
 package web.filter;
 
 import entity.Role;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class CommandAccessFilter implements Filter {
-    private static final Logger log = Logger.getLogger(CommandAccessFilter.class);
+    static final Logger LOG = LoggerFactory.getLogger(CommandAccessFilter.class);
 
     private final static Map<Role, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
@@ -21,18 +22,18 @@ public class CommandAccessFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.debug("Filter starts");
+        LOG.debug("Filter starts");
 
         if (accessAllowed(request)) {
-            log.debug("Filter finished");
+            LOG.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
             String errorMessasge = "You do not have permission to access the requested resource";
 
             request.setAttribute("errorMessage", errorMessasge);
-            log.trace("Set the request attribute: errorMessage --> " + errorMessasge);
+            LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
 
-            request.getRequestDispatcher("/WEB-INF/jsp/error.jsp")
+            request.getRequestDispatcher("/WEB-INF/jsp/errorPage.jsp")
                     .forward(request, response);
         }
     }
@@ -60,22 +61,22 @@ public class CommandAccessFilter implements Filter {
     }
 
     public void init(FilterConfig fConfig) throws ServletException {
-        log.debug("Filter initialization starts");
+        LOG.debug("Filter initialization starts");
 
         // roles
         accessMap.put(Role.ADMIN, asList(fConfig.getInitParameter("admin")));
         accessMap.put(Role.USER, asList(fConfig.getInitParameter("user")));
-        log.trace("Access map --> " + accessMap);
+        LOG.trace("Access map --> " + accessMap);
 
         // commons
         commons = asList(fConfig.getInitParameter("common"));
-        log.trace("Common commands --> " + commons);
+        LOG.trace("Common commands --> " + commons);
 
         // out of control
         outOfControl = asList(fConfig.getInitParameter("out-of-control"));
-        log.trace("Out of control commands --> " + outOfControl);
+        LOG.trace("Out of control commands --> " + outOfControl);
 
-        log.debug("Filter initialization finished");
+        LOG.debug("Filter initialization finished");
     }
 
     /**

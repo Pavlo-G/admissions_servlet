@@ -1,12 +1,14 @@
 package DAO.mysql;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import javax.sql.DataSource;
 
 public class ConnectionPoolHolder {
-    private static final Logger log = Logger.getLogger(ConnectionPoolHolder.class);
+    static final Logger LOG = LoggerFactory.getLogger(ConnectionPoolHolder.class);
     private static volatile DataSource dataSource;
 
 

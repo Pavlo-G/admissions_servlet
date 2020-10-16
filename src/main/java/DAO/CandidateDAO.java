@@ -6,6 +6,7 @@ import entity.CandidateProfile;
 import javax.sql.RowSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -13,18 +14,18 @@ public interface CandidateDAO {
     void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
 
 
-    boolean deleteCandidate();
+    boolean deleteCandidate(Long id);
 
-    Candidate findCandidateById(int id);
+    Optional<Candidate> findCandidateById(Long id) throws SQLException;
 
     Candidate findCandidateByUsername(String username);
 
-    boolean updateCandidate();
+    boolean updateCandidate(String role,String candidateStatus,Long id);
 
     void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
 
 
-    Collection<Candidate> getAllCandidatesTO() throws SQLException;
+    List<Candidate> getAllCandidates() throws SQLException;
 
-    Optional<CandidateProfile> getCandidateProfile(Candidate candidate);
+    Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException;
 }

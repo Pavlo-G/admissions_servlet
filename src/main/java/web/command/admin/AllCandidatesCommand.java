@@ -1,6 +1,7 @@
-package web.command;
+package web.command.admin;
 
 import entity.Candidate;
+import web.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,12 +16,12 @@ public class AllCandidatesCommand implements Command {
 
         List<Candidate> candidatesList = null;
         try {
-            candidatesList = (List<Candidate>) daoFactory.getCandidateDAO().getAllCandidatesTO();
+            candidatesList =  daoFactory.getCandidateDAO().getAllCandidates();
         } catch (SQLException throwables) {
             throwables.printStackTrace();//add custom exception!
         }
 
         request.setAttribute("candidatesList", candidatesList);
-        return "/WEB-INF/jsp/adminAllCandidatesList.jsp";
+        return "/WEB-INF/jsp/admin/adminAllCandidatesList.jsp";
     }
 }

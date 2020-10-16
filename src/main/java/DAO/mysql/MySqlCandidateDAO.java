@@ -5,10 +5,7 @@ import DAO.mapper.CandidateMapper;
 import DAO.mapper.CandidateProfileMapper;
 import entity.Candidate;
 import entity.CandidateProfile;
-import entity.CandidateStatus;
-import entity.Role;
 
-import javax.sql.RowSet;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,63 +97,112 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
 
     @Override
-    public boolean deleteCandidate() {
+    public boolean deleteCandidate(Long id) {
+        String sql = " DELETE FROM candidate " +
+                " WHERE id=?;";
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
         return false;
     }
 
     @Override
-    public Candidate findCandidateById(int id) {
-        return null;
-    }
+    public Optional<Candidate> findCandidateById(Long id) throws SQLException {
 
-    @Override
-    public Candidate findCandidateByUsername(String username) {
-        Candidate candidate = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        Connection con = null;
-        try {
-            con = connection;
-            pstmt = con.prepareStatement("SELECT c.id, c.candidate_status, c.password, c.role, c.username FROM  candidate c  WHERE username = ?");
-            pstmt.setString(1, username);
-            rs = pstmt.executeQuery();
-            CandidateMapper candidateMapper = new CandidateMapper();
-            if (rs.next())
-                candidate = candidateMapper.extractFromResultSet(rs);
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
+        Optional<Candidate> candidate = Optional.empty();
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement("SELECT c.id, candidate_status, password, role, username," +
+                     " cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id " +
+                     "FROM candidate c  left join candidate_profile cp on c.id = cp.candidate_id WHERE c.id =?")) {
+            pstmt.setLong(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                CandidateMapper candidateMapper = new CandidateMapper();
+                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
+                while (rs.next()) {
+                    candidate = candidateMapper.extractFromResultSetOpt(rs);
+                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
+                    candidate.ifPresent(c -> c.setCandidateProfile(candidateProfile));
+                }
 
-            ex.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-
-                pstmt.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException ex) {
+                throw new SQLException("Cannot get  candidate with id: !" + id, ex);
             }
+        } catch (SQLException exp) {
+            throw new SQLException("Cannot get  candidate with id: !" + id, exp);
         }
         return candidate;
     }
 
     @Override
-    public boolean updateCandidate() {
+    public Candidate findCandidateByUsername(String username) {
+        Candidate candidate = null;
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(
+                     "SELECT c.id, c.candidate_status, c.password, c.role, c.username " +
+                             "FROM  candidate c " +
+                             " WHERE username = ?;")) {
+            pstmt.setString(1, username);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                CandidateMapper candidateMapper = new CandidateMapper();
+                if (rs.next())
+                    candidate = candidateMapper.extractFromResultSet(rs);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+        } catch (SQLException exp) {
+            exp.printStackTrace();
+        }
+        return candidate;
+    }
+
+    @Override
+    public boolean updateCandidate(String role, String candidateStatus, Long id) {
+        String sql = " UPDATE  candidate " +
+                "SET role=?,candidate_status=? " +
+                " WHERE id=?;";
+
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, role);
+            pstmt.setString(2, candidateStatus);
+            pstmt.setLong(3, id);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
         return false;
     }
 
-
-
     @Override
-    public List<Candidate> getAllCandidatesTO() throws SQLException {
+    public List<Candidate> getAllCandidates() throws SQLException {
         List<Candidate> listCandidates = new ArrayList<>();
 
         try (Connection con = connection;
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_CANDIDATES)) {
+             ResultSet rs = stmt.executeQuery("SELECT c.id, candidate_status, password, role, username," +
+                     " cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id " +
+                     "FROM candidate c left join candidate_profile cp on c.id = cp.candidate_id")) {
             CandidateMapper candidateMapper = new CandidateMapper();
+            CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
             while (rs.next()) {
-                listCandidates.add(candidateMapper.extractFromResultSet(rs));
+                Candidate candidate = candidateMapper.extractFromResultSet(rs);
+                CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
+                candidate.setCandidateProfile(candidateProfile);
+                listCandidates.add(candidate);
+
             }
         } catch (SQLException ex) {
 
@@ -169,7 +215,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
 
     @Override
-    public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) {
+    public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException {
         Optional<CandidateProfile> result = Optional.empty();
         try (Connection con = connection;
              PreparedStatement ps = con.prepareCall("SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id From candidate_profile cp Where candidate_id=?")) {
@@ -181,8 +227,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
                     result = Optional.of(mapper.extractFromResultSet(rs));
                 }
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException ex) {
+            throw new SQLException(ex);
         }
 
         return result;
