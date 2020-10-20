@@ -133,7 +133,7 @@
                         <tbody>
 
                         <c:forEach var="faculty" items="${facultiesList}">
-                            <jsp:useBean id="faculty" type="entity.Faculty"/>
+                            <jsp:useBean id="faculty" type="model.entity.Faculty"/>
                             <tr>
 
 

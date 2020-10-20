@@ -105,7 +105,7 @@
 
 
 <br>
-<jsp:useBean id="candidateProfile" type="entity.CandidateProfile" scope="request"/>
+<jsp:useBean id="candidateProfile" type="model.entity.CandidateProfile" scope="request"/>
 
 <div class="container">
     <div class="row">

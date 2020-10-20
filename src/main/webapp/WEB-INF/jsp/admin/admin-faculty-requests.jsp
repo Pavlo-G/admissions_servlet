@@ -125,7 +125,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <jsp:useBean id="faculty" type="entity.Faculty" scope="request"/>
+                        <jsp:useBean id="faculty" type="model.entity.Faculty" scope="request"/>
                         <c:forEach var="req" items="${faculty.admissionRequestList}">
 
                             <tr>

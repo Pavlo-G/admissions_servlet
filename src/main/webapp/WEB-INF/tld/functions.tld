@@ -10,7 +10,7 @@
 
     <function>
         <name>formatDateTime</name>
-        <function-class>web.util.DateTimeUtil</function-class>
+        <function-class>utils.util.DateTimeUtil</function-class>
         <function-signature>java.lang.String toString(java.time.LocalDateTime)</function-signature>
     </function>
 </taglib>

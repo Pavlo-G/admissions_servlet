@@ -89,7 +89,7 @@
 </nav>
 
 
-<jsp:useBean id="faculty" scope="request" type="entity.Faculty"/>
+<jsp:useBean id="faculty" scope="request" type="model.entity.Faculty"/>
 
 <br>
 <main class="registration-form">

@@ -76,3 +76,13 @@
 2020-10-20 22:12:49,771 INFO [http-nio-8080-exec-7] w.c.LoginCommand [LoginCommand.java:106] Candidate entity.Candidate@400aaf26 logged as ADMIN
 2020-10-20 22:48:40,156 INFO [http-nio-8080-exec-1] w.c.LoginCommand [LoginCommand.java:109] Candidate entity.Candidate@43980032 logged as ADMIN
 2020-10-20 22:53:34,988 INFO [http-nio-8080-exec-6] w.c.LoginCommand [LoginCommand.java:109] Candidate entity.Candidate@57341695 logged as ADMIN
+2020-10-20 23:48:19,263 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@c0229b1 logged as ADMIN
+2020-10-21 00:08:37,487 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@48096d33 logged as USER
+2020-10-21 00:09:14,108 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@2d33a1c5 logged as ADMIN
+2020-10-21 00:23:48,493 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@7d554a5 logged as ADMIN
+2020-10-21 00:27:17,385 INFO [http-nio-8080-exec-9] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted
+2020-10-21 00:28:26,981 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@3d609626 logged as ADMIN
+2020-10-21 00:28:31,902 INFO [http-nio-8080-exec-9] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted
+2020-10-21 00:29:55,714 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@2466722f logged as ADMIN
+2020-10-21 00:33:02,208 INFO [http-nio-8080-exec-10] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted
+2020-10-21 00:33:14,881 INFO [http-nio-8080-exec-4] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted

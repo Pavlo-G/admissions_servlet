@@ -96,7 +96,7 @@
                     <div class="card-header">Create new faculty</div>
                     <div class="card-body">
 
-                        <form action="controller" method="POST">
+                        <form action="controller" method="post">
                             <input type="hidden" name="command" value="editCandidate">
                             <input type="hidden" name="candidateId" value="${candidate.id}">
 

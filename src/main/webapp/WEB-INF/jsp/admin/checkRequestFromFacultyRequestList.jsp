@@ -91,7 +91,7 @@
         </ul>
     </div>
 </nav>
-<jsp:useBean id="admissionRequest" type="entity.AdmissionRequest" scope="request"/>
+<jsp:useBean id="admissionRequest" type="model.entity.AdmissionRequest" scope="request"/>
 <br>
 <div class="container">
     <div class="row">

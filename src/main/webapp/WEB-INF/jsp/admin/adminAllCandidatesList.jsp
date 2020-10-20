@@ -120,7 +120,7 @@
                         <tbody>
 
                         <c:forEach var="candidate" items="${candidatesList}">
-                        <jsp:useBean id="candidate" type="entity.Candidate"/>
+                        <jsp:useBean id="candidate" type="model.entity.Candidate"/>
                         <tr>
 
                             <td>${candidate.id}</td>

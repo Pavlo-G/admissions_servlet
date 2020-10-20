@@ -20,8 +20,8 @@
 </head>
 <body>
 
-<jsp:useBean id="candidate" type="entity.Candidate" scope="request"/>
-<jsp:useBean id="faculty" type="entity.Faculty" scope="request"/>
+<jsp:useBean id="candidate" type="model.entity.Candidate" scope="request"/>
+<jsp:useBean id="faculty" type="model.entity.Faculty" scope="request"/>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <c:choose>
@@ -48,12 +48,7 @@
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdown">
-                            <%--                            <form action="controller" method="post">--%>
-                            <%--                                <input type="hidden" name="command" value="changeLanguage">--%>
-                            <%--                                <input type="hidden" name="lang" value="en">--%>
-                            <%--                            <button type="submit">--%>
-                            <%--                                <fmt:message key="navbar.English" /></button>>--%>
-                            <%--                            </form>--%>
+
                             <a class="dropdown-item" href="/controller?command=getSubmitRequestForm&sessionLocale=en&facultyId=${faculty.id}">
                                 <fmt:message key="navbar.English"/></a>
                             <a class="dropdown-item" href="/controller?command=getSubmitRequestForm&sessionLocale=uk&facultyId=${faculty.id}">
