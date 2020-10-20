@@ -12,13 +12,13 @@ public interface CandidateDAO {
     void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
 
 
-    boolean deleteCandidate(Long id);
+    boolean deleteCandidate(Long id) throws SQLException;
 
     Optional<Candidate> findCandidateById(Long id) throws SQLException;
 
-    Candidate findCandidateByUsername(String username);
+    Candidate findCandidateByUsername(String username) throws SQLException;
 
-    boolean updateCandidate(String role,String candidateStatus,Long id);
+    boolean updateCandidate(String role,String candidateStatus,Long id) throws SQLException;
 
     void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
 

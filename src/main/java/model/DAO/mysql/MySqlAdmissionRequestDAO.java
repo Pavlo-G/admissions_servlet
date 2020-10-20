@@ -60,7 +60,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id) {
+    public List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id) throws SQLException {
 
         List<AdmissionRequest> admissionRequestList = new ArrayList<>();
 
@@ -97,7 +97,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot find a admission requests for candidate with id: " + id, e);
         }
         return admissionRequestList;
     }
@@ -119,7 +119,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public Optional<AdmissionRequest> findAdmissionRequest(Long id) {
+    public Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException {
 
         String sql = "SELECT cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
                 "                f.id, budget_capacity, description_en, name_en, name_uk,description_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open, " +
@@ -152,7 +152,7 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot find a admission request with id: " + id, e);
         }
 
         return Optional.empty();

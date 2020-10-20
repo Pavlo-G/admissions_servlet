@@ -28,7 +28,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
     @Override
-    public int createFaculty(Faculty faculty) {
+    public int createFaculty(Faculty faculty) throws SQLException {
         String sql = " INSERT INTO faculty  " +
                 " (name_en,name_uk,description_en,description_uk,budget_capacity, total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en,req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -51,10 +51,10 @@ public class MySqlFacultyDAO implements FacultyDAO {
             return pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot create faculty", e);
 
         }
-        return 0;
+
     }
 
 
@@ -73,7 +73,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
     @Override
-    public Faculty findFaculty(Long id) {
+    public Faculty findFaculty(Long id) throws SQLException {
         Faculty faculty = null;
         Faculty facultyUnique = null;
         Map<Long, Faculty> facultyMap = new HashMap<>();
@@ -111,13 +111,13 @@ public class MySqlFacultyDAO implements FacultyDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot find faculty with id: " + id, e);
         }
         return facultyUnique;
     }
 
     @Override
-    public boolean updateFaculty(Faculty faculty) {
+    public boolean updateFaculty(Faculty faculty) throws SQLException {
 
 
         String sql = " UPDATE  faculty " +
@@ -144,15 +144,14 @@ public class MySqlFacultyDAO implements FacultyDAO {
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot find update faculty ", e);
 
         }
-        return false;
     }
 
 
     @Override
-    public boolean changeAdmissionOpenStatus(String action, Long facultyId) {
+    public boolean changeAdmissionOpenStatus(String action, Long facultyId) throws SQLException {
         String sql = " UPDATE  faculty " +
                 "SET admission_open=?" +
                 " WHERE id=?;";
@@ -166,10 +165,10 @@ public class MySqlFacultyDAO implements FacultyDAO {
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new SQLException("Cannot change status for faculty with id: " + facultyId, e);
 
         }
-        return false;
+
     }
 
     @Override

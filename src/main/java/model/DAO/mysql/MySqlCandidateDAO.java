@@ -100,14 +100,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
 
     @Override
-    public boolean deleteCandidate(Long id) {
+    public boolean deleteCandidate(Long id) throws SQLException {
         String sql = "DELETE FROM candidate WHERE id=?;";
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setLong(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            return false;
+           throw new SQLException("Can not delete candidate",e);
         }
 
     }
@@ -140,7 +140,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
     @Override
-    public Candidate findCandidateByUsername(String username) {
+    public Candidate findCandidateByUsername(String username) throws SQLException {
         Candidate candidate = null;
 
         try (Connection con = connection;
@@ -156,17 +156,17 @@ public class MySqlCandidateDAO implements CandidateDAO {
                     candidate = candidateMapper.extractFromResultSet(rs);
 
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                throw new SQLException("Cannot find  candidate with username: !" + username, ex);
             }
 
         } catch (SQLException exp) {
-            exp.printStackTrace();
+            throw new SQLException("Cannot find  candidate with username: !" + username, exp);
         }
         return candidate;
     }
 
     @Override
-    public boolean updateCandidate(String role, String candidateStatus, Long id) {
+    public boolean updateCandidate(String role, String candidateStatus, Long id) throws SQLException {
         String sql = " UPDATE  candidate " +
                 "SET role=?,candidate_status=? " +
                 " WHERE id=?;";
@@ -181,10 +181,9 @@ public class MySqlCandidateDAO implements CandidateDAO {
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            throw new SQLException("Cannot update  candidate with id: " +id, e);
         }
-        return false;
+
     }
 
     @Override
