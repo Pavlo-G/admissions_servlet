@@ -38,7 +38,8 @@ public class ControllerServlet extends HttpServlet {
         String forward = command.execute(request, response);
 
 
-        if (forward != null) {
+
+        if (forward != null&&forward.isEmpty()) {
             RequestDispatcher disp = request.getRequestDispatcher(forward);
             disp.forward(request, response);
         }

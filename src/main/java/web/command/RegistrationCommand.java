@@ -5,16 +5,19 @@ import entity.CandidateProfile;
 import entity.CandidateStatus;
 import entity.Role;
 import org.mindrot.jbcrypt.BCrypt;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import web.validation.EmailValidator;
 import web.validation.FieldValidator;
 import web.validation.PhoneValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class RegistrationCommand implements Command {
-
+    static final Logger LOG = LoggerFactory.getLogger(RegistrationCommand.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -190,6 +193,15 @@ public class RegistrationCommand implements Command {
 
         }
 
-        return "/WEB-INF/jsp/login.jsp";
+        try {
+            response.sendRedirect("/WEB-INF/jsp/login.jsp");
+        } catch (IOException e) {
+            LOG.error("Bad Request!",e);
+            errorMessage="Bad request!";
+            request.setAttribute("errorMessage", errorMessage);
+        }
+
+
+        return forward;
     }
 }

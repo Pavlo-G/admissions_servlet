@@ -1,16 +1,21 @@
 package web.command.admin;
 
 import entity.Faculty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import web.command.Command;
 import web.validation.FacultyCapacityValidator;
 import web.validation.FieldValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class CreateNewFacultyCommand implements Command {
+    static final Logger LOG = LoggerFactory.getLogger(CreateNewFacultyCommand.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
 
         String lang = (String) request.getSession().getAttribute("lang");
         String errorMessage = null;
@@ -179,10 +184,16 @@ public class CreateNewFacultyCommand implements Command {
         faculty.setRequiredSubject3En(requiredSubject3En);
         faculty.setRequiredSubject3Uk(requiredSubject3Uk);
         faculty.setAdmissionOpen(true);
-        daoFactory.getFacultyDAO().
 
-                createFaculty(faculty);
+        daoFactory.getFacultyDAO().createFaculty(faculty);
 
-        return "/controller?command=adminWorkspace";
+        try {
+            forward="";
+            response.sendRedirect("/controller?command=adminWorkspace");
+        } catch (IOException e) {
+            LOG.error("Bad Request!", e);
+        }
+
+        return forward;
     }
 }

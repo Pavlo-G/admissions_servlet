@@ -40,6 +40,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(2, candidate.getPassword());
             pstmt.setString(3, candidate.getRole().getName());
             pstmt.setString(4, candidate.getCandidateStatus().name());
+
             candidateId = getGeneratedKey(pstmt);
 
 
@@ -107,7 +108,6 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setLong(1, id);
             return pstmt.executeUpdate() > 0;
         } catch (SQLException e) {
-
             return false;
         }
 

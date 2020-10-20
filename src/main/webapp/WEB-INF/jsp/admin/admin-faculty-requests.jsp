@@ -153,7 +153,7 @@
                                 <td>${req.admissionRequestStatus.name()}</td>
                                 <td>
                                     <form
-                                            action="/controller" method="post">
+                                            action="/controller" method="get">
                                         <input type="hidden" name="command" value="checkRequestFromFacultyReqList">
                                         <input type="hidden" name="requestId" value="${req.id}">
                                         <button class="btn btn-primary" type="submit"><fmt:message key="admin.requests_of_faculty.check_request"/></button>

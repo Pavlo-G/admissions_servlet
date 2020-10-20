@@ -111,7 +111,7 @@
                 <div class="card">
                     <div class="card-header"><fmt:message key="faculty.update_faculty_information"/></div>
                     <div class="card-body">
-                        <@errors.errors/>
+
                         <form action="controller" method="POST">
                             <input type="hidden" name="command" value="updateFaculty">
                             <input type="hidden" name="facultyId" value="${faculty.id}">
@@ -168,7 +168,7 @@
 
                             <div class="form-group row">
                                 <label for="totalCapacity" class="col-md-4 col-form-label text-md-right"><fmt:message
-                                        key="admin.budget_capacity"/></label>
+                                        key="admin.total_capacity"/></label>
                                 <div class="col-md-6">
                                     <input type="number" id="totalCapacity" class="form-control"
                                            name="totalCapacity" value="${faculty.totalCapacity}" required>

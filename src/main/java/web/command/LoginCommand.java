@@ -7,6 +7,7 @@ import entity.CandidateStatus;
 import entity.Role;
 
 
+import org.jfree.util.Log;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 public class LoginCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(LoginCommand.class);
@@ -78,12 +80,28 @@ public class LoginCommand implements Command {
         Role candidateRole = candidate.getRole();
 
 
-        if (candidateRole == Role.ADMIN)
-            forward = "/controller?command=adminWorkspace";
+        if (candidateRole == Role.ADMIN) {
+            try {
+                forward="";
+                response.sendRedirect("/controller?command=adminWorkspace");
+            } catch (IOException e) {
+                errorMessage = "Bad Request!";
+                request.setAttribute("errorMessage", errorMessage);
+            }
+        }
 
-        if (candidateRole == Role.USER)
-            forward = "/controller?command=facultiesList";
 
+        if (candidateRole == Role.USER) {
+            try {
+                forward="";
+                response.sendRedirect("/controller?command=facultiesList");
+            } catch (IOException e) {
+                LOG.error("Bad Request!",e);
+                errorMessage = "Bad Request!";
+                request.setAttribute("errorMessage", errorMessage);
+            }
+
+        }
 
         session.setAttribute("candidate", candidate);
         session.setAttribute("candidateRole", candidateRole);
