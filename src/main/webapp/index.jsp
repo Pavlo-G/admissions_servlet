@@ -5,6 +5,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
+
+
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="resources"/>
 
@@ -104,6 +106,22 @@
 <br>
 
 <h1 align="center"><fmt:message key="main.greeting"/></h1>
+
+
+<p><strong><span style="font-family: Verdana, Geneva, sans-serif;">Приймальна комісія&nbsp;</span></strong></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">Система має перелік факультетів, для якого необхідно реалізувати можливість сортування:</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- по імені (a-z, z-a);&nbsp;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- за кількістю бюджетних місць;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- за загальною кількістю місць.&nbsp;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">Абітурієнт реєструється в системі. Під час реєстрації необхідно ввести ПІБ, email, місто, область, назву навчального закладу (опціонально: прикріпити скан атестату з оцінками).</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;Абітурієнт може зареєструватися на один або декілька факультетів. При реєстрації на факультет студент вводить результати з відповідних предметів, а також оцінки з атестату.</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;Адміністратор системи володіє правами:</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- додавання, видалення або редагування факультету; - блокування або&nbsp; розблокування абітурієнта;&nbsp;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- додавання результатів абітурієнтів до Відомості;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">&nbsp;- фіналізації Відомості на зарахування.&nbsp;</span></p>
+<p><span style="font-family: Verdana, Geneva, sans-serif;">Після фіналізації відомості система підраховує суму балів і визначає абітурієнтів, зарахованих до навчального закладу на бюджетні місця, на контракт. (За бажанням додати оповіщення про результат зарахування на певну форму навчання, а також не зарахування за допомогою відправки email абітурієнтові).</span></p>
+
+
 </body>
 
 </html>

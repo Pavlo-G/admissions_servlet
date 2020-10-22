@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface CandidateDAO {
+public interface CandidateDAO extends GenericDao<Candidate> {
     void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
 
 
@@ -16,7 +16,7 @@ public interface CandidateDAO {
 
     Optional<Candidate> findCandidateById(Long id) throws SQLException;
 
-    Candidate findCandidateByUsername(String username) throws SQLException;
+    Optional<Candidate> findCandidateByUsername(String username) throws SQLException;
 
     boolean updateCandidate(String role,String candidateStatus,Long id) throws SQLException;
 

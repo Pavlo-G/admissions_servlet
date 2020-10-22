@@ -1,6 +1,7 @@
 package controller.command.admin;
 
 
+import com.sun.xml.internal.bind.v2.TODO;
 import model.entity.AdmissionRequest;
 import model.entity.Faculty;
 import model.entity.StatementElement;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +33,20 @@ public class FinalizeStatementForFacultyCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String action = "block";
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
-        Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
-        daoFactory.getFacultyDAO().changeAdmissionOpenStatus(action, facultyId);
+        Faculty faculty = null;
+        try {
+            faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            daoFactory.getFacultyDAO().changeAdmissionOpenStatus(action, facultyId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            //TODO rework this full class
+        }
+
+
         List<AdmissionRequest> admissionRequestsListSorted = new GetStatementOfFacultyCommand().getSortedListOfRequestForFaculty(faculty);
         List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
         try {

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public interface FacultyDAO {
+public interface FacultyDAO extends GenericDao<Faculty>{
 
     public int createFaculty(Faculty faculty) throws SQLException;
 

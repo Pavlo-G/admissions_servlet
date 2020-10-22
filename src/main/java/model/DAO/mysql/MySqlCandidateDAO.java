@@ -140,8 +140,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
     @Override
-    public Candidate findCandidateByUsername(String username) throws SQLException {
-        Candidate candidate = null;
+    public Optional<Candidate> findCandidateByUsername(String username) throws SQLException {
+       Optional<Candidate> candidate= Optional.empty();
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(
@@ -153,7 +153,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
                 CandidateMapper candidateMapper = new CandidateMapper();
                 if (rs.next())
-                    candidate = candidateMapper.extractFromResultSet(rs);
+                    candidate = Optional.ofNullable(candidateMapper.extractFromResultSet(rs));
 
             } catch (SQLException ex) {
                 throw new SQLException("Cannot find  candidate with username: !" + username, ex);
@@ -216,7 +216,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     @Override
     public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException {
-        Optional<CandidateProfile> result = Optional.empty();
+        Optional<CandidateProfile> candidateProfile = Optional.empty();
         try (Connection con = connection;
              PreparedStatement ps = con.prepareCall("SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id From candidate_profile cp Where candidate_id=?")) {
             ps.setLong(1, candidate.getId());
@@ -224,14 +224,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
                 CandidateProfileMapper mapper = new CandidateProfileMapper();
                 if (rs.next()) {
-                    result = Optional.of(mapper.extractFromResultSet(rs));
+                    candidateProfile = Optional.of(mapper.extractFromResultSet(rs));
                 }
             }
         } catch (SQLException ex) {
             throw new SQLException(ex);
         }
 
-        return result;
+        return candidateProfile;
     }
 
 

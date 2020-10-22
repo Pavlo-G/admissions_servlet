@@ -7,6 +7,7 @@ import controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,13 @@ public class GetStatementOfFacultyCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
-        Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+
+        Faculty faculty = null;
+        try {
+            faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         List<AdmissionRequest> admissionRequestsList = getSortedListOfRequestForFaculty(faculty);
 

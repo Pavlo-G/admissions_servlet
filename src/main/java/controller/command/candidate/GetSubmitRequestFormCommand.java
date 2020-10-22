@@ -27,7 +27,14 @@ public class GetSubmitRequestFormCommand implements Command {
 
         candidate.setCandidateProfile(candidateProfile);
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
-        Faculty faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+
+        Faculty faculty = null;
+        try {
+            faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
         request.setAttribute("candidate", candidate);
         request.setAttribute("faculty", faculty);
 

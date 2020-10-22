@@ -1,5 +1,6 @@
 package controller.command.admin;
 
+import Service.FacultyService;
 import model.entity.Faculty;
 import controller.command.Command;
 import org.slf4j.Logger;
@@ -12,15 +13,18 @@ import java.util.List;
 
 public class AdminWorkspaceCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(AdminWorkspaceCommand.class);
+    private FacultyService facultyService;
+
+
+    AdminWorkspaceCommand(FacultyService facultyService){
+        this.facultyService=facultyService;
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
-        try {
-            List<Faculty> facultyList = daoFactory.getFacultyDAO().getAllFaculties();
+            List<Faculty> facultyList = facultyService.getAllFaculties();
             request.setAttribute("facultiesList", facultyList);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
 
         return "/WEB-INF/jsp/admin/adminWorkspace.jsp";
     }

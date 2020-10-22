@@ -1,5 +1,7 @@
 package controller.command;
 
+
+import listener.SessionListener;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 import model.entity.CandidateStatus;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
+
 
 public class LoginCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(LoginCommand.class);
@@ -40,24 +44,33 @@ public class LoginCommand implements Command {
             return forward;
         }
 
-        Candidate candidate = daoFactory.getCandidateDAO().findCandidateByUsername(username);
+        Candidate candidate = null;
         try {
-            CandidateProfile candidateProfile = daoFactory.getCandidateDAO().getCandidateProfile(candidate)
-                    .orElseThrow(() -> new Exception());
-            candidate.setCandidateProfile(candidateProfile);
+            candidate = daoFactory.getCandidateDAO().findCandidateByUsername(username).orElseThrow(Exception::new);
+        } catch (Exception e) {
+            errorMessage = "Candidate not found!";
+            request.setAttribute("errorMessage", errorMessage);
+            return forward;
+        }
+        CandidateProfile candidateProfile=null;
+        try {
+           candidateProfile = daoFactory.getCandidateDAO().getCandidateProfile(candidate)
+                    .orElseThrow(Exception::new);
+
         } catch (Exception e) {
             errorMessage = "Candidate Profile not found!";
+            request.setAttribute("errorMessage", errorMessage);
+            return forward;
         }
+        candidate.setCandidateProfile(candidateProfile);
 
-
-        if (candidate == null || !BCrypt.checkpw(password, candidate.getPassword())) {
+        if (!BCrypt.checkpw(password, candidate.getPassword())) {
             if (lang != null
                     && lang.equals("uk")) {
                 errorMessage = "Юзера з таким логіном/паролем неіснує!";
             } else {
                 errorMessage = "Cannot find user with such login/password!";
             }
-
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
@@ -74,6 +87,21 @@ public class LoginCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
+        if (SessionListener.getCandidatesInSessions().containsKey(candidate.getUsername())) {
+            if (lang != null
+                    && lang.equals("uk")) {
+                errorMessage = "Юзер вже у программі";
+            } else {
+                errorMessage = "User already inside";
+            }
+
+            request.setAttribute("errorMessage", errorMessage);
+            return forward;
+        }else{
+           SessionListener.getCandidatesInSessions().put(candidate.getUsername(),session.getId());
+        }
+
+
 
         Role candidateRole = candidate.getRole();
 
@@ -83,6 +111,7 @@ public class LoginCommand implements Command {
                 forward="";
                 response.sendRedirect("/controller?command=adminWorkspace");
             } catch (IOException e) {
+                LOG.error("Bad Request!",e);
                 errorMessage = "Bad Request!";
                 request.setAttribute("errorMessage", errorMessage);
             }
@@ -104,7 +133,7 @@ public class LoginCommand implements Command {
         session.setAttribute("candidate", candidate);
         session.setAttribute("candidateRole", candidateRole);
 
-        LOG.info("Candidate " + candidate + " logged as " + candidateRole.getName());
+        LOG.info("Candidate {} logged as {}",candidate.getUsername(), candidateRole.getName());
 
         return forward;
 

@@ -86,3 +86,29 @@
 2020-10-21 00:29:55,714 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@2466722f logged as ADMIN
 2020-10-21 00:33:02,208 INFO [http-nio-8080-exec-10] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted
 2020-10-21 00:33:14,881 INFO [http-nio-8080-exec-4] c.c.a.DeleteCandidateCommand [DeleteCandidateCommand.java:19] candidate with id: 191 deleted
+2020-10-21 00:47:51,582 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:107] Candidate model.entity.Candidate@706938b4 logged as USER
+2020-10-21 10:24:09,416 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@2aa38774 logged as ADMIN
+2020-10-21 10:24:28,283 INFO [http-nio-8080-exec-1] c.c.a.CreateNewFacultyCommand [CreateNewFacultyCommand.java:191] Faculty created
+2020-10-21 10:29:25,617 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@876c079 logged as ADMIN
+2020-10-21 10:29:44,714 INFO [http-nio-8080-exec-2] c.c.a.CreateNewFacultyCommand [CreateNewFacultyCommand.java:191] Faculty created
+2020-10-21 10:29:56,169 INFO [http-nio-8080-exec-7] c.c.a.DeleteFacultyCommand [DeleteFacultyCommand.java:21] Faculty with id 184 deleted
+2020-10-21 10:30:06,162 INFO [http-nio-8080-exec-9] c.c.a.DeleteFacultyCommand [DeleteFacultyCommand.java:21] Faculty with id 183 deleted
+2020-10-22 17:05:49,509 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@27f7544b logged as ADMIN
+2020-10-22 17:08:23,026 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@1c7236d4 logged as ADMIN
+2020-10-22 17:11:15,941 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@5510db37 logged as ADMIN
+2020-10-22 17:17:10,114 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@6095e620 logged as USER
+2020-10-22 17:17:58,257 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@70f6f9af logged as USER
+2020-10-22 17:53:58,202 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@7c4036a7 logged as ADMIN
+2020-10-22 18:14:47,041 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:113] Candidate model.entity.Candidate@65810d35 logged as USER
+2020-10-22 18:16:35,605 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:126] Candidate model.entity.Candidate@6dc43861 logged as ADMIN
+2020-10-22 18:18:12,027 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:126] Candidate model.entity.Candidate@5f549148 logged as USER
+2020-10-22 18:25:31,781 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:126] Candidate model.entity.Candidate@377283d logged as ADMIN
+2020-10-22 18:35:31,751 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@5ff5d16 logged as USER
+2020-10-22 18:42:17,532 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@16124ca8 logged as USER
+2020-10-22 18:42:54,634 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@2799ce00 logged as ADMIN
+2020-10-22 18:44:02,412 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@52d502e0 logged as USER
+2020-10-22 19:12:40,011 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@5d24498f logged as USER
+2020-10-22 19:15:22,211 INFO [http-nio-8080-exec-1] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@5efdbf62 logged as USER
+2020-10-22 19:20:23,979 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@7335825f logged as USER
+2020-10-22 19:25:48,950 INFO [http-nio-8080-exec-1] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@2ce8f7f6 logged as USER
+2020-10-22 19:29:29,623 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:131] Candidate model.entity.Candidate@7c81f5ea logged as USER

@@ -10,11 +10,13 @@ import utils.validation.FieldValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UpdateFacultyCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(UpdateFacultyCommand.class);
+
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String lang = (String) request.getSession().getAttribute("lang");
         String errorMessage = null;
@@ -184,16 +186,17 @@ public class UpdateFacultyCommand implements Command {
         faculty.setRequiredSubject2Uk(requiredSubject2Uk);
         faculty.setRequiredSubject3En(requiredSubject3En);
         faculty.setRequiredSubject3Uk(requiredSubject3Uk);
-        daoFactory.getFacultyDAO().updateFaculty(faculty);
-
 
         try {
-            forward="";
-            response.sendRedirect("/controller?command=adminWorkspace");
-        } catch (IOException e) {
-            LOG.error("Bad Request!", e);
+            daoFactory.getFacultyDAO().updateFaculty(faculty);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
-        return forward;
+
+        response.sendRedirect("/controller?command=adminWorkspace");
+
+
+        return "";
     }
 }

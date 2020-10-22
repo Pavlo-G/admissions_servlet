@@ -13,20 +13,20 @@ public class DeleteFacultyCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(DeleteFacultyCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-
+        Long facultyId = Long.valueOf(request.getParameter("facultyId"));
         try {
-            daoFactory.getFacultyDAO().deleteFaculty(Long.valueOf(request.getParameter("facultyId")));
+            daoFactory.getFacultyDAO().deleteFaculty(facultyId);
+            LOG.info("Faculty with id {} deleted",facultyId);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            LOG.info(" Can not delete faculty with id {}",facultyId);
+
         }
 
-        try {
-            response.sendRedirect("/controller?command=adminWorkspace");
-        } catch (IOException e) {
-            LOG.error("Bad Request!", e);
-        }
+
+        response.sendRedirect("/controller?command=adminWorkspace");
+
 
         return "";
     }
