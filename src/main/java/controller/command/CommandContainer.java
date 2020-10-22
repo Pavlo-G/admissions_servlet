@@ -1,5 +1,8 @@
 package controller.command;
 
+import Service.AdmissionRequestService;
+import Service.CandidateService;
+import Service.FacultyService;
 import controller.command.admin.*;
 import controller.command.candidate.*;
 
@@ -16,7 +19,7 @@ public class CommandContainer {
     static {
         // common commands
         commandMap.put("facultiesList", new AllFacultiesCommand());
-        commandMap.put("candidatesList", new AllCandidatesCommand());
+        commandMap.put("candidatesList", new AllCandidatesCommand(new CandidateService()));
         commandMap.put("editCandidate", new EditCandidateCommand());
         commandMap.put("editCandidateForm", new EditCandidateFormCommand());
         commandMap.put("deleteCandidate", new DeleteCandidateCommand());
@@ -27,7 +30,7 @@ public class CommandContainer {
         commandMap.put("loginForm", new LoginFormCommand());
         commandMap.put("submitRequest", new SubmitRequestCommand());
         commandMap.put("registrationForm", new RegistrationFormCommand());
-        commandMap.put("adminWorkspace", new AdminWorkspaceCommand());
+        commandMap.put("adminWorkspace", new AdminWorkspaceCommand(new FacultyService()));
         commandMap.put("candidateProfile", new CandidateProfileCommand());
         commandMap.put("candidateProfileEdit", new CandidateProfileEditCommand());
         commandMap.put("updateCandidateProfile", new UpdateCandidateProfileCommand());
@@ -35,14 +38,14 @@ public class CommandContainer {
         commandMap.put("getCandidateRequestsList", new GetCandidateRequestsListCommand());
         commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand());
         commandMap.put("showRequestsListOfFaculty", new ShowRequestsListOfFacultyCommand());
-        commandMap.put("checkRequestFromFacultyReqList", new CheckRequestFromFacultyReqListCommand());
+        commandMap.put("checkRequestFromFacultyReqList", new CheckRequestFromFacultyReqListCommand(new AdmissionRequestService()));
         commandMap.put("createNewFacultyForm", new CreateNewFacultyFormCommand());
-        commandMap.put("createNewFaculty", new CreateNewFacultyCommand());
+        commandMap.put("createNewFaculty", new CreateNewFacultyCommand(new FacultyService()));
         commandMap.put("editFacultyForm", new EditFacultyFormCommand());
         commandMap.put("updateFaculty", new UpdateFacultyCommand());
         commandMap.put("deleteFaculty", new DeleteFacultyCommand());
-        commandMap.put("changeAdmissionRequestStatus", new ChangeAdmissionRequestStatusCommand());
-        commandMap.put("blockUnblockFacultyRegistration", new BlockUnblockFacultyRegistrationCommand());
+        commandMap.put("changeAdmissionRequestStatus", new ChangeAdmissionRequestStatusCommand(new AdmissionRequestService()));
+        commandMap.put("blockUnblockFacultyRegistration", new BlockUnblockFacultyRegistrationCommand(new FacultyService()));
         commandMap.put("getStatementOfFaculty", new GetStatementOfFacultyCommand());
         commandMap.put("finalizeStatementForFaculty", new FinalizeStatementForFacultyCommand());
 

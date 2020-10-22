@@ -20,7 +20,7 @@ public class GetStatementOfFacultyCommand implements Command {
 
         Faculty faculty = null;
         try {
-            faculty = daoFactory.getFacultyDAO().findFaculty(facultyId);
+            faculty = daoFactory.getFacultyDAO().findById(facultyId);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

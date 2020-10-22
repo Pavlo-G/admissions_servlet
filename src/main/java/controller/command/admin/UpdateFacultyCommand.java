@@ -188,7 +188,7 @@ public class UpdateFacultyCommand implements Command {
         faculty.setRequiredSubject3Uk(requiredSubject3Uk);
 
         try {
-            daoFactory.getFacultyDAO().updateFaculty(faculty);
+            daoFactory.getFacultyDAO().update(faculty);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

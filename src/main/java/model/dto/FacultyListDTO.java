@@ -4,13 +4,13 @@ import model.entity.Faculty;
 
 import java.util.List;
 
-public class FacultyDTO {
+public class FacultyListDTO {
 
     int count;
     List<Faculty> facultyList;
 
 
-    public FacultyDTO(int count, List<Faculty> facultyList) {
+    public FacultyListDTO(int count, List<Faculty> facultyList) {
         this.count = count;
         this.facultyList = facultyList;
     }

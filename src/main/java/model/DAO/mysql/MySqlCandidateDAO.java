@@ -278,4 +278,34 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
 
     }
+
+    @Override
+    public void create(Candidate entity) throws SQLException {
+
+    }
+
+    @Override
+    public Candidate findById(Long id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<Candidate> findAll() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void update(Candidate entity) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(Long id) throws SQLException {
+
+    }
+
+    @Override
+    public void close() throws SQLException {
+
+    }
 }

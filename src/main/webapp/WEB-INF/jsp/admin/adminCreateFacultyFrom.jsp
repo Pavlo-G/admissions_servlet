@@ -65,7 +65,6 @@
             </li>
 
 
-
             <div class="nav-item dropdown my-2 ">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown ml-auto"><a href="" class="dropdown-toggle" data-target="#navbarDropdownPr"
@@ -112,40 +111,82 @@
                         <form action="/controller" method="POST">
                             <input type="hidden" name="command" value="createNewFaculty">
                             <div class="form-group row">
-                                <label for="name_en" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                <label for="nameEn" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.name.en"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="name_en" class="form-control" name="name_en"
-                                           required autofocus>
+                                    <input type="text" id="nameEn"
+                                           class="form-control <c:if test="${not empty nameEnError}">is-invalid</c:if>"
+                                           name="nameEn"
+                                           value="<c:choose><c:when test="${not empty nameEn}">${nameEn}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty nameEnError}">
+                                            <div class="invalid-feedback">
+                                                    ${nameEnError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
+
+
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="name_uk" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                <label for="nameUk" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.name.uk"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="name_uk" class="form-control" name="name_uk"
-                                           required autofocus>
+                                    <input type="text" id="nameUk"
+                                           class="form-control <c:if test="${not empty nameUkError}">is-invalid</c:if>"
+                                           name="nameUk"
+                                           value="<c:choose><c:when test="${not empty nameUk}">${nameUk}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty nameUkError}">
+                                            <div class="invalid-feedback">
+                                                    ${nameUkError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="description_en" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                <label for="descriptionEn" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.description.en"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="description_en" class="form-control"
-                                           name="description_en">
+                                    <input type="text" id="descriptionEn"
+                                           class="form-control <c:if test="${not empty descriptionEnError}">is-invalid</c:if>"
+                                           name="descriptionEn"
+                                           value="<c:choose><c:when test="${not empty descriptionEn}">${descriptionEn}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty descriptionEnError}">
+                                            <div class="invalid-feedback">
+                                                    ${descriptionEnError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="description_uk" class="col-md-4 col-form-label text-md-right"><fmt:message
+                                <label for="descriptionUk" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.description.uk"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="description_uk" class="form-control"
-                                           name="description_uk">
+                                    <input type="text" id="descriptionUk"
+                                           class="form-control <c:if test="${not empty descriptionUkError}">is-invalid</c:if>"
+                                           name="descriptionUk"
+                                           value="<c:choose><c:when test="${not empty descriptionUk}">${descriptionUk}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty descriptionUkError}">
+                                            <div class="invalid-feedback">
+                                                    ${descriptionUkError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -153,9 +194,18 @@
                                 <label for="budgetCapacity" class="col-md-4 col-form-label text-md-right">
                                     <fmt:message key="admin.budget_capacity"/> </label>
                                 <div class="col-md-6">
-                                    <input type="number" id="budgetCapacity" class="form-control"
+                                    <input type="text" id="budgetCapacity"
+                                           class="form-control <c:if test="${not empty budgetCapacityError}">is-invalid</c:if>"
                                            name="budgetCapacity"
-                                           required>
+                                           value="<c:choose><c:when test="${not empty budgetCapacity}">${budgetCapacity}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty budgetCapacityError}">
+                                            <div class="invalid-feedback">
+                                                    ${budgetCapacityError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -164,71 +214,141 @@
                                         key="admin.total_capacity"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="number" id="totalCapacity" class="form-control"
-                                           name="totalCapacity" required>
+                                    <input type="text" id="totalCapacity"
+                                           class="form-control <c:if test="${not empty totalCapacityError}">is-invalid</c:if>"
+                                           name="totalCapacity"
+                                           value="<c:choose><c:when test="${not empty totalCapacity}">${totalCapacity}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty totalCapacityError}">
+                                            <div class="invalid-feedback">
+                                                    ${totalCapacityError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="requiredSubject1_en"
+                                <label for="requiredSubject1En"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject1_en"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject1_en" class="form-control"
-                                           name="requiredSubject1_en" required>
+                                    <input type="text" id="requiredSubject1En"
+                                           class="form-control <c:if test="${not empty requiredSubject1EnError}">is-invalid</c:if>"
+                                           name="requiredSubject1En"
+                                           value="<c:choose><c:when test="${not empty requiredSubject1En}">${requiredSubject1En}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject1EnError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject1EnError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject1_uk"
+                                <label for="requiredSubject1Uk"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject1_uk"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject1_uk" class="form-control"
-                                           name="requiredSubject1_uk" required>
+                                    <input type="text" id="requiredSubject1Uk"
+                                           class="form-control <c:if test="${not empty requiredSubject1UkError}">is-invalid</c:if>"
+                                           name="requiredSubject1Uk"
+                                           value="<c:choose><c:when test="${not empty requiredSubject1Uk}">${requiredSubject1Uk}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject1UkError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject1UkError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
 
                             <div class="form-group row">
-                                <label for="requiredSubject2_en"
+                                <label for="requiredSubject2En"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject2_en"/>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject2_en" class="form-control"
-                                           name="requiredSubject2_en" required>
+                                    <input type="text" id="requiredSubject2En"
+                                           class="form-control <c:if test="${not empty requiredSubject2EnError}">is-invalid</c:if>"
+                                           name="requiredSubject2En"
+                                           value="<c:choose><c:when test="${not empty requiredSubject2En}">${requiredSubject2En}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject2EnError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject2EnError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
 
                             <div class="form-group row">
-                                <label for="requiredSubject2_uk"
+                                <label for="requiredSubject2Uk"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject2_uk"/></label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject2_uk" class="form-control"
-                                           name="requiredSubject2_uk" required>
+                                    <input type="text" id="requiredSubject2Uk"
+                                           class="form-control <c:if test="${not empty requiredSubject2UkError}">is-invalid</c:if>"
+                                           name="requiredSubject2Uk"
+                                           value="<c:choose><c:when test="${not empty requiredSubject2Uk}">${requiredSubject2Uk}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject2UkError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject2UkError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="requiredSubject3_en"
+                                <label for="requiredSubject3En"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject3_en"/></label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject3_en" class="form-control"
-                                           name="requiredSubject3_en" required>
+                                    <input type="text" id="requiredSubject3En"
+                                           class="form-control <c:if test="${not empty requiredSubject3EnError}">is-invalid</c:if>"
+                                           name="requiredSubject3En"
+                                           value="<c:choose><c:when test="${not empty requiredSubject3En}">${requiredSubject3En}</c:when></c:choose>"
+                                    />
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject3EnError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject3EnError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="requiredSubject3_uk"
+                                <label for="requiredSubject3Uk"
                                        class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="faculty.required_subject3_uk"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="requiredSubject3_uk" class="form-control"
-                                           name="requiredSubject3_uk" required>
+                                    <input type="text" id="requiredSubject3Uk"
+                                           class="form-control <c:if test="${not empty requiredSubject3UkError}">is-invalid</c:if>"
+                                           name="requiredSubject3Uk"
+                                           value="<c:choose><c:when test="${not empty requiredSubject3Uk}">${requiredSubject3Uk}</c:when></c:choose>"
+                                           autofocus/>
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject3UkError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject3UkError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 

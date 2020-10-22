@@ -77,7 +77,7 @@ public class MySqlFacultyDAOTest {
 
 
             FacultyDAO instance = new MySqlFacultyDAO(mockConn);
-            instance.createFaculty(new Faculty());
+            instance.create(new Faculty());
 
             //verify and assert
             verify(mockConn, times(1)).prepareStatement(anyString());

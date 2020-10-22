@@ -17,7 +17,7 @@ public class DeleteFacultyCommand implements Command {
 
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
         try {
-            daoFactory.getFacultyDAO().deleteFaculty(facultyId);
+            daoFactory.getFacultyDAO().delete(facultyId);
             LOG.info("Faculty with id {} deleted",facultyId);
         } catch (SQLException throwables) {
             LOG.info(" Can not delete faculty with id {}",facultyId);

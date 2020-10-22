@@ -1,7 +1,7 @@
 package controller.command.candidate;
 
 
-import model.dto.FacultyDTO;
+import model.dto.FacultyListDTO;
 import controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +38,13 @@ public class AllFacultiesCommand implements Command {
         }
 
 
-        FacultyDTO facultyDTO = null;
+        FacultyListDTO facultyListDTO = null;
         try {
-            facultyDTO = daoFactory.getFacultyDAO().getAllFaculties2(sortBy, sortDir, currentPage, itemsPerPage);
+            facultyListDTO = daoFactory.getFacultyDAO().findAllSorted(sortBy, sortDir, currentPage, itemsPerPage);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        int totalFaculties = facultyDTO.getCount();
+        int totalFaculties = facultyListDTO.getCount();
 
         int totalPages = 0;
         if (totalFaculties % itemsPerPage == 0) {
@@ -55,7 +55,7 @@ public class AllFacultiesCommand implements Command {
 
         int[] itemsPerPageArray = {5, 10, 15};
 
-        request.setAttribute("facultiesList", facultyDTO.getFacultyList());
+        request.setAttribute("facultiesList", facultyListDTO.getFacultyList());
         request.setAttribute("noOfPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("itemsPerPage", itemsPerPage);

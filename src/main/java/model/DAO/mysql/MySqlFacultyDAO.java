@@ -6,7 +6,7 @@ import model.DAO.mapper.AdmissionRequestMapper;
 import model.DAO.mapper.CandidateMapper;
 import model.DAO.mapper.CandidateProfileMapper;
 import model.DAO.mapper.FacultyMapper;
-import model.dto.FacultyDTO;
+import model.dto.FacultyListDTO;
 import model.entity.AdmissionRequest;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
@@ -27,8 +27,38 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
 
+
+
+
+
+
+
+
+
+
     @Override
-    public int createFaculty(Faculty faculty) throws SQLException {
+    public boolean changeAdmissionOpenStatus(String action, Long facultyId) throws SQLException {
+        String sql = " UPDATE  faculty " +
+                "SET admission_open=?" +
+                " WHERE id=?;";
+
+
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setBoolean(1, !action.equals("block"));
+            pstmt.setLong(2, facultyId);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            throw new SQLException("Cannot change status for faculty with id: " + facultyId, e);
+
+        }
+
+    }
+
+    @Override
+    public void create(Faculty faculty) throws SQLException {
         String sql = " INSERT INTO faculty  " +
                 " (name_en,name_uk,description_en,description_uk,budget_capacity, total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en,req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -48,7 +78,8 @@ public class MySqlFacultyDAO implements FacultyDAO {
             pstmt.setString(11, faculty.getRequiredSubject3En());
             pstmt.setString(12, faculty.getRequiredSubject3Uk());
             pstmt.setBoolean(13, faculty.isAdmissionOpen());
-            return pstmt.executeUpdate();
+            pstmt.executeUpdate();
+
 
         } catch (SQLException e) {
             throw new SQLException("Cannot create faculty", e);
@@ -57,23 +88,8 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
     }
 
-
     @Override
-    public boolean deleteFaculty(Long id) throws SQLException {
-        boolean res = false;
-        try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM faculty WHERE  id= ?")) {
-            pstmt.setLong(1, id);
-            res = pstmt.executeUpdate() > 0;
-
-        } catch (SQLException ex) {
-            throw new SQLException("Cannot delete a faculty with id:" + id, ex);
-        }
-        return res;
-    }
-
-    @Override
-    public Faculty findFaculty(Long id) throws SQLException {
+    public Faculty findById(Long id)throws SQLException {
         Faculty faculty = null;
         Faculty facultyUnique = null;
         Map<Long, Faculty> facultyMap = new HashMap<>();
@@ -116,9 +132,36 @@ public class MySqlFacultyDAO implements FacultyDAO {
         return facultyUnique;
     }
 
-    @Override
-    public boolean updateFaculty(Faculty faculty) throws SQLException {
 
+
+    @Override
+    public List<Faculty> findAll() throws SQLException {
+        Map<Long, Faculty> faculties = new HashMap<>();
+
+        try (Connection con = connection;
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * From faculty f LEFT JOIN admission_request on f.id = admission_request.faculty_id")) {
+            FacultyMapper facultyMapper = new FacultyMapper();
+            AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+            while (rs.next()) {
+
+                Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
+                Faculty faculty = facultyMapper.extractFromResultSet(rs);
+                Faculty uniqueFaculty = facultyMapper.makeUnique(faculties, faculty);
+                if (admissionRequest.isPresent()) {
+                    uniqueFaculty.getAdmissionRequestList().add(admissionRequest.get());
+                }
+            }
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot get all faculties!", ex);
+        }
+        return new ArrayList<>(faculties.values());
+
+
+    }
+
+    @Override
+    public void update(Faculty faculty) throws SQLException {
 
         String sql = " UPDATE  faculty " +
                 "SET name_en=?, name_uk=?,description_en=?,description_uk=?,budget_capacity=?, total_capacity=?,req_subject1_en=?,req_subject1_uk=?,req_subject2_en=?, req_subject2_uk=?,req_subject3_en=?,req_subject3_uk=? " +
@@ -141,68 +184,37 @@ public class MySqlFacultyDAO implements FacultyDAO {
             pstmt.setString(11, faculty.getRequiredSubject3En());
             pstmt.setString(12, faculty.getRequiredSubject3Uk());
             pstmt.setLong(13, faculty.getId());
-            return pstmt.executeUpdate() > 0;
+            pstmt.executeUpdate();
+
 
         } catch (SQLException e) {
             throw new SQLException("Cannot find update faculty ", e);
 
         }
-    }
-
-
-    @Override
-    public boolean changeAdmissionOpenStatus(String action, Long facultyId) throws SQLException {
-        String sql = " UPDATE  faculty " +
-                "SET admission_open=?" +
-                " WHERE id=?;";
-
-
-        try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
-            pstmt.setBoolean(1, !action.equals("block"));
-            pstmt.setLong(2, facultyId);
-
-            return pstmt.executeUpdate() > 0;
-
-        } catch (SQLException e) {
-            throw new SQLException("Cannot change status for faculty with id: " + facultyId, e);
-
-        }
 
     }
 
     @Override
-    public List<Faculty> getAllFaculties() throws SQLException {
-        Map<Long, Faculty> faculties = new HashMap<>();
+    public void delete(Long id) throws SQLException {
 
-        try (Connection con = connection;
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * From faculty f LEFT JOIN admission_request on f.id = admission_request.faculty_id")) {
-            FacultyMapper facultyMapper = new FacultyMapper();
-            AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
-            while (rs.next()) {
-
-                Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
-                Faculty faculty = facultyMapper.extractFromResultSet(rs);
-                Faculty uniqueFaculty = facultyMapper.makeUnique(faculties, faculty);
-                if (admissionRequest.isPresent()) {
-                    uniqueFaculty.getAdmissionRequestList().add(admissionRequest.get());
-                }
-
-
-            }
-        } catch (
-                SQLException ex) {
-            ex.printStackTrace();
-            throw new SQLException("Cannot get all faculties!", ex);
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM faculty WHERE  id= ?")) {
+            pstmt.setLong(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot delete a faculty with id:" + id, ex);
         }
-        return new ArrayList<>(faculties.values());
 
 
     }
 
+    @Override
+    public void close() throws SQLException {
 
-    public FacultyDTO getAllFaculties2(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
+    }
+
+
+    public FacultyListDTO findAllSorted(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
 
         List<Faculty> faculties = new ArrayList<>();
         int count = 0;
@@ -231,6 +243,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
 
         }
-        return new FacultyDTO(count, faculties);
+        return new FacultyListDTO(count, faculties);
     }
 }

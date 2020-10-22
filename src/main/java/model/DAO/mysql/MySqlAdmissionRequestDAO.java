@@ -13,7 +13,35 @@ import java.util.List;
 import java.util.Optional;
 
 public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
+    @Override
+    public void create(AdmissionRequest entity) throws SQLException {
 
+    }
+
+    @Override
+    public AdmissionRequest findById(Long id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List<AdmissionRequest> findAll() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void update(AdmissionRequest entity) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(Long id) throws SQLException {
+
+    }
+
+    @Override
+    public void close() throws SQLException {
+
+    }
 
     private final Connection connection;
 
