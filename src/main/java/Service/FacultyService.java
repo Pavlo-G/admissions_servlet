@@ -28,7 +28,6 @@ public class FacultyService {
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }
-
     }
 
 
@@ -38,19 +37,31 @@ public class FacultyService {
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }
-
     }
 
     public Faculty findById(Long id) {
-        return null;
+        try {
+            return daoFactory.getFacultyDAO().findById(id);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
     }
 
     public void update(Faculty faculty) {
 
+        try {
+            daoFactory.getFacultyDAO().update(faculty);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
     }
 
     public void delete(Long id) {
-
+        try {
+            daoFactory.getFacultyDAO().delete(id);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
     }
 
 

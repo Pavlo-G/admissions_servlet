@@ -140,3 +140,7 @@
 2020-10-23 01:18:05,543 INFO [http-nio-8080-exec-10] c.c.a.CreateNewFacultyCommand [CreateNewFacultyCommand.java:75] Faculty created
 2020-10-23 01:20:27,805 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
 2020-10-23 01:20:49,965 INFO [http-nio-8080-exec-2] c.c.a.CreateNewFacultyCommand [CreateNewFacultyCommand.java:75] Faculty created
+2020-10-23 10:49:11,688 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 11:05:01,391 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:33] User admin logout. Session destroyed
+2020-10-23 12:45:52,541 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 13:13:40,822 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:33] User admin logout. Session destroyed

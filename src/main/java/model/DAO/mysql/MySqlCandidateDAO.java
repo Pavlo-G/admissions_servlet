@@ -100,14 +100,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
 
     @Override
-    public boolean deleteCandidate(Long id) throws SQLException {
+    public void delete(Long id) throws SQLException {
         String sql = "DELETE FROM candidate WHERE id=?;";
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setLong(1, id);
-            return pstmt.executeUpdate() > 0;
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-           throw new SQLException("Can not delete candidate",e);
+            throw new SQLException("Can not delete candidate", e);
         }
 
     }
@@ -141,7 +141,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     @Override
     public Optional<Candidate> findCandidateByUsername(String username) throws SQLException {
-       Optional<Candidate> candidate= Optional.empty();
+        Optional<Candidate> candidate = Optional.empty();
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(
@@ -181,7 +181,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             return pstmt.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            throw new SQLException("Cannot update  candidate with id: " +id, e);
+            throw new SQLException("Cannot update  candidate with id: " + id, e);
         }
 
     }
@@ -299,13 +299,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     }
 
-    @Override
-    public void delete(Long id) throws SQLException {
-
-    }
 
     @Override
     public void close() throws SQLException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

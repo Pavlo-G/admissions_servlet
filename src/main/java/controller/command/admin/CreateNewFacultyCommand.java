@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CreateNewFacultyCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(CreateNewFacultyCommand.class);
@@ -26,59 +28,29 @@ public class CreateNewFacultyCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String lang = (String) request.getSession().getAttribute("lang");
-        String errorMessage = null;
-        String forward = "WEB-INF/jsp/admin/adminCreateFacultyFrom.jsp";
 
-        FacultyDTOMapper facultyDTOMapper = new FacultyDTOMapper();
-
-        String nameEn = request.getParameter("nameEn");
-        String nameUk = request.getParameter("nameUk");
-        String descriptionEn = request.getParameter("descriptionEn");
-        String descriptionUk = request.getParameter("descriptionUk");
-        String totalCapacity = request.getParameter("totalCapacity");
-        String budgetCapacity = request.getParameter("budgetCapacity");
-        String requiredSubject1En = request.getParameter("requiredSubject1En");
-        String requiredSubject1Uk = request.getParameter("requiredSubject1Uk");
-        String requiredSubject2En = request.getParameter("requiredSubject2En");
-        String requiredSubject2Uk = request.getParameter("requiredSubject2Uk");
-        String requiredSubject3En = request.getParameter("requiredSubject3En");
-        String requiredSubject3Uk = request.getParameter("requiredSubject3Uk");
+        Map<String, String> facultyParameters = request.getParameterMap().entrySet().stream()
+                .filter(entry -> !("command".equals(entry.getKey())))
+                .collect(Collectors.toMap(Map.Entry::getKey, stringEntry -> request.getParameter(stringEntry.getKey())));
 
 
         FacultyValidator facultyValidator = new FacultyValidator(lang);
-        Map<String, String> errors = facultyValidator.validateFaculty(nameEn, nameUk, descriptionEn, descriptionUk,
-                budgetCapacity, totalCapacity, requiredSubject1En, requiredSubject1Uk,
-                requiredSubject2En, requiredSubject2Uk, requiredSubject3En, requiredSubject3Uk);
+        Map<String, String> errors = facultyValidator.validateFaculty(facultyParameters);
         if (!errors.isEmpty()) {
-            request.getParameterMap().entrySet().stream().forEach(c -> request.setAttribute(c.getKey(), c.getValue()[0]));
+            facultyParameters.entrySet().stream().forEach(c -> request.setAttribute(c.getKey(), c.getValue()));
             errors.entrySet().stream().forEach(entity -> request.setAttribute(entity.getKey(), entity.getValue()));
-            return forward;
+            return "WEB-INF/jsp/admin/adminCreateFacultyFrom.jsp";
         }
-
-        Faculty faculty = new Faculty();
-        faculty.setNameEn(nameEn);
-        faculty.setNameUk(nameUk);
-        faculty.setDescriptionEn(descriptionEn);
-        faculty.setDescriptionUk(descriptionUk);
-        faculty.setBudgetCapacity(Integer.parseInt(budgetCapacity));
-        faculty.setTotalCapacity(Integer.parseInt(totalCapacity));
-        faculty.setRequiredSubject1En(requiredSubject1En);
-        faculty.setRequiredSubject1Uk(requiredSubject1Uk);
-        faculty.setRequiredSubject2En(requiredSubject2En);
-        faculty.setRequiredSubject2Uk(requiredSubject2Uk);
-        faculty.setRequiredSubject3En(requiredSubject3En);
-        faculty.setRequiredSubject3Uk(requiredSubject3Uk);
-        faculty.setAdmissionOpen(true);
+        FacultyDTOMapper facultyDTOMapper = new FacultyDTOMapper();
+        Faculty faculty = facultyDTOMapper.getFaculty(facultyParameters);
 
 
         facultyService.create(faculty);
         LOG.info("Faculty created");
 
-
-        forward = "";
         response.sendRedirect("/controller?command=adminWorkspace");
-
-
-        return forward;
+        return "";
     }
+
+
 }

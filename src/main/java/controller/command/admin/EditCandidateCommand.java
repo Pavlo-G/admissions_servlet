@@ -1,5 +1,6 @@
 package controller.command.admin;
 
+import Service.CandidateService;
 import controller.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,22 +12,21 @@ import java.sql.SQLException;
 
 public class EditCandidateCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(EditCandidateCommand.class);
+    private final CandidateService candidateService;
+
+    public EditCandidateCommand(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Long candidateId = Long.valueOf(request.getParameter("candidateId"));
         String role = request.getParameter("role");
         String candidateStatus = request.getParameter("candidateStatus");
 
+         candidateService.update(role, candidateStatus, candidateId);
 
-        try {
-            daoFactory.getCandidateDAO().updateCandidate(role, candidateStatus, candidateId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-
-
-            response.sendRedirect("/controller?command=candidatesList");
+        response.sendRedirect("/controller?command=candidatesList");
 
         return "";
 

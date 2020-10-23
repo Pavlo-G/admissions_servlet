@@ -27,15 +27,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
 
-
-
-
-
-
-
-
-
-
     @Override
     public boolean changeAdmissionOpenStatus(String action, Long facultyId) throws SQLException {
         String sql = " UPDATE  faculty " +
@@ -60,7 +51,10 @@ public class MySqlFacultyDAO implements FacultyDAO {
     @Override
     public void create(Faculty faculty) throws SQLException {
         String sql = " INSERT INTO faculty  " +
-                " (name_en,name_uk,description_en,description_uk,budget_capacity, total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en,req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                " (name_en,name_uk,description_en,description_uk,budget_capacity," +
+                " total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en," +
+                "req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -148,9 +142,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
                 Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
                 Faculty faculty = facultyMapper.extractFromResultSet(rs);
                 Faculty uniqueFaculty = facultyMapper.makeUnique(faculties, faculty);
-                if (admissionRequest.isPresent()) {
-                    uniqueFaculty.getAdmissionRequestList().add(admissionRequest.get());
-                }
+                admissionRequest.ifPresent(request -> uniqueFaculty.getAdmissionRequestList().add(request));
             }
         } catch (SQLException ex) {
             throw new SQLException("Cannot get all faculties!", ex);
@@ -164,7 +156,9 @@ public class MySqlFacultyDAO implements FacultyDAO {
     public void update(Faculty faculty) throws SQLException {
 
         String sql = " UPDATE  faculty " +
-                "SET name_en=?, name_uk=?,description_en=?,description_uk=?,budget_capacity=?, total_capacity=?,req_subject1_en=?,req_subject1_uk=?,req_subject2_en=?, req_subject2_uk=?,req_subject3_en=?,req_subject3_uk=? " +
+                "SET name_en=?, name_uk=?,description_en=?,description_uk=?,budget_capacity=?, " +
+                "total_capacity=?,req_subject1_en=?,req_subject1_uk=?,req_subject2_en=?," +
+                " req_subject2_uk=?,req_subject3_en=?,req_subject3_uk=? " +
                 "WHERE id=?;";
 
 

@@ -1,5 +1,6 @@
 package controller.command.admin;
 
+import Service.CandidateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controller.command.Command;
@@ -11,20 +12,21 @@ import java.sql.SQLException;
 
 public class DeleteCandidateCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(DeleteCandidateCommand.class);
+    private final CandidateService candidateService;
+
+    public DeleteCandidateCommand(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Long candidateId = Long.valueOf(request.getParameter("candidateId"));
 
-        try {
-            daoFactory.getCandidateDAO().deleteCandidate(candidateId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        candidateService.delete(candidateId);
         LOG.info("candidate with id: {} deleted", candidateId);
 
 
-            response.sendRedirect("/controller?command=candidatesList");
+        response.sendRedirect("/controller?command=candidatesList");
 
 
         return "";

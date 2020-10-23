@@ -12,7 +12,6 @@ public interface CandidateDAO extends GenericDao<Candidate> {
     void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
 
 
-    boolean deleteCandidate(Long id) throws SQLException;
 
     Optional<Candidate> findCandidateById(Long id) throws SQLException;
 
