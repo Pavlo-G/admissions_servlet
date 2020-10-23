@@ -144,3 +144,17 @@
 2020-10-23 11:05:01,391 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:33] User admin logout. Session destroyed
 2020-10-23 12:45:52,541 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
 2020-10-23 13:13:40,822 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:33] User admin logout. Session destroyed
+2020-10-23 13:48:24,709 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 13:50:49,485 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 13:52:44,964 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 13:59:43,247 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 14:01:48,626 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 14:03:41,644 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 14:06:57,412 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 14:18:11,495 INFO [http-nio-8080-exec-9] c.c.a.CreateNewFacultyCommand [CreateNewFacultyCommand.java:49] Faculty created
+2020-10-23 14:29:26,806 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 14:37:52,680 INFO [http-nio-8080-exec-1] c.c.a.BlockUnblockFacultyRegistrationCommand [BlockUnblockFacultyRegistrationCommand.java:32] Admission unblock for faculty with id: 16
+2020-10-23 14:52:42,419 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 15:00:30,171 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 15:05:03,338 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 15:07:54,686 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN

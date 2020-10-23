@@ -44,15 +44,14 @@ public class FinalizeStatementForFacultyCommand implements Command {
         Faculty faculty = facultyService.findById(facultyId);
         facultyService.changeAdmissionOpenStatus(action, facultyId);
 
-        admissionRequestService.finalizeStatement(faculty,response);
+        response.setContentType("application/pdf");
+        response.addHeader("Content-Disposition", "inline; filename=" + "report");
 
-        response.sendRedirect("WEB-INF\\jsp\\admin\\filePage.jsp");
-
+        response.getOutputStream().write(admissionRequestService.finalizeStatement(faculty));
 
         return "";
 
     }
-
 
 
 }

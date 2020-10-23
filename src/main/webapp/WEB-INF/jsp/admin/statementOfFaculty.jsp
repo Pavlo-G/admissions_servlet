@@ -98,7 +98,7 @@
                 <td align="center">
 
                     <form class="form-inline my-2 my-lg-0"
-                          action="controller" method="Post">
+                          action="controller" method="get">
 
                         <input type="hidden" name="command" value="finalizeStatementForFaculty">
                         <input type="hidden" name="facultyId" value="${facultyId}">

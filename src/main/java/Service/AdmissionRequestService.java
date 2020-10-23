@@ -1,9 +1,7 @@
 package Service;
 
-import controller.command.admin.GetStatementOfFacultyCommand;
 import exception.CanNotFindRequestById;
 import exception.DbProcessingException;
-import exception.StatementCreationException;
 import model.DAO.DAOFactory;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
@@ -12,11 +10,7 @@ import model.entity.StatementElement;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -61,14 +55,21 @@ public class AdmissionRequestService {
         return statementElementList;
     }
 
-    public void finalizeStatement(Faculty faculty, HttpServletResponse response) {
+    public byte[] finalizeStatement(Faculty faculty) {
         List<AdmissionRequest> admissionRequestsListSorted = getSortedListOfRequestForFaculty(faculty);
         List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
+
+        ByteArrayOutputStream outputStream= null;
         try {
-            createPdfReport(statementElementList, response);
-        } catch (FileNotFoundException | JRException | URISyntaxException e) {
-            throw new StatementCreationException("Can not create statement report");
+            outputStream = createPdfReport(statementElementList);
+        } catch (JRException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
+        return outputStream.toByteArray();
     }
 
     public List<AdmissionRequest> getSortedListOfRequestForFaculty(Faculty faculty) {
@@ -83,7 +84,7 @@ public class AdmissionRequestService {
     }
 
 
-    private void createPdfReport(final List<StatementElement> statementElementList, HttpServletResponse response) throws JRException, FileNotFoundException, URISyntaxException {
+    private ByteArrayOutputStream createPdfReport(final List<StatementElement> statementElementList) throws JRException, FileNotFoundException, URISyntaxException {
         File templateFile = null;
         URL resource = getClass().getClassLoader().getResource(REPORT_TEMPLATE_FILE_NAME);
         if (resource == null) {
@@ -97,20 +98,10 @@ public class AdmissionRequestService {
         Map<String, Object> parameters = new HashMap<>();
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-        try {
-
-            response.setContentType("application/pdf");
-            response.addHeader("Content-Disposition", "inline; filename=" + "report");
-
-
-            OutputStream outputSteam = response.getOutputStream();
+       ByteArrayOutputStream outputSteam= new ByteArrayOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    return outputSteam;
     }
 
 

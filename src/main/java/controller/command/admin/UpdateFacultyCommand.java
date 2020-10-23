@@ -45,6 +45,7 @@ public class UpdateFacultyCommand implements Command {
         }
         FacultyDTOMapper facultyDTOMapper = new FacultyDTOMapper();
         Faculty faculty = facultyDTOMapper.getFaculty(facultyParameters);
+        faculty.setId(Long.parseLong(facultyParameters.get("facultyId")));
 
            facultyService.update(faculty);
 
