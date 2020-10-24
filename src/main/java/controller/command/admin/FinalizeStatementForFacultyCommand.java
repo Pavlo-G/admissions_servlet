@@ -52,6 +52,4 @@ public class FinalizeStatementForFacultyCommand implements Command {
         return "";
 
     }
-
-
 }

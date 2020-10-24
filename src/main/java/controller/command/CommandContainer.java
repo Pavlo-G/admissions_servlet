@@ -18,25 +18,25 @@ public class CommandContainer {
 
     static {
         // common commands
-        commandMap.put("facultiesList", new AllFacultiesCommand());
+        commandMap.put("facultiesList", new AllFacultiesCommand(new FacultyService()));
         commandMap.put("candidatesList", new AllCandidatesCommand(new CandidateService()));
         commandMap.put("editCandidate", new EditCandidateCommand(new CandidateService()));
         commandMap.put("editCandidateForm", new EditCandidateFormCommand(new CandidateService()));
         commandMap.put("deleteCandidate", new DeleteCandidateCommand(new CandidateService()));
-        commandMap.put("login", new LoginCommand());
-        commandMap.put("registration", new RegistrationCommand());
+        commandMap.put("login", new LoginCommand(new CandidateService()));
+        commandMap.put("registration", new RegistrationCommand(new CandidateService()));
         commandMap.put("logout", new LogoutCommand());
         commandMap.put("admissionRequests", new AllAdmissionRequests());
         commandMap.put("loginForm", new LoginFormCommand());
-        commandMap.put("submitRequest", new SubmitRequestCommand());
+        commandMap.put("submitRequest", new SubmitRequestCommand(new AdmissionRequestService(),new FacultyService()));
         commandMap.put("registrationForm", new RegistrationFormCommand());
         commandMap.put("adminWorkspace", new AdminWorkspaceCommand(new FacultyService()));
-        commandMap.put("candidateProfile", new CandidateProfileCommand());
-        commandMap.put("candidateProfileEdit", new CandidateProfileEditCommand());
-        commandMap.put("updateCandidateProfile", new UpdateCandidateProfileCommand());
-        commandMap.put("getSubmitRequestForm", new GetSubmitRequestFormCommand());
-        commandMap.put("getCandidateRequestsList", new GetCandidateRequestsListCommand());
-        commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand());
+        commandMap.put("candidateProfile", new CandidateProfileCommand(new CandidateService()));
+        commandMap.put("candidateProfileEdit", new CandidateProfileEditCommand(new CandidateService()));
+        commandMap.put("updateCandidateProfile", new UpdateCandidateProfileCommand(new CandidateService()));
+        commandMap.put("getSubmitRequestForm", new GetSubmitRequestFormCommand(new FacultyService()));
+        commandMap.put("getCandidateRequestsList", new GetCandidateRequestsListCommand(new AdmissionRequestService()));
+        commandMap.put("deleteAdmissionRequest", new DeleteAdmissionRequestCommand(new AdmissionRequestService()));
         commandMap.put("showRequestsListOfFaculty", new ShowRequestsListOfFacultyCommand(new FacultyService()));
         commandMap.put("checkRequestFromFacultyReqList", new CheckRequestFromFacultyReqListCommand(new AdmissionRequestService()));
         commandMap.put("createNewFacultyForm", new CreateNewFacultyFormCommand());

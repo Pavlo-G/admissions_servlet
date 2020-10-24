@@ -1,5 +1,6 @@
 package controller.command;
 
+import Service.CandidateService;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 import model.entity.CandidateStatus;
@@ -18,6 +19,13 @@ import java.sql.SQLException;
 
 public class RegistrationCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(RegistrationCommand.class);
+
+    private final CandidateService candidateService;
+
+    public RegistrationCommand(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 

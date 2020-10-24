@@ -126,13 +126,14 @@
                     <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=${sessionScope.lang eq 'uk'? 'name_uk':'name_en'}&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.description"/></th>
-                <th><fmt:message key="faculty.total_capacity"/>
-                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=ASC">&#8593</a>
-                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=DESC">&#8595</a>
-                </th>
+
                 <th><fmt:message key="faculty.budget_capacity"/>
                     <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=budget_capacity&sortDir=ASC">&#8593</a>
                     <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=budget_capacity&sortDir=DESC">&#8595</a>
+                </th>
+                <th><fmt:message key="faculty.total_capacity"/>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=ASC">&#8593</a>
+                    <a href="/controller?command=facultiesList&page=${currentPage}&itemsPerPage=${itemsPerPage}&sortBy=total_capacity&sortDir=DESC">&#8595</a>
                 </th>
                 <th><fmt:message key="faculty.submit_request"/></th>
 
@@ -180,11 +181,12 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td>
-                        <c:out value="${faculty.totalCapacity}"/>
-                    </td>
+
                     <td>
                         <c:out value="${faculty.budgetCapacity}"/>
+                    </td>
+                    <td>
+                        <c:out value="${faculty.totalCapacity}"/>
                     </td>
 
                     <td>

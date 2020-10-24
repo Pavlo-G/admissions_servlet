@@ -1,6 +1,7 @@
 package controller.command.candidate;
 
 
+import Service.CandidateService;
 import model.entity.CandidateProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,12 @@ import java.sql.SQLException;
 
 public class UpdateCandidateProfileCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(UpdateCandidateProfileCommand.class);
+
+    private final CandidateService candidateService;
+
+    public UpdateCandidateProfileCommand(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -28,11 +35,8 @@ public class UpdateCandidateProfileCommand implements Command {
         candidateProfile.setSchool(request.getParameter("school"));
         candidateProfile.setPhoneNumber(request.getParameter("phoneNumber"));
 
-        try {
-            daoFactory.getCandidateDAO().updateCandidateProfile(candidateProfile);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+        candidateService.updateCandidateProfile(candidateProfile);
 
 
         response.sendRedirect("/controller?command=candidateProfile");

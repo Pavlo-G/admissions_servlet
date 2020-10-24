@@ -13,8 +13,25 @@ import java.util.List;
 import java.util.Optional;
 
 public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
+
     @Override
-    public void create(AdmissionRequest entity) throws SQLException {
+    public void create(AdmissionRequest admissionRequest) throws SQLException {
+        String sql = "INSERT INTO admission_request " +
+                "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,admission_request.status)" +
+                "Values(?,?,?,?,?,?);";
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setLong(1, admissionRequest.getFacultyId());
+            pstmt.setLong(2, admissionRequest.getCandidateId());
+            pstmt.setInt(3, admissionRequest.getRequiredSubject1Grade());
+            pstmt.setInt(4, admissionRequest.getRequiredSubject2Grade());
+            pstmt.setInt(5, admissionRequest.getRequiredSubject3Grade());
+            pstmt.setInt(6, admissionRequest.getAdmissionRequestStatus().ordinal());
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SQLException("Cannot save admission request !");
+        }
 
     }
 
@@ -35,6 +52,15 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
     @Override
     public void delete(Long id) throws SQLException {
+
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM admission_request WHERE  id= ?")) {
+            pstmt.setLong(1, id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot delete a admission request with id:" + id, ex);
+        }
 
     }
 
@@ -66,26 +92,6 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return res;
     }
 
-    @Override
-    public int saveAdmissionRequest(AdmissionRequest admissionRequest) throws SQLException {
-
-        String sql = "INSERT INTO admission_request " +
-                "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,admission_request.status)" +
-                "Values(?,?,?,?,?,?);";
-        try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
-            pstmt.setLong(1, admissionRequest.getFacultyId());
-            pstmt.setLong(2, admissionRequest.getCandidateId());
-            pstmt.setInt(3, admissionRequest.getRequiredSubject1Grade());
-            pstmt.setInt(4, admissionRequest.getRequiredSubject2Grade());
-            pstmt.setInt(5, admissionRequest.getRequiredSubject3Grade());
-            pstmt.setInt(6, admissionRequest.getAdmissionRequestStatus().ordinal());
-            return pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new SQLException("Cannot save admission request !");
-        }
-    }
 
     @Override
     public List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id) throws SQLException {
@@ -130,21 +136,6 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return admissionRequestList;
     }
 
-
-    @Override
-    public boolean deleteAdmissionRequest(Long id) throws SQLException {
-        boolean res = false;
-        try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM admission_request WHERE  id= ?")) {
-            pstmt.setLong(1, id);
-            res = pstmt.executeUpdate() > 0;
-
-        } catch (SQLException ex) {
-            throw new SQLException("Cannot delete a admission request with id:" + id, ex);
-        }
-        return res;
-
-    }
 
     @Override
     public Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException {

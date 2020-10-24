@@ -158,3 +158,26 @@
 2020-10-23 15:00:30,171 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
 2020-10-23 15:05:03,338 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
 2020-10-23 15:07:54,686 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:136] Candidate admin logged as ADMIN
+2020-10-23 15:23:45,826 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:33] User admin logout. Session destroyed
+2020-10-23 15:57:06,979 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 15:58:34,361 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 16:14:23,928 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:33] User q logout. Session destroyed
+2020-10-23 16:55:39,946 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 16:56:36,024 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 17:05:57,261 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 17:19:23,804 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 17:37:02,677 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:136] Candidate q logged as USER
+2020-10-23 18:05:11,545 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:33] User q logout. Session destroyed
+2020-10-24 11:42:59,597 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 12:18:24,812 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 12:27:33,939 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 12:35:00,380 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 12:41:57,118 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 15:16:02,386 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 15:16:16,246 ERROR [http-nio-8080-exec-7] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: null
+2020-10-24 15:17:06,253 ERROR [http-nio-8080-exec-4] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: null
+2020-10-24 15:17:15,516 ERROR [http-nio-8080-exec-5] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: null
+2020-10-24 15:19:01,389 ERROR [http-nio-8080-exec-8] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: null
+2020-10-24 15:19:22,950 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-24 15:19:22,962 ERROR [http-nio-8080-exec-9] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: xxx
+2020-10-24 15:35:11,484 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed

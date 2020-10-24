@@ -1,14 +1,25 @@
 package controller.command.candidate;
 
 
+import Service.FacultyService;
+import controller.command.admin.AllCandidatesCommand;
+import controller.command.admin.UpdateFacultyCommand;
 import model.dto.FacultyListDTO;
 import controller.command.Command;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 public class AllFacultiesCommand implements Command {
+    static final Logger LOG = LoggerFactory.getLogger(AllFacultiesCommand.class);
+    private final FacultyService facultyService;
+
+    public AllFacultiesCommand(FacultyService facultyService){
+        this.facultyService=facultyService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -39,11 +50,9 @@ public class AllFacultiesCommand implements Command {
 
 
         FacultyListDTO facultyListDTO = null;
-        try {
-            facultyListDTO = daoFactory.getFacultyDAO().findAllSorted(sortBy, sortDir, currentPage, itemsPerPage);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+
+            facultyListDTO = facultyService.findAllSorted(sortBy, sortDir, currentPage, itemsPerPage);
+
         int totalFaculties = facultyListDTO.getCount();
 
         int totalPages = 0;

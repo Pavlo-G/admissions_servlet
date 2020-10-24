@@ -1,7 +1,9 @@
 package Service;
 
 import exception.CanNotFindRequestById;
+import exception.CanNotMakePDFException;
 import exception.DbProcessingException;
+import model.DAO.AdmissionRequestDAO;
 import model.DAO.DAOFactory;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
@@ -24,12 +26,45 @@ public class AdmissionRequestService {
 
 
     public void changeAdmissionRequestStatus(Long admissionRequestId, AdmissionRequestStatus newAdmissionRequestStatus) {
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+             dao.changeAdmissionRequestStatus(admissionRequestId, newAdmissionRequestStatus);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
     }
 
+
     public AdmissionRequest findById(Long admissionRequestId) {
-        try {
-            return daoFactory.getAdmissionRequestDAO().findAdmissionRequest(admissionRequestId)
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+            return dao.findAdmissionRequest(admissionRequestId)
                     .orElseThrow(() -> new CanNotFindRequestById("Can not find request by id: " + admissionRequestId));
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
+    }
+
+
+    public void create(AdmissionRequest admissionRequest) {
+
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+            dao.create(admissionRequest);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
+    }
+
+
+    public List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id) {
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+            return dao.selectAdmissionRequestsForCandidateWithId(id);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
+    }
+
+    public void delete(Long id) {
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+            dao.delete(id);
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }
@@ -59,15 +94,15 @@ public class AdmissionRequestService {
         List<AdmissionRequest> admissionRequestsListSorted = getSortedListOfRequestForFaculty(faculty);
         List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
 
-        ByteArrayOutputStream outputStream= null;
+        ByteArrayOutputStream outputStream = null;
         try {
             outputStream = createPdfReport(statementElementList);
         } catch (JRException e) {
-            e.printStackTrace();
+           throw new CanNotMakePDFException("Jasper report throws exception");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new CanNotMakePDFException("Template not found");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            throw new CanNotMakePDFException("Wrong template URI");
         }
         return outputStream.toByteArray();
     }
@@ -98,10 +133,10 @@ public class AdmissionRequestService {
         Map<String, Object> parameters = new HashMap<>();
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-       ByteArrayOutputStream outputSteam= new ByteArrayOutputStream();
-            JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
+        ByteArrayOutputStream outputSteam = new ByteArrayOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
 
-    return outputSteam;
+        return outputSteam;
     }
 
 

@@ -8,7 +8,7 @@ public class FacultyCapacityValidator {
     private Matcher matcher;
 
     private static final String CAPACITY_PATTERN =
-            "[1-9][0-9]{0,2}";
+            "^(?:0|[1-9]\\d{0,2})$";
 
     public FacultyCapacityValidator() {
         pattern = Pattern.compile(CAPACITY_PATTERN);

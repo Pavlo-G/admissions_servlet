@@ -20,8 +20,8 @@
 </head>
 <body>
 
-<jsp:useBean id="candidate" type="model.entity.Candidate" scope="request"/>
-<jsp:useBean id="faculty" type="model.entity.Faculty" scope="request"/>
+<%--<jsp:useBean id="candidate" type="model.entity.Candidate" scope="request"/>--%>
+<%--<jsp:useBean id="faculty" type="model.entity.Faculty" scope="request"/>--%>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <c:choose>
@@ -183,7 +183,17 @@
 
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="number" id="requiredSubject1Grade" min="1" max="12" class="form-control" name="requiredSubject1Grade" required>
+                                    <input type="number" id="requiredSubject1Grade"
+                                           class="form-control <c:if test="${not empty requiredSubject1GradeError}">is-invalid</c:if>"
+                                           name="requiredSubject1Grade"
+                                           value = "<c:choose><c:when test="${not empty requiredSubject1Grade}">${requiredSubject1Grade}</c:when></c:choose>">
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject1GradeError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject1GradeError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -207,7 +217,17 @@
 
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="number" id="requiredSubject2Grade" min="1" max="12" class="form-control" name="requiredSubject2Grade" required>
+                                    <input type="number" id="requiredSubject2Grade"
+                                           class="form-control <c:if test="${not empty requiredSubject2GradeError}">is-invalid</c:if>"
+                                           name="requiredSubject2Grade"
+                                           value = "<c:choose><c:when test="${not empty requiredSubject2Grade}">${requiredSubject2Grade}</c:when></c:choose>">
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject2GradeError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject2GradeError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -231,13 +251,23 @@
 
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="number" id="requiredSubject3Grade" min="1" max="12" class="form-control" name="requiredSubject3Grade" required>
+                                    <input type="number" id="requiredSubject3Grade"
+                                           class="form-control <c:if test="${not empty requiredSubject3GradeError}">is-invalid</c:if>"
+                                           name="requiredSubject3Grade"
+                                           value = "<c:choose><c:when test="${not empty requiredSubject3Grade}">${requiredSubject3Grade}</c:when></c:choose>">
+                                    <c:choose>
+                                        <c:when test="${not empty requiredSubject3GradeError}">
+                                            <div class="invalid-feedback">
+                                                    ${requiredSubject3GradeError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
 
-                            <input type="hidden" id="candidateId" name="candidateId" value="${candidate.id}"/>
-                            <input type="hidden" id="facultyId" name="facultyId" value="${faculty.id}"/>
+                            <input type="hidden" id="candidateId" name="candidateId" value="<c:choose><c:when test="${not empty candidateId}">${candidateId}</c:when><c:otherwise>${candidate.id}</c:otherwise></c:choose>"/>
+                            <input type="hidden" id="facultyId" name="facultyId" value="<c:choose><c:when test="${not empty facultyId}">${facultyId}</c:when><c:otherwise>${faculty.id}</c:otherwise></c:choose>"/>
 
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

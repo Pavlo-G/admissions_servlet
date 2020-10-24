@@ -11,9 +11,8 @@ import java.util.Optional;
 public interface AdmissionRequestDAO extends GenericDao<AdmissionRequest> {
 
 
-    int saveAdmissionRequest(AdmissionRequest admissionRequest) throws SQLException;
 
-    boolean deleteAdmissionRequest(Long id) throws SQLException;
+
 
     Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException;
 

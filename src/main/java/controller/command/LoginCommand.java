@@ -1,6 +1,8 @@
 package controller.command;
 
 
+import Service.CandidateService;
+import exception.CandidateNotFoundException;
 import listener.SessionListener;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
@@ -21,6 +23,11 @@ import java.sql.SQLException;
 
 public class LoginCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(LoginCommand.class);
+    private final CandidateService candidateService;
+
+    public LoginCommand(CandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -46,18 +53,18 @@ public class LoginCommand implements Command {
 
         Candidate candidate = null;
         try {
-            candidate = daoFactory.getCandidateDAO().findCandidateByUsername(username).orElseThrow(Exception::new);
-        } catch (Exception e) {
+            candidate = candidateService.findCandidateByUsername(username).orElseThrow(CandidateNotFoundException::new);
+        } catch (CandidateNotFoundException e) {
             errorMessage = "Candidate not found!";
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
         CandidateProfile candidateProfile=null;
         try {
-           candidateProfile = daoFactory.getCandidateDAO().getCandidateProfile(candidate)
-                    .orElseThrow(Exception::new);
+           candidateProfile = candidateService.getCandidateProfile(candidate)
+                    .orElseThrow(CandidateNotFoundException::new);
 
-        } catch (Exception e) {
+        } catch (CandidateNotFoundException e) {
             errorMessage = "Candidate Profile not found!";
             request.setAttribute("errorMessage", errorMessage);
             return forward;
@@ -87,6 +94,7 @@ public class LoginCommand implements Command {
             request.setAttribute("errorMessage", errorMessage);
             return forward;
         }
+
         if (SessionListener.getCandidatesInSessions().containsKey(candidate.getUsername())) {
             if (lang != null
                     && lang.equals("uk")) {
