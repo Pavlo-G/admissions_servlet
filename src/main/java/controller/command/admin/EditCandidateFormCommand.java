@@ -1,6 +1,9 @@
 package controller.command.admin;
 
 import Service.CandidateService;
+import exception.CanNotFindRequestById;
+import exception.CandidateNotFoundException;
+import exception.DbProcessingException;
 import model.entity.Candidate;
 import controller.command.Command;
 import org.slf4j.Logger;
@@ -24,8 +27,20 @@ public class EditCandidateFormCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Long candidateId = Long.valueOf(request.getParameter("candidateId"));
-        Candidate candidate = candidateService.findById(candidateId);
-        request.setAttribute("candidate",candidate);
+        Candidate candidate;
+        try {
+            candidate = candidateService.findById(candidateId);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while searching for candidate : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        } catch (CandidateNotFoundException ex) {
+            LOG.error("Can not find candidate: {}", ex.getMessage());
+            request.setAttribute("errorMessage", ex.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
+
+        request.setAttribute("candidate", candidate);
 
         return "WEB-INF\\jsp\\admin\\adminEditCandidate.jsp";
     }

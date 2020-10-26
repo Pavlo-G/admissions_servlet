@@ -1,6 +1,7 @@
 package controller.command.admin;
 
 import Service.CandidateService;
+import exception.DbProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controller.command.Command;
@@ -21,10 +22,14 @@ public class DeleteCandidateCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Long candidateId = Long.valueOf(request.getParameter("candidateId"));
-
-        candidateService.delete(candidateId);
-        LOG.info("candidate with id: {} deleted", candidateId);
-
+        try {
+            candidateService.delete(candidateId);
+            LOG.info("candidate with id: {} deleted", candidateId);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while delete candidate : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         response.sendRedirect("/controller?command=candidatesList");
 

@@ -1,6 +1,7 @@
 package controller.command.admin;
 
 import Service.FacultyService;
+import exception.DbProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controller.command.Command;
@@ -22,10 +23,14 @@ public class DeleteFacultyCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
-
-           facultyService.delete(facultyId);
+        try {
+            facultyService.delete(facultyId);
             LOG.info("Faculty with id {} deleted", facultyId);
-
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while delete faculty : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
 
         response.sendRedirect("/controller?command=adminWorkspace");

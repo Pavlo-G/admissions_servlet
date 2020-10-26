@@ -5,7 +5,6 @@ import exception.CanNotMakePDFException;
 import exception.DbProcessingException;
 import model.DAO.AdmissionRequestDAO;
 import model.DAO.DAOFactory;
-import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
 import model.entity.Faculty;

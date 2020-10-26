@@ -1,6 +1,7 @@
 package controller.command.admin;
 
 import Service.FacultyService;
+import exception.DbProcessingException;
 import model.entity.Faculty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +45,15 @@ public class CreateNewFacultyCommand implements Command {
         FacultyDTOMapper facultyDTOMapper = new FacultyDTOMapper();
         Faculty faculty = facultyDTOMapper.getFaculty(facultyParameters);
 
+        try {
+            facultyService.create(faculty);
+            LOG.info("Faculty created");
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while creating new faculty : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
-        facultyService.create(faculty);
-        LOG.info("Faculty created");
 
         response.sendRedirect("/controller?command=adminWorkspace");
         return "";

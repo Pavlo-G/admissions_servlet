@@ -1,6 +1,7 @@
 package controller.command.admin;
 
 import Service.FacultyService;
+import exception.DbProcessingException;
 import model.entity.Faculty;
 import controller.command.Command;
 import org.slf4j.Logger;
@@ -47,11 +48,14 @@ public class UpdateFacultyCommand implements Command {
         Faculty faculty = facultyDTOMapper.getFaculty(facultyParameters);
         faculty.setId(Long.parseLong(facultyParameters.get("facultyId")));
 
-           facultyService.update(faculty);
-
-
+        try {
+            facultyService.update(faculty);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while updating faculty : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
         response.sendRedirect("/controller?command=adminWorkspace");
-
 
         return "";
     }

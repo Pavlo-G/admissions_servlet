@@ -28,7 +28,7 @@ public class CandidateService {
         try (CandidateDAO dao = daoFactory.getCandidateDAO()) {
             dao.delete(candidateId);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not delete candidate with id:"+candidateId);
         }
     }
 
@@ -36,13 +36,14 @@ public class CandidateService {
         try (CandidateDAO dao = daoFactory.getCandidateDAO()) {
             dao.updateCandidate(role, candidateStatus, candidateId);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not update  status of candidate with id: " + candidateId);
         }
     }
 
     public Candidate findById(Long candidateId) {
         try (CandidateDAO dao = daoFactory.getCandidateDAO()) {
-            return dao.findById(candidateId).orElseThrow(CandidateNotFoundException::new);
+            return dao.findById(candidateId)
+                    .orElseThrow(()-> new CandidateNotFoundException("Can not find candidate with id: "+candidateId));
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }

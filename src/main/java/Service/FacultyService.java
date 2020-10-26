@@ -27,7 +27,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
             dao.changeAdmissionOpenStatus(action, facultyId);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not change admission status of faculty");
         }
     }
 
@@ -36,7 +36,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
            dao.create(faculty);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not create Faculty!");
         }
     }
 
@@ -44,7 +44,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
             return dao.findById(id).orElseThrow(()->new FacultyNotFoundException("Faculty not found!"));
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not process faculty search in db");
         }
     }
 
@@ -53,7 +53,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
            dao.update(faculty);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not update Faculty with id:"+faculty.getId());
         }
     }
 
@@ -61,7 +61,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
             dao.delete(id);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not delete faculty with id: " + id);
         }
     }
 
@@ -70,7 +70,7 @@ public class FacultyService {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
             return  dao.findAllSorted(name,direction,page,itemsPerPage);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not get sorted list");
         }
     }
 

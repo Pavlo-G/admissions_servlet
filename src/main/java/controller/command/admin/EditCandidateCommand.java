@@ -2,6 +2,7 @@ package controller.command.admin;
 
 import Service.CandidateService;
 import controller.command.Command;
+import exception.DbProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,8 +24,13 @@ public class EditCandidateCommand implements Command {
         Long candidateId = Long.valueOf(request.getParameter("candidateId"));
         String role = request.getParameter("role");
         String candidateStatus = request.getParameter("candidateStatus");
-
-         candidateService.update(role, candidateStatus, candidateId);
+        try {
+            candidateService.update(role, candidateStatus, candidateId);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while updating candidate : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         response.sendRedirect("/controller?command=candidatesList");
 

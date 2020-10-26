@@ -27,7 +27,7 @@ public class CandidateProfileCommand implements Command {
         Candidate candidate = (Candidate) session.getAttribute("candidate");
         String errorMessage;
             CandidateProfile candidateProfile = candidateService.getCandidateProfile(candidate)
-                    .orElseThrow(CandidateNotFoundException::new);
+                    .orElseThrow(()-> new CandidateNotFoundException("d"));
 
         request.setAttribute("candidateProfile", candidateProfile);
         return "WEB-INF/jsp/candidate/candidate-profile.jsp";

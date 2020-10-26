@@ -2,6 +2,7 @@ package controller.command.candidate;
 
 
 import Service.FacultyService;
+import exception.DbProcessingException;
 import utils.util.FacultyPage;
 import controller.command.Command;
 import org.slf4j.Logger;
@@ -14,8 +15,8 @@ public class AllFacultiesCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(AllFacultiesCommand.class);
     private final FacultyService facultyService;
 
-    public AllFacultiesCommand(FacultyService facultyService){
-        this.facultyService=facultyService;
+    public AllFacultiesCommand(FacultyService facultyService) {
+        this.facultyService = facultyService;
     }
 
     @Override
@@ -29,11 +30,9 @@ public class AllFacultiesCommand implements Command {
         if ((sortBy = request.getParameter("sortBy")) == null) {
             sortBy = "name_en";
         }
-
         if ((sortDir = request.getParameter("sortDir")) == null) {
             sortDir = "ASC";
         }
-
         if (request.getParameter("page") != null) {
             currentPage = Integer.parseInt(request.getParameter("page"));
         } else {
@@ -46,9 +45,14 @@ public class AllFacultiesCommand implements Command {
         }
 
 
-        FacultyPage facultyListDTO = null;
-
+        FacultyPage facultyListDTO;
+        try {
             facultyListDTO = facultyService.findAllSorted(sortBy, sortDir, currentPage, itemsPerPage);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while updating faculty : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         int totalFaculties = facultyListDTO.getCount();
 
