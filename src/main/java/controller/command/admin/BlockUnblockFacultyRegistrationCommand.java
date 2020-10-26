@@ -1,17 +1,14 @@
 package controller.command.admin;
 
-import Service.AdmissionRequestService;
 import Service.FacultyService;
 import controller.command.Command;
 import exception.DbProcessingException;
-import model.entity.Faculty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class BlockUnblockFacultyRegistrationCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(BlockUnblockFacultyRegistrationCommand.class);

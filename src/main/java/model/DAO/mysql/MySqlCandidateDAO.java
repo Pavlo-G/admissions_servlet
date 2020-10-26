@@ -113,8 +113,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
     @Override
-    public Optional<Candidate> findCandidateById(Long id) throws SQLException {
-
+    public Optional<Candidate> findById(Long id) throws SQLException {
         Optional<Candidate> candidate = Optional.empty();
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement("SELECT c.id, candidate_status, password, role, username," +
@@ -284,10 +283,6 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     }
 
-    @Override
-    public Candidate findById(Long id) throws SQLException {
-        return null;
-    }
 
     @Override
     public List<Candidate> findAll() throws SQLException {

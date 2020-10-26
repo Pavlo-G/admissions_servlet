@@ -6,9 +6,10 @@ import java.util.Optional;
 
 public interface GenericDao<T> extends AutoCloseable {
     void create (T entity) throws SQLException;
-    T findById(Long id)throws SQLException;
+    Optional<T> findById(Long id)throws SQLException;
     List<T> findAll()throws SQLException;
     void update(T entity) throws SQLException;
     void delete(Long id) throws SQLException;
     void close()throws SQLException;
+
 }

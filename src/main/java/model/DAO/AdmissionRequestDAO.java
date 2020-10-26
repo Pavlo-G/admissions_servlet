@@ -12,8 +12,6 @@ public interface AdmissionRequestDAO extends GenericDao<AdmissionRequest> {
 
 
 
-
-
     Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException;
 
     boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException;

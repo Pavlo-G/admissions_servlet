@@ -13,7 +13,7 @@ public interface CandidateDAO extends GenericDao<Candidate> {
 
 
 
-    Optional<Candidate> findCandidateById(Long id) throws SQLException;
+
 
     Optional<Candidate> findCandidateByUsername(String username) throws SQLException;
 
