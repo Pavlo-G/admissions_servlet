@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class AdmissionRequest {
 
-
     private Long id;
     private AdmissionRequestStatus admissionRequestStatus;
     private Long candidateId;
@@ -23,10 +22,6 @@ public class AdmissionRequest {
     }
 
 
-    public static AdmissionRequest createAdmissionRequest() {
-        return new AdmissionRequest();
-
-    }
 
     public Candidate getCandidate() {
         return candidate;

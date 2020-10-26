@@ -1,16 +1,15 @@
-package model.dto;
+package utils.util;
 
 import model.entity.Faculty;
 
 import java.util.List;
 
-public class FacultyListDTO {
+public class FacultyPage {
 
     int count;
     List<Faculty> facultyList;
 
-
-    public FacultyListDTO(int count, List<Faculty> facultyList) {
+    public FacultyPage(int count, List<Faculty> facultyList) {
         this.count = count;
         this.facultyList = facultyList;
     }

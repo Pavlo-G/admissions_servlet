@@ -14,7 +14,7 @@ public class AllAdmissionRequests implements Command {
 
         List<AdmissionRequest> admissionRequests = null;
         try {
-            admissionRequests = daoFactory.getAdmissionRequestDAO().selectAdmissionRequests();
+            admissionRequests = daoFactory.getAdmissionRequestDAO().findAll();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

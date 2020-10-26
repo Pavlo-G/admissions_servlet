@@ -1,26 +1,33 @@
 package model.DAO.mysql;
 
+import controller.command.candidate.GetCandidateRequestsListCommand;
 import model.DAO.AdmissionRequestDAO;
 import model.DAO.mapper.AdmissionRequestMapper;
-import model.DAO.mapper.CandidateMapper;
-import model.DAO.mapper.CandidateProfileMapper;
-import model.DAO.mapper.FacultyMapper;
 import model.entity.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
+    static final Logger LOG = LoggerFactory.getLogger(MySqlAdmissionRequestDAO.class);
+
+    private final Connection connection;
+
+
+    public MySqlAdmissionRequestDAO(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public void create(AdmissionRequest admissionRequest) throws SQLException {
-        String sql = "INSERT INTO admission_request " +
-                "(faculty_id,candidate_id,req_subject1_grade,req_subject2_grade,req_subject3_grade,admission_request.status)" +
-                "Values(?,?,?,?,?,?);";
+
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_INSERT_ADMISSION_REQUEST)) {
             pstmt.setLong(1, admissionRequest.getFacultyId());
             pstmt.setLong(2, admissionRequest.getCandidateId());
             pstmt.setInt(3, admissionRequest.getRequiredSubject1Grade());
@@ -36,25 +43,48 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
     }
 
     @Override
-    public AdmissionRequest findById(Long id) throws SQLException {
-        return null;
+    public Optional<AdmissionRequest> findById(Long id) throws SQLException {
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareStatement(Constants.SQL_FIND_ADMISSION_REQUEST_BY_ID)) {
+            pstmt.setLong(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+                    return admissionRequestMapper.getAdmissionRequest(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Cannot find a admission request with id: " + id, e);
+        }
+
+        return Optional.empty();
     }
+
 
     @Override
     public List<AdmissionRequest> findAll() throws SQLException {
-        return null;
+        List<AdmissionRequest> admissionRequests = new ArrayList<>();
+
+        try (Connection con = connection;
+             Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_ADMISSION_REQUESTS)) {
+            AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+            while (rs.next()) {
+                admissionRequests.add(admissionRequestMapper.extractFromResultSet(rs));
+            }
+        } catch (SQLException ex) {
+
+            throw new SQLException("Cannot get all admission requests!", ex);
+        }
+
+        return admissionRequests;
     }
 
-    @Override
-    public void update(AdmissionRequest entity) throws SQLException {
-
-    }
 
     @Override
     public void delete(Long id) throws SQLException {
-
         try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM admission_request WHERE  id= ?")) {
+             PreparedStatement pstmt = conn.prepareStatement(Constants.SQL_DELETE_ADMISSION_REQUEST)) {
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
 
@@ -64,24 +94,12 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
 
     }
 
-    @Override
-    public void close() throws SQLException {
-
-    }
-
-    private final Connection connection;
-
-
-    public MySqlAdmissionRequestDAO(Connection connection) {
-        this.connection = connection;
-    }
-
 
     @Override
     public boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException {
         boolean res = false;
         try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("UPDATE  admission_request SET admission_request.status=? WHERE  id= ?")) {
+             PreparedStatement pstmt = conn.prepareStatement(Constants.SQL_CHANGE_ADMISSION_REQUEST_STATUS)) {
             pstmt.setInt(1, status.ordinal());
             pstmt.setLong(2, id);
             res = pstmt.executeUpdate() > 0;
@@ -111,23 +129,10 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
              PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
-                AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
-                FacultyMapper facultyMapper = new FacultyMapper();
-                CandidateMapper candidateMapper = new CandidateMapper();
-                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
                 while (rs.next()) {
-
-                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
-                    Faculty faculty = facultyMapper.extractFromResultSet(rs);
-                    Candidate candidate = candidateMapper.extractFromResultSet(rs);
-                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
-                    candidate.setCandidateProfile(candidateProfile);
-                    admissionRequest.ifPresent(x -> {
-                        x.setCandidate(candidate);
-                        x.setFaculty(faculty);
-                        admissionRequestList.add(x);
-                    });
-
+                    AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.getAdmissionRequest(rs);
+                    admissionRequest.ifPresent(admissionRequestList::add);
                 }
             }
         } catch (SQLException e) {
@@ -136,65 +141,19 @@ public class MySqlAdmissionRequestDAO implements AdmissionRequestDAO {
         return admissionRequestList;
     }
 
-
     @Override
-    public Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException {
+    public void update(AdmissionRequest entity) throws SQLException {
 
-        String sql = "SELECT cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id, " +
-                "                f.id, budget_capacity, description_en, name_en, name_uk,description_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open, " +
-                "                admission_request.id, admission_request.status, creation_date_time, req_subject1_grade, req_subject2_grade, req_subject3_grade,admission_request.candidate_id,faculty_id, " +
-                "                 c.id,c.username,c.password,c.role,c.candidate_status " +
-                "                FROM admission_request  " +
-                "                Left JOIN candidate c on admission_request.candidate_id=c.id " +
-                "                Left JOIN  candidate_profile cp on admission_request.candidate_id = cp.candidate_id " +
-                "                Left JOIN faculty f on admission_request.faculty_id = f.id WHERE admission_request.id=?";
-        try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setLong(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
-                FacultyMapper facultyMapper = new FacultyMapper();
-                CandidateMapper candidateMapper = new CandidateMapper();
-                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
-                while (rs.next()) {
-                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
-                    Faculty faculty = facultyMapper.extractFromResultSet(rs);
-                    Candidate candidate = candidateMapper.extractFromResultSet(rs);
-                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
-                    candidate.setCandidateProfile(candidateProfile);
-                    admissionRequest.ifPresent(x -> {
-                        x.setCandidate(candidate);
-                        x.setFaculty(faculty);
-
-                    });
-                    return admissionRequest;
-                }
-            }
-        } catch (SQLException e) {
-            throw new SQLException("Cannot find a admission request with id: " + id, e);
-        }
-
-        return Optional.empty();
     }
 
-
     @Override
-    public List<AdmissionRequest> selectAdmissionRequests() throws SQLException {
-        List<AdmissionRequest> admissionRequests = new ArrayList<>();
-
-        try (Connection con = connection;
-             Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_ADMISSION_REQUESTS)) {
-            AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
-            while (rs.next()) {
-                admissionRequests.add(admissionRequestMapper.extractFromResultSet(rs));
-            }
-        } catch (SQLException ex) {
-
-            throw new SQLException("Cannot get all admission requests!", ex);
+    public void close() throws SQLException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
-        return admissionRequests;
     }
 
 

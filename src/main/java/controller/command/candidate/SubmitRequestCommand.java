@@ -3,6 +3,7 @@ package controller.command.candidate;
 import Service.AdmissionRequestService;
 import Service.FacultyService;
 import exception.DbProcessingException;
+import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
 import controller.command.Command;

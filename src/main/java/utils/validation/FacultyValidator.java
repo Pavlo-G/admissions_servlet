@@ -17,10 +17,6 @@ public class FacultyValidator {
 
     FacultyCapacityValidator facultyCapacityValidator = new FacultyCapacityValidator();
     FieldValidator fieldValidator = new FieldValidator();
-//    (String nameEn, String nameUk, String descriptionEn, String descriptionUk,
-//    String budgetCapacity, String totalCapacity, String requiredSubject1En,
-//    String requiredSubject1Uk, String requiredSubject2En, String requiredSubject2Uk,
-//    String requiredSubject3En, String requiredSubject3Uk
 
 
     public Map<String, String> validateFaculty(Map<String,String> parameters) {

@@ -1,14 +1,11 @@
 package Service;
 
-import controller.command.Command;
 import exception.CandidateNotFoundException;
 import exception.DbProcessingException;
 import model.DAO.CandidateDAO;
 import model.DAO.DAOFactory;
-import model.DAO.FacultyDAO;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
-import model.entity.Role;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -45,7 +42,7 @@ public class CandidateService {
 
     public Candidate findById(Long candidateId) {
         try (CandidateDAO dao = daoFactory.getCandidateDAO()) {
-            return dao.findCandidateById(candidateId).orElseThrow(CandidateNotFoundException::new);
+            return dao.findById(candidateId).orElseThrow(CandidateNotFoundException::new);
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }

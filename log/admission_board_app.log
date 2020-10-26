@@ -181,3 +181,9 @@
 2020-10-24 15:19:22,950 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
 2020-10-24 15:19:22,962 ERROR [http-nio-8080-exec-9] c.c.a.AdminWorkspaceCommand [AdminWorkspaceCommand.java:30] Error occurred while getting all faculties list: xxx
 2020-10-24 15:35:11,484 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
+2020-10-26 21:48:31,466 INFO [http-nio-8080-exec-4] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-26 22:04:17,836 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
+2020-10-26 23:01:41,788 INFO [http-nio-8080-exec-10] c.c.LoginCommand [LoginCommand.java:144] Candidate x logged as USER
+2020-10-26 23:01:47,252 INFO [http-nio-8080-exec-3] l.SessionListener [SessionListener.java:34] User x logout. Session destroyed
+2020-10-26 23:18:27,070 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate dwwa logged as USER
+2020-10-26 23:19:28,820 INFO [http-nio-8080-exec-9] l.SessionListener [SessionListener.java:34] User dwwa logout. Session destroyed

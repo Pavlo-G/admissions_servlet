@@ -1,5 +1,6 @@
 package model.DAO;
 
+import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
 import model.entity.Faculty;
@@ -10,13 +11,7 @@ import java.util.Optional;
 
 public interface AdmissionRequestDAO extends GenericDao<AdmissionRequest> {
 
-
-
-    Optional<AdmissionRequest> findAdmissionRequest(Long id) throws SQLException;
-
     boolean changeAdmissionRequestStatus(Long id, AdmissionRequestStatus status) throws SQLException;
-
-    List<AdmissionRequest> selectAdmissionRequests() throws SQLException;
 
     List<AdmissionRequest> selectAdmissionRequestsForCandidateWithId(Long id) throws SQLException;
 

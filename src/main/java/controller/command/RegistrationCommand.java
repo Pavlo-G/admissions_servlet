@@ -202,7 +202,8 @@ public class RegistrationCommand implements Command {
         }
 
         try {
-            response.sendRedirect("/WEB-INF/jsp/login.jsp");
+            forward="";
+            response.sendRedirect("/controller?command=loginForm");
         } catch (IOException e) {
             LOG.error("Bad Request!",e);
             errorMessage="Bad request!";

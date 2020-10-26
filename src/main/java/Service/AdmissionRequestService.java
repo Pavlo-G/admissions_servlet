@@ -5,6 +5,7 @@ import exception.CanNotMakePDFException;
 import exception.DbProcessingException;
 import model.DAO.AdmissionRequestDAO;
 import model.DAO.DAOFactory;
+import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
 import model.entity.Faculty;
@@ -27,7 +28,7 @@ public class AdmissionRequestService {
 
     public void changeAdmissionRequestStatus(Long admissionRequestId, AdmissionRequestStatus newAdmissionRequestStatus) {
         try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
-             dao.changeAdmissionRequestStatus(admissionRequestId, newAdmissionRequestStatus);
+            dao.changeAdmissionRequestStatus(admissionRequestId, newAdmissionRequestStatus);
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }
@@ -36,7 +37,7 @@ public class AdmissionRequestService {
 
     public AdmissionRequest findById(Long admissionRequestId) {
         try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
-            return dao.findAdmissionRequest(admissionRequestId)
+            return dao.findById(admissionRequestId)
                     .orElseThrow(() -> new CanNotFindRequestById("Can not find request by id: " + admissionRequestId));
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
@@ -98,7 +99,7 @@ public class AdmissionRequestService {
         try {
             outputStream = createPdfReport(statementElementList);
         } catch (JRException e) {
-           throw new CanNotMakePDFException("Jasper report throws exception");
+            throw new CanNotMakePDFException("Jasper report throws exception");
         } catch (FileNotFoundException e) {
             throw new CanNotMakePDFException("Template not found");
         } catch (URISyntaxException e) {
@@ -120,7 +121,7 @@ public class AdmissionRequestService {
 
 
     private ByteArrayOutputStream createPdfReport(final List<StatementElement> statementElementList) throws JRException, FileNotFoundException, URISyntaxException {
-        File templateFile = null;
+        File templateFile;
         URL resource = getClass().getClassLoader().getResource(REPORT_TEMPLATE_FILE_NAME);
         if (resource == null) {
             throw new IllegalArgumentException("file not found!");

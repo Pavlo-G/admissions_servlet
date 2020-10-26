@@ -1,9 +1,10 @@
 package Service;
 
 import exception.DbProcessingException;
+import exception.FacultyNotFoundException;
 import model.DAO.DAOFactory;
 import model.DAO.FacultyDAO;
-import model.dto.FacultyListDTO;
+import utils.util.FacultyPage;
 import model.entity.Faculty;
 
 
@@ -41,7 +42,7 @@ public class FacultyService {
 
     public Faculty findById(Long id) {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
-            return dao.findById(id);
+            return dao.findById(id).orElseThrow(()->new FacultyNotFoundException("Faculty not found!"));
         } catch (SQLException e) {
             throw new DbProcessingException(e.getMessage());
         }
@@ -65,7 +66,7 @@ public class FacultyService {
     }
 
 
-    public FacultyListDTO findAllSorted(String name, String direction, int page, int itemsPerPage) {
+    public FacultyPage findAllSorted(String name, String direction, int page, int itemsPerPage) {
         try (FacultyDAO dao = daoFactory.getFacultyDAO()){
             return  dao.findAllSorted(name,direction,page,itemsPerPage);
         } catch (SQLException e) {

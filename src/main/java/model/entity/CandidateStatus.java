@@ -10,7 +10,5 @@ public enum CandidateStatus {
 
     private static CandidateStatus[] values = CandidateStatus.values();
 
-    public static CandidateStatus getCandidateStatus(int i) {
-        return values[i];
-    }
+
 }

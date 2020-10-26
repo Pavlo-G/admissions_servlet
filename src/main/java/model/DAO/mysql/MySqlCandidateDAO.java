@@ -5,6 +5,8 @@ import model.DAO.mapper.CandidateMapper;
 import model.DAO.mapper.CandidateProfileMapper;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Optional;
 
 
 public class MySqlCandidateDAO implements CandidateDAO {
+    static final Logger LOG = LoggerFactory.getLogger(MySqlCandidateDAO.class);
 
 
     private final Connection connection;
@@ -21,6 +24,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
     public MySqlCandidateDAO(Connection connection) {
         this.connection = connection;
     }
+
+
 
 
     @Override
@@ -34,20 +39,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
             conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             pstmt = conn.prepareStatement(
-                    "INSERT INTO candidate (username,password,role,candidate_status) Values(?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
-
+                    Constants.SQL_INSERT_CANDIDATE, Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, candidate.getUsername());
             pstmt.setString(2, candidate.getPassword());
             pstmt.setString(3, candidate.getRole().getName());
             pstmt.setString(4, candidate.getCandidateStatus().name());
-
             candidateId = getGeneratedKey(pstmt);
 
-
-            pstmt = conn.prepareStatement(
-                    "INSERT INTO candidate_profile(first_name,last_name,email,address,city,region,school,phone_number,candidate_id)" +
-                            " Values(?,?,?,?,?,?,?,?,?);");
-
+            pstmt = conn.prepareStatement(Constants.SQL_INSERT_CANDIDATE_PROFILE);
             pstmt.setString(1, candidateProfile.getFirstName());
             pstmt.setString(2, candidateProfile.getLastName());
             pstmt.setString(3, candidateProfile.getEmail());
@@ -67,6 +66,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
             } catch (SQLException exp) {
                 throw new SQLException("Can not make rollback of transaction ", exp);
             }
+            LOG.error("Can not make  transaction",ex);
             throw new SQLException("Can not make  transaction" + ex.getMessage(), ex);
         } finally {
             try {
@@ -75,7 +75,7 @@ public class MySqlCandidateDAO implements CandidateDAO {
                 assert conn != null;
                 conn.close();
             } catch (SQLException ex) {
-
+                LOG.error("Can not close statement or connection",ex);
             }
         }
 
@@ -101,9 +101,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     @Override
     public void delete(Long id) throws SQLException {
-        String sql = "DELETE FROM candidate WHERE id=?;";
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_DELETE_CANDIDATE)) {
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -116,17 +115,15 @@ public class MySqlCandidateDAO implements CandidateDAO {
     public Optional<Candidate> findById(Long id) throws SQLException {
         Optional<Candidate> candidate = Optional.empty();
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement("SELECT c.id, candidate_status, password, role, username," +
-                     " cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id " +
-                     "FROM candidate c  left join candidate_profile cp on c.id = cp.candidate_id WHERE c.id =?")) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_FIND_CANDIDATE_BY_ID)) {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 CandidateMapper candidateMapper = new CandidateMapper();
                 CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
                 while (rs.next()) {
-                    candidate = candidateMapper.extractFromResultSetOpt(rs);
-                    CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
-                    candidate.ifPresent(c -> c.setCandidateProfile(candidateProfile));
+                    candidate = Optional.of(candidateMapper.extractFromResultSet(rs));
+                    Optional<CandidateProfile> candidateProfile = Optional.of(candidateProfileMapper.extractFromResultSet(rs));
+                    candidate.ifPresent(c -> c.setCandidateProfile(candidateProfile.get()));
                 }
 
             } catch (SQLException ex) {
@@ -144,18 +141,13 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
         try (Connection con = connection;
              PreparedStatement pstmt = con.prepareStatement(
-                     "SELECT c.id, c.candidate_status, c.password, c.role, c.username " +
-                             "FROM  candidate c " +
-                             " WHERE username = ?;")) {
+                     Constants.SQL_FIND_CANDIDATE_BY_USERNAME)) {
             pstmt.setString(1, username);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 CandidateMapper candidateMapper = new CandidateMapper();
                 if (rs.next())
                     candidate = Optional.ofNullable(candidateMapper.extractFromResultSet(rs));
-
-            } catch (SQLException ex) {
-                throw new SQLException("Cannot find  candidate with username: !" + username, ex);
             }
 
         } catch (SQLException exp) {
@@ -166,13 +158,9 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     @Override
     public boolean updateCandidate(String role, String candidateStatus, Long id) throws SQLException {
-        String sql = " UPDATE  candidate " +
-                "SET role=?,candidate_status=? " +
-                " WHERE id=?;";
-
 
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_UPDATE_CANDIDATE)) {
             pstmt.setString(1, role);
             pstmt.setString(2, candidateStatus);
             pstmt.setLong(3, id);
@@ -185,15 +173,57 @@ public class MySqlCandidateDAO implements CandidateDAO {
 
     }
 
+
     @Override
-    public List<Candidate> getAllCandidates() throws SQLException {
+    public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException {
+        Optional<CandidateProfile> candidateProfile = Optional.empty();
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareCall(Constants.SQL_FIND_CANDIDATE_PROFILE)) {
+            pstmt.setLong(1, candidate.getId());
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                CandidateProfileMapper mapper = new CandidateProfileMapper();
+                if (rs.next()) {
+                    candidateProfile = Optional.of(mapper.extractFromResultSet(rs));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot get candidate profile for candidate with id: " + candidate.getId(), ex);
+        }
+
+        return candidateProfile;
+    }
+
+
+    @Override
+    public void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException {
+
+        try (Connection conn = connection;
+             PreparedStatement pstmt = conn.prepareCall(Constants.SQL_UPDATE_CANDIDATE_PROFILE)) {
+            pstmt.setString(1, candidateProfile.getFirstName());
+            pstmt.setString(2, candidateProfile.getLastName());
+            pstmt.setString(3, candidateProfile.getEmail());
+            pstmt.setString(4, candidateProfile.getAddress());
+            pstmt.setString(5, candidateProfile.getCity());
+            pstmt.setString(6, candidateProfile.getRegion());
+            pstmt.setString(7, candidateProfile.getSchool());
+            pstmt.setString(8, candidateProfile.getPhoneNumber());
+            pstmt.setLong(9, candidateProfile.getId());
+            pstmt.execute();
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot update candidate profile with id: " + candidateProfile.getId(), ex);
+        }
+
+    }
+
+
+    @Override
+    public List<Candidate> findAll() throws SQLException {
         List<Candidate> listCandidates = new ArrayList<>();
 
         try (Connection con = connection;
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT c.id, candidate_status, password, role, username," +
-                     " cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id " +
-                     "FROM candidate c left join candidate_profile cp on c.id = cp.candidate_id")) {
+             ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_CANDIDATES)) {
             CandidateMapper candidateMapper = new CandidateMapper();
             CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
             while (rs.next()) {
@@ -208,89 +238,14 @@ public class MySqlCandidateDAO implements CandidateDAO {
             throw new SQLException("Cannot get all candidates!", ex);
         }
         return listCandidates;
-
-
-    }
-
-
-    @Override
-    public Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException {
-        Optional<CandidateProfile> candidateProfile = Optional.empty();
-        try (Connection con = connection;
-             PreparedStatement ps = con.prepareCall("SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, candidate_id From candidate_profile cp Where candidate_id=?")) {
-            ps.setLong(1, candidate.getId());
-            try (ResultSet rs = ps.executeQuery()) {
-
-                CandidateProfileMapper mapper = new CandidateProfileMapper();
-                if (rs.next()) {
-                    candidateProfile = Optional.of(mapper.extractFromResultSet(rs));
-                }
-            }
-        } catch (SQLException ex) {
-            throw new SQLException(ex);
-        }
-
-        return candidateProfile;
-    }
-
-
-    @Override
-    public void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = connection;
-            conn.setAutoCommit(false);
-            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            pstmt = conn.prepareStatement(
-                    "UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=? " +
-                            "WHERE id=?");
-            pstmt.setString(1, candidateProfile.getFirstName());
-            pstmt.setString(2, candidateProfile.getLastName());
-            pstmt.setString(3, candidateProfile.getEmail());
-            pstmt.setString(4, candidateProfile.getAddress());
-            pstmt.setString(5, candidateProfile.getCity());
-            pstmt.setString(6, candidateProfile.getRegion());
-            pstmt.setString(7, candidateProfile.getSchool());
-            pstmt.setString(8, candidateProfile.getPhoneNumber());
-            pstmt.setLong(9, candidateProfile.getId());
-            pstmt.execute();
-            pstmt.close();
-            conn.commit();
-
-        } catch (SQLException ex) {
-            try {
-                assert conn != null;
-                conn.rollback();
-            } catch (SQLException exp) {
-                throw new SQLException("Can not make rollback of transaction ", exp);
-            }
-            throw new SQLException("Can not make  transaction" + ex.getMessage(), ex);
-        } finally {
-            try {
-                assert conn != null;
-                conn.close();
-            } catch (SQLException ex) {
-
-            }
-        }
-
-
-    }
-
-    @Override
-    public void create(Candidate entity) throws SQLException {
-
-    }
-
-
-    @Override
-    public List<Candidate> findAll() throws SQLException {
-        return null;
     }
 
     @Override
     public void update(Candidate entity) throws SQLException {
+
+    }
+    @Override
+    public void create(Candidate entity) throws SQLException {
 
     }
 

@@ -3,21 +3,19 @@ package model.DAO.mysql;
 
 import model.DAO.FacultyDAO;
 import model.DAO.mapper.AdmissionRequestMapper;
-import model.DAO.mapper.CandidateMapper;
-import model.DAO.mapper.CandidateProfileMapper;
 import model.DAO.mapper.FacultyMapper;
-import model.dto.FacultyListDTO;
+import utils.util.FacultyPage;
 import model.entity.AdmissionRequest;
-import model.entity.Candidate;
-import model.entity.CandidateProfile;
 import model.entity.Faculty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.*;
 
 
 public class MySqlFacultyDAO implements FacultyDAO {
-
+    static final Logger LOG = LoggerFactory.getLogger(MySqlFacultyDAO.class);
 
     private final Connection connection;
 
@@ -29,13 +27,9 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
     @Override
     public boolean changeAdmissionOpenStatus(String action, Long facultyId) throws SQLException {
-        String sql = " UPDATE  faculty " +
-                "SET admission_open=?" +
-                " WHERE id=?;";
-
 
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_UPDATE_FACULTY_ADMISSION_STATUS)) {
             pstmt.setBoolean(1, !action.equals("block"));
             pstmt.setLong(2, facultyId);
 
@@ -50,15 +44,8 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
     @Override
     public void create(Faculty faculty) throws SQLException {
-        String sql = " INSERT INTO faculty  " +
-                " (name_en,name_uk,description_en,description_uk,budget_capacity," +
-                " total_capacity,req_subject1_en,req_subject1_uk,req_subject2_en," +
-                "req_subject2_uk,req_subject3_en,req_subject3_uk,admission_open)" +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
-
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_CREATE_FACULTY)) {
             pstmt.setString(1, faculty.getNameEn());
             pstmt.setString(2, faculty.getNameUk());
             pstmt.setString(3, faculty.getDescriptionEn());
@@ -74,7 +61,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
             pstmt.setBoolean(13, faculty.isAdmissionOpen());
             pstmt.executeUpdate();
 
-
         } catch (SQLException e) {
             throw new SQLException("Cannot create faculty", e);
 
@@ -83,40 +69,23 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
     @Override
-    public Faculty findById(Long id)throws SQLException {
-        Faculty faculty = null;
-        Faculty facultyUnique = null;
+    public Optional<Faculty> findById(Long id) throws SQLException {
+        Faculty faculty;
+        Optional<Faculty> facultyUnique = Optional.empty();
         Map<Long, Faculty> facultyMap = new HashMap<>();
 
-        String sql = "SELECT  " +
-                "f.id, f.budget_capacity, f.description_en, f.name_en,f.description_uk,f.name_uk, f.req_subject1_en, f.req_subject1_uk, f.req_subject2_en ,f.req_subject2_uk, f.req_subject3_en ,f.req_subject3_uk, f.total_capacity, f.admission_open," +
-                "admission_request.id, admission_request.status, admission_request.creation_date_time, admission_request.req_subject1_grade, admission_request.req_subject2_grade, admission_request.req_subject3_grade, admission_request.candidate_id, admission_request.faculty_id," +
-                "c.id, c.candidate_status, c.password, c.role, c.username," +
-                "cp.id, cp.address, cp.city, cp.email, cp.first_name, cp.last_name, cp.phone_number, cp.region, cp.school, cp.candidate_id " +
-                "FROM faculty f " +
-                "Left Join admission_request  on f.id = admission_request.faculty_id " +
-                "Left Join candidate c on admission_request.candidate_id = c.id  " +
-                "Left Join candidate_profile cp on c.id = cp.candidate_id" +
-                " WHERE f.id=?";
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_FIND_FACULTY_BY_ID)) {
             pstmt.setLong(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
-                AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
                 FacultyMapper facultyMapper = new FacultyMapper();
-                CandidateMapper candidateMapper = new CandidateMapper();
-                CandidateProfileMapper candidateProfileMapper = new CandidateProfileMapper();
                 while (rs.next()) {
-                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
-                    faculty = facultyMapper.extractFromResultSet(rs);
-                    facultyUnique = facultyMapper.makeUnique(facultyMap, faculty);
+                    AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
+                    Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.getAdmissionRequest(rs);
                     if (admissionRequest.isPresent()) {
-                        Candidate candidate = candidateMapper.extractFromResultSet(rs);
-                        CandidateProfile candidateProfile = candidateProfileMapper.extractFromResultSet(rs);
-                        candidate.setCandidateProfile(candidateProfile);
-                        admissionRequest.get().setCandidate(candidate);
-                        admissionRequest.get().setFaculty(facultyUnique);
-                        facultyUnique.getAdmissionRequestList().add(admissionRequest.get());
+                        faculty = admissionRequest.get().getFaculty();
+                        facultyUnique = Optional.of(facultyMapper.makeUnique(facultyMap, faculty));
+                        facultyUnique.get().getAdmissionRequestList().add(admissionRequest.get());
                     }
                 }
             }
@@ -127,19 +96,17 @@ public class MySqlFacultyDAO implements FacultyDAO {
     }
 
 
-
     @Override
     public List<Faculty> findAll() throws SQLException {
         Map<Long, Faculty> faculties = new HashMap<>();
 
         try (Connection con = connection;
              Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * From faculty f LEFT JOIN admission_request on f.id = admission_request.faculty_id")) {
+             ResultSet rs = stmt.executeQuery(Constants.SQL_FIND_ALL_FACULTIES)) {
             FacultyMapper facultyMapper = new FacultyMapper();
             AdmissionRequestMapper admissionRequestMapper = new AdmissionRequestMapper();
             while (rs.next()) {
-
-                Optional<AdmissionRequest> admissionRequest = admissionRequestMapper.extractFromResultSet2(rs);
+                Optional<AdmissionRequest> admissionRequest = Optional.of(admissionRequestMapper.extractFromResultSet(rs));
                 Faculty faculty = facultyMapper.extractFromResultSet(rs);
                 Faculty uniqueFaculty = facultyMapper.makeUnique(faculties, faculty);
                 admissionRequest.ifPresent(request -> uniqueFaculty.getAdmissionRequestList().add(request));
@@ -155,15 +122,8 @@ public class MySqlFacultyDAO implements FacultyDAO {
     @Override
     public void update(Faculty faculty) throws SQLException {
 
-        String sql = " UPDATE  faculty " +
-                "SET name_en=?, name_uk=?,description_en=?,description_uk=?,budget_capacity=?, " +
-                "total_capacity=?,req_subject1_en=?,req_subject1_uk=?,req_subject2_en=?," +
-                " req_subject2_uk=?,req_subject3_en=?,req_subject3_uk=? " +
-                "WHERE id=?;";
-
-
         try (Connection con = connection;
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+             PreparedStatement pstmt = con.prepareStatement(Constants.SQL_UPDATE_FACULTY)) {
 
             pstmt.setString(1, faculty.getNameEn());
             pstmt.setString(2, faculty.getNameUk());
@@ -192,7 +152,7 @@ public class MySqlFacultyDAO implements FacultyDAO {
     public void delete(Long id) throws SQLException {
 
         try (Connection conn = connection;
-             PreparedStatement pstmt = conn.prepareStatement("DELETE  FROM faculty WHERE  id= ?")) {
+             PreparedStatement pstmt = conn.prepareStatement(Constants.SQL_DELETE_FACULTY)) {
             pstmt.setLong(1, id);
             pstmt.executeUpdate();
         } catch (SQLException ex) {
@@ -202,13 +162,8 @@ public class MySqlFacultyDAO implements FacultyDAO {
 
     }
 
-    @Override
-    public void close() throws SQLException {
 
-    }
-
-
-    public FacultyListDTO findAllSorted(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
+    public FacultyPage findAllSorted(String name_en, String direction, int page, int itemsPerPage) throws SQLException {
 
         List<Faculty> faculties = new ArrayList<>();
         int count = 0;
@@ -216,7 +171,6 @@ public class MySqlFacultyDAO implements FacultyDAO {
         int toItem = ((page - 1) * itemsPerPage) + itemsPerPage;
         String sql = "select f.id, budget_capacity, description_en, description_uk, name_en,name_uk, req_subject1_en,req_subject1_uk, req_subject2_en,req_subject2_uk, req_subject3_en,req_subject3_uk, total_capacity, admission_open," +
                 "(select count(*) from faculty) as count from faculty f ORDER BY " + name_en + " " + direction + " LIMIT " + fromItem + "," + toItem + ";";
-
         try (Connection con = connection;
              PreparedStatement pstmt =
                      con.prepareStatement(sql)) {
@@ -227,16 +181,24 @@ public class MySqlFacultyDAO implements FacultyDAO {
                     Faculty faculty = facultyMapper.extractFromResultSet(rs);
                     count = rs.getInt("count");
                     faculties.add(faculty);
-
                 }
             } catch (
                     SQLException ex) {
                 ex.printStackTrace();
                 throw new SQLException("Cannot get all faculties!", ex);
             }
-
-
         }
-        return new FacultyListDTO(count, faculties);
+        return new FacultyPage(count, faculties);
+    }
+
+
+    @Override
+    public void close() throws SQLException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

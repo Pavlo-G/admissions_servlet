@@ -9,20 +9,14 @@ import java.util.Optional;
 
 
 public interface CandidateDAO extends GenericDao<Candidate> {
+
     void insertCandidate(Candidate candidate, CandidateProfile candidateProfile) throws SQLException;
-
-
-
-
 
     Optional<Candidate> findCandidateByUsername(String username) throws SQLException;
 
     boolean updateCandidate(String role,String candidateStatus,Long id) throws SQLException;
 
     void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
-
-
-    List<Candidate> getAllCandidates() throws SQLException;
 
     Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException;
 }
