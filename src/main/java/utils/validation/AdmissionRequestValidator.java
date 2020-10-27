@@ -5,11 +5,13 @@ import java.util.Map;
 
 public class AdmissionRequestValidator {
     private String lang;
-    FieldValidator fieldValidator = new FieldValidator();
-    GradeValidator gradeValidator = new GradeValidator();
+   private final FieldValidator fieldValidator ;
+    private final  GradeValidator gradeValidator ;
 
-    public AdmissionRequestValidator(String lang) {
+    public AdmissionRequestValidator(String lang, FieldValidator fieldValidator, GradeValidator gradeValidator) {
         this.lang = lang;
+        this.fieldValidator = fieldValidator;
+        this.gradeValidator = gradeValidator;
     }
 
     public Map<String, String> validateAdmissionRequest(Map<String, String> parameters) {

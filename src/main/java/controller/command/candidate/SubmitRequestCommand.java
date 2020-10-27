@@ -9,6 +9,8 @@ import model.entity.AdmissionRequestStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.validation.AdmissionRequestValidator;
+import utils.validation.FieldValidator;
+import utils.validation.GradeValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +23,9 @@ public class SubmitRequestCommand implements Command {
     private final AdmissionRequestService admissionRequestService;
     private final FacultyService facultyService;
 
-    public SubmitRequestCommand(AdmissionRequestService admissionRequestService,FacultyService facultyService) {
+    public SubmitRequestCommand(AdmissionRequestService admissionRequestService, FacultyService facultyService) {
         this.admissionRequestService = admissionRequestService;
-        this.facultyService=facultyService;
+        this.facultyService = facultyService;
     }
 
     @Override
@@ -39,13 +41,15 @@ public class SubmitRequestCommand implements Command {
                 .filter(entry -> !("facultyId".equals(entry.getKey())))
                 .filter(entry -> !("candidateId".equals(entry.getKey())))
                 .collect(Collectors.toMap(Map.Entry::getKey, stringEntry -> request.getParameter(stringEntry.getKey())));
+        FieldValidator fieldValidator = new FieldValidator();
+        GradeValidator gradeValidator = new GradeValidator();
 
-        AdmissionRequestValidator admissionRequestValidator = new AdmissionRequestValidator(lang);
+        AdmissionRequestValidator admissionRequestValidator = new AdmissionRequestValidator(lang, fieldValidator, gradeValidator);
         Map<String, String> errors = admissionRequestValidator.validateAdmissionRequest(admissionRequestParameters);
 
         if (!errors.isEmpty()) {
             request.setAttribute("faculty", facultyService.findById(Long.valueOf(facultyId)));
-            request.setAttribute("candidate",request.getSession().getAttribute("candidate"));
+            request.setAttribute("candidate", request.getSession().getAttribute("candidate"));
             admissionRequestParameters.entrySet().stream().forEach(c -> request.setAttribute(c.getKey(), c.getValue()));
             errors.entrySet().stream().forEach(entity -> request.setAttribute(entity.getKey(), entity.getValue()));
             return "WEB-INF/jsp/candidate/candidate-submit-request-form.jsp";

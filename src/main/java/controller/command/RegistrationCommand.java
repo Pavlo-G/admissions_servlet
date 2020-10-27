@@ -42,16 +42,12 @@ public class RegistrationCommand implements Command {
                 .filter(entry -> !("command".equals(entry.getKey())))
                 .collect(Collectors.toMap(Map.Entry::getKey, stringEntry -> request.getParameter(stringEntry.getKey())));
 
-
-
         Map<String, String> errors = registrationValidator.validateRegistration(registrationParameters);
         if (!errors.isEmpty()) {
             registrationParameters.entrySet().stream().forEach(c -> request.setAttribute(c.getKey(), c.getValue()));
             errors.entrySet().stream().forEach(entity -> request.setAttribute(entity.getKey(), entity.getValue()));
             return "WEB-INF/jsp/registration.jsp";
         }
-
-
 
 
         Candidate candidate = new Candidate();
@@ -82,8 +78,8 @@ public class RegistrationCommand implements Command {
                 errorMessage = "Username " + candidate.getUsername() + " already exists";
             }
             request.setAttribute("errorMessage", errorMessage);
+            registrationParameters.entrySet().stream().forEach(c -> request.setAttribute(c.getKey(), c.getValue()));
             return forward;
-
         }
 
         try {
