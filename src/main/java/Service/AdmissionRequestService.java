@@ -25,6 +25,16 @@ public class AdmissionRequestService {
     private static final String REPORT_TEMPLATE_FILE_NAME = "JasperDesign.jrxml";
 
 
+    public List<AdmissionRequest> findAll() {
+        try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
+            return dao.findAll();
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
+
+    }
+
+
     public void changeAdmissionRequestStatus(Long admissionRequestId, AdmissionRequestStatus newAdmissionRequestStatus) {
         try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
             dao.changeAdmissionRequestStatus(admissionRequestId, newAdmissionRequestStatus);
@@ -58,7 +68,7 @@ public class AdmissionRequestService {
         try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
             return dao.selectAdmissionRequestsForCandidateWithId(id);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not get requests for candidate");
         }
     }
 
@@ -66,10 +76,32 @@ public class AdmissionRequestService {
         try (AdmissionRequestDAO dao = daoFactory.getAdmissionRequestDAO()) {
             dao.delete(id);
         } catch (SQLException e) {
-            throw new DbProcessingException(e.getMessage());
+            throw new DbProcessingException("Can not delete request with id:" + id);
         }
     }
 
+
+    /**
+     * Returns list of Admission requests sorted by grade and limited by total capacity of the faculty.
+     * @param faculty
+     * @return List<AdmissionRequest>
+     */
+    public List<AdmissionRequest> getSortedListOfRequestForFaculty(Faculty faculty) {
+        return faculty.getAdmissionRequestList()
+                .stream()
+                .filter(x -> x.getAdmissionRequestStatus() == AdmissionRequestStatus.APPROVED)
+                .sorted(
+                        Comparator.comparingInt(AdmissionRequest::getSumOfGrades).reversed()
+                                .thenComparing(AdmissionRequest::getCreationDateTime))
+                .limit(faculty.getTotalCapacity())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Converts List of Admission requests to list with Statement elements suitable for pdf report.
+     * @param admissionRequests
+     * @return List<StatementElement>
+     */
 
     private List<StatementElement> getStatementElements(List<AdmissionRequest> admissionRequests) {
         List<StatementElement> statementElementList = new ArrayList<>();
@@ -90,6 +122,14 @@ public class AdmissionRequestService {
         return statementElementList;
     }
 
+
+    /**
+     * Returns byte array of prepared PDF report to the controller.
+     * @param faculty
+     * @return byte[]
+     */
+
+
     public byte[] finalizeStatement(Faculty faculty) {
         List<AdmissionRequest> admissionRequestsListSorted = getSortedListOfRequestForFaculty(faculty);
         List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
@@ -107,17 +147,15 @@ public class AdmissionRequestService {
         return outputStream.toByteArray();
     }
 
-    public List<AdmissionRequest> getSortedListOfRequestForFaculty(Faculty faculty) {
-        return faculty.getAdmissionRequestList()
-                .stream()
-                .filter(x -> x.getAdmissionRequestStatus() == AdmissionRequestStatus.APPROVED)
-                .sorted(
-                        Comparator.comparingInt(AdmissionRequest::getSumOfGrades).reversed()
-                                .thenComparing(AdmissionRequest::getCreationDateTime))
-                .limit(faculty.getTotalCapacity())
-                .collect(Collectors.toList());
-    }
 
+    /**
+     * Returns ByteArrayOutputStream of PDF report, converted by Jasper
+     * @param statementElementList
+     * @return ByteArrayOutputStream
+     * @throws JRException
+     * @throws FileNotFoundException
+     * @throws URISyntaxException
+     */
 
     private ByteArrayOutputStream createPdfReport(final List<StatementElement> statementElementList) throws JRException, FileNotFoundException, URISyntaxException {
         File templateFile;
@@ -138,6 +176,7 @@ public class AdmissionRequestService {
 
         return outputSteam;
     }
+
 
 
 }

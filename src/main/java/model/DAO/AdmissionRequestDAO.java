@@ -1,6 +1,5 @@
 package model.DAO;
 
-import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
 import model.entity.Faculty;

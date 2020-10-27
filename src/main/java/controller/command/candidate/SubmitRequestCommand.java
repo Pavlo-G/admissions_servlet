@@ -2,20 +2,17 @@ package controller.command.candidate;
 
 import Service.AdmissionRequestService;
 import Service.FacultyService;
+import controller.command.Command;
 import exception.DbProcessingException;
-import model.dto.AdmissionRequestDTO;
 import model.entity.AdmissionRequest;
 import model.entity.AdmissionRequestStatus;
-import controller.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.validation.AdmissionRequestValidator;
-import utils.validation.GradeValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.stream.Collectors;
 

@@ -2,7 +2,10 @@ package controller.command.candidate;
 
 
 import Service.CandidateService;
+import exception.DbProcessingException;
+import exception.FacultyNotFoundException;
 import model.entity.CandidateProfile;
+import model.entity.Faculty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controller.command.Command;
@@ -35,9 +38,13 @@ public class UpdateCandidateProfileCommand implements Command {
         candidateProfile.setSchool(request.getParameter("school"));
         candidateProfile.setPhoneNumber(request.getParameter("phoneNumber"));
 
-
-        candidateService.updateCandidateProfile(candidateProfile);
-
+        try {
+            candidateService.updateCandidateProfile(candidateProfile);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while updating candidate profile : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         response.sendRedirect("/controller?command=candidateProfile");
 

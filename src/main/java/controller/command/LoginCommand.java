@@ -53,7 +53,7 @@ public class LoginCommand implements Command {
 
         Candidate candidate = null;
         try {
-            candidate = candidateService.findCandidateByUsername(username).orElseThrow(CandidateNotFoundException::new);
+            candidate = candidateService.findCandidateByUsername(username).orElseThrow(()->new CandidateNotFoundException("Candidate not found!"));
         } catch (CandidateNotFoundException e) {
             errorMessage = "Candidate not found!";
             request.setAttribute("errorMessage", errorMessage);
@@ -62,7 +62,7 @@ public class LoginCommand implements Command {
         CandidateProfile candidateProfile=null;
         try {
            candidateProfile = candidateService.getCandidateProfile(candidate)
-                    .orElseThrow(CandidateNotFoundException::new);
+                    .orElseThrow(()->new CandidateNotFoundException("Candidate profile not found!"));
 
         } catch (CandidateNotFoundException e) {
             errorMessage = "Candidate Profile not found!";

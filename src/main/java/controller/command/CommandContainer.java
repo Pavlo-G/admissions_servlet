@@ -26,7 +26,7 @@ public class CommandContainer {
         commandMap.put("login", new LoginCommand(new CandidateService()));
         commandMap.put("registration", new RegistrationCommand(new CandidateService()));
         commandMap.put("logout", new LogoutCommand());
-        commandMap.put("admissionRequests", new AllAdmissionRequests());
+        commandMap.put("admissionRequests", new AllAdmissionRequestsCommand(new AdmissionRequestService()));
         commandMap.put("loginForm", new LoginFormCommand());
         commandMap.put("submitRequest", new SubmitRequestCommand(new AdmissionRequestService(),new FacultyService()));
         commandMap.put("registrationForm", new RegistrationFormCommand());

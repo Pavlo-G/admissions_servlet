@@ -81,8 +81,19 @@
                                 <label for="username" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="login.username"/></label>
                                 <div class="col-md-6">
-                                    <input type="text" id="username" class="form-control" name="username"
-                                           placeholder="<fmt:message key="login.username"/>" required autofocus>
+                                    <input type="text" id="username"
+                                           class="form-control <c:if test="${not empty usernameError}">is-invalid</c:if>"
+                                           name="username"
+                                           placeholder="<fmt:message key="login.username"/>"
+                                           value="<c:choose><c:when test="${not empty username}">${username}</c:when></c:choose>"/>
+
+                                    <c:choose>
+                                        <c:when test="${not empty usernameError}">
+                                            <div class="invalid-feedback">
+                                                    ${usernameError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -90,8 +101,19 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="login.password"/></label>
                                 <div class="col-md-6">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                           placeholder="<fmt:message key="login.password"/>">
+                                    <input type="password" id="password"
+                                           class="form-control <c:if test="${not empty passwordError}">is-invalid</c:if>"
+                                           name="password"
+                                           placeholder="<fmt:message key="login.password"/>"
+                                           />
+
+                                    <c:choose>
+                                        <c:when test="${not empty passwordError}">
+                                            <div class="invalid-feedback">
+                                                    ${passwordError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -99,9 +121,20 @@
                                 <label for="firstName" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.first_name"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="firstName" class="form-control" name="firstName"
+                                    <input type="text"
+                                           id="firstName"
+                                           class="form-control <c:if test="${not empty firstNameError}">is-invalid</c:if>"
+                                           name="firstName"
                                            placeholder="<fmt:message key="reg.detail.first_name"/> "
-                                    >
+                                           value="<c:choose><c:when test="${not empty firstName}">${firstName}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty firstNameError}">
+                                            <div class="invalid-feedback">
+                                                    ${firstNameError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
+
                                 </div>
                             </div>
 
@@ -109,8 +142,19 @@
                                 <label for="lastName" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.last_name"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="lastName" class="form-control" name="lastName"
-                                           placeholder="<fmt:message key="reg.detail.last_name"/>" required>
+                                    <input type="text"
+                                           id="lastName"
+                                           class="form-control <c:if test="${not empty lastNameError}">is-invalid</c:if>"
+                                           name="lastName"
+                                           placeholder="<fmt:message key="reg.detail.last_name"/>"
+                                           value="<c:choose><c:when test="${not empty lastName}">${lastName}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty lastNameError}">
+                                            <div class="invalid-feedback">
+                                                    ${lastNameError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -118,8 +162,19 @@
                                 <label for="email_address" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.email"/></label>
                                 <div class="col-md-6">
-                                    <input type="email" id="email_address" class="form-control" name="email"
-                                           placeholder="<fmt:message key="reg.detail.email"/>" required>
+                                    <input type="email"
+                                           id="email_address"
+                                           class="form-control  <c:if test="${not empty emailError}">is-invalid</c:if>"
+                                           name="email"
+                                           placeholder="<fmt:message key="reg.detail.email"/>"
+                                           value="<c:choose><c:when test="${not empty email}">${email}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty emailError}">
+                                            <div class="invalid-feedback">
+                                                    ${emailError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -128,8 +183,19 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.address"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="address" class="form-control" name="address"
-                                           placeholder="<fmt:message key="reg.detail.address"/>" required>
+                                    <input type="text"
+                                           id="address"
+                                           class="form-control  <c:if test="${not empty addressError}">is-invalid</c:if>"
+                                           name="address"
+                                           placeholder="<fmt:message key="reg.detail.address"/>"
+                                           value="<c:choose><c:when test="${not empty address}">${address}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty addressError}">
+                                            <div class="invalid-feedback">
+                                                    ${addressError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 
@@ -137,32 +203,76 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.city"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="city" class="form-control" name="city"
-                                           placeholder="<fmt:message key="reg.detail.city"/>" required>
+                                    <input type="text"
+                                           id="city"
+                                           class="form-control <c:if test="${not empty cityError}">is-invalid</c:if>"
+                                           name="city"
+                                           placeholder="<fmt:message key="reg.detail.city"/>"
+                                           value="<c:choose><c:when test="${not empty city}">${city}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty cityError}">
+                                            <div class="invalid-feedback">
+                                                    ${cityError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="region" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.region"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="region" class="form-control" name="region"
-                                           placeholder="<fmt:message key="reg.detail.region"/>" required>
+                                    <input type="text"
+                                           id="region"
+                                           class="form-control <c:if test="${not empty regionError}">is-invalid</c:if>"
+                                           name="region"
+                                           placeholder="<fmt:message key="reg.detail.region"/>"
+                                           value="<c:choose><c:when test="${not empty region}">${region}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty regionError}">
+                                            <div class="invalid-feedback">
+                                                    ${regionError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="school" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.school"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="school" class="form-control" name="school"
-                                           placeholder="<fmt:message key="reg.detail.school"/>" required>
+                                    <input type="text"
+                                           id="school"
+                                           class="form-control <c:if test="${not empty schoolError}">is-invalid</c:if>"
+                                           name="school"
+                                           placeholder="<fmt:message key="reg.detail.school"/>"
+                                           value="<c:choose><c:when test="${not empty school}">${school}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty schoolError}">
+                                            <div class="invalid-feedback">
+                                                    ${schoolError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="phoneNumber" class="col-md-4 col-form-label text-md-right"><fmt:message
                                         key="reg.detail.phoneNumber"/> </label>
                                 <div class="col-md-6">
-                                    <input type="text" id="phoneNumber" class="form-control" name="phoneNumber"
-                                           placeholder="xxx-xxx-xxx" required>
+                                    <input type="text"
+                                           id="phoneNumber"
+                                           class="form-control <c:if test="${not empty phoneNumberError}">is-invalid</c:if>"
+                                           name="phoneNumber"
+                                           placeholder="xxx-xxx-xxx"
+                                           value="<c:choose><c:when test="${not empty phoneNumber}">${phoneNumber}</c:when></c:choose>"/>
+                                    <c:choose>
+                                        <c:when test="${not empty phoneNumberError}">
+                                            <div class="invalid-feedback">
+                                                    ${phoneNumberError}
+                                            </div>
+                                        </c:when>
+                                    </c:choose>
                                 </div>
                             </div>
 

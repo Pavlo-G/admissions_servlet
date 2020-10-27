@@ -3,32 +3,17 @@ package controller.command.admin;
 
 import Service.AdmissionRequestService;
 import Service.FacultyService;
-import com.sun.xml.internal.bind.v2.TODO;
+import controller.command.Command;
+import exception.CanNotMakePDFException;
 import exception.DbProcessingException;
 import exception.FacultyNotFoundException;
-import model.entity.AdmissionRequest;
 import model.entity.Faculty;
-import model.entity.StatementElement;
-import exception.StatementCreationException;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import controller.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class FinalizeStatementForFacultyCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(FinalizeStatementForFacultyCommand.class);
@@ -64,9 +49,14 @@ public class FinalizeStatementForFacultyCommand implements Command {
 
         response.setContentType("application/pdf");
         response.addHeader("Content-Disposition", "inline; filename=" + "report");
-
-        response.getOutputStream().
-                write(admissionRequestService.finalizeStatement(faculty));
+        try {
+            response.getOutputStream().
+                    write(admissionRequestService.finalizeStatement(faculty));
+        } catch (CanNotMakePDFException e) {
+            LOG.error("Error occurred while preparing PDF: {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
 

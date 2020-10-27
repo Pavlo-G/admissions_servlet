@@ -3,6 +3,7 @@ package controller.command.candidate;
 import Service.CandidateService;
 import controller.command.admin.UpdateFacultyCommand;
 import exception.CandidateNotFoundException;
+import exception.FacultyNotFoundException;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 import controller.command.Command;
@@ -25,9 +26,15 @@ public class CandidateProfileCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         Candidate candidate = (Candidate) session.getAttribute("candidate");
-        String errorMessage;
-            CandidateProfile candidateProfile = candidateService.getCandidateProfile(candidate)
-                    .orElseThrow(()-> new CandidateNotFoundException("d"));
+        CandidateProfile candidateProfile;
+        try {
+            candidateProfile = candidateService.getCandidateProfile(candidate)
+                    .orElseThrow(() -> new CandidateNotFoundException("Candidate Profile  not found"));
+        } catch (CandidateNotFoundException ex) {
+            LOG.error("Can not find candidate profile : {}", ex.getMessage());
+            request.setAttribute("errorMessage", ex.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         request.setAttribute("candidateProfile", candidateProfile);
         return "WEB-INF/jsp/candidate/candidate-profile.jsp";

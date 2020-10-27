@@ -3,6 +3,8 @@ package controller.command.candidate;
 import Service.AdmissionRequestService;
 import Service.CandidateService;
 import Service.FacultyService;
+import exception.DbProcessingException;
+import exception.FacultyNotFoundException;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 import model.entity.Faculty;
@@ -30,7 +32,18 @@ public class GetSubmitRequestFormCommand implements Command {
 
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
 
-        Faculty faculty = facultyService.findById(facultyId);
+        Faculty faculty;
+        try {
+            faculty = facultyService.findById(facultyId);
+        } catch (DbProcessingException e) {
+            LOG.error("Error occurred while searching for faculty : {}", e.getMessage());
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        } catch (FacultyNotFoundException ex) {
+            LOG.error("Can not find faculty: {}", ex.getMessage());
+            request.setAttribute("errorMessage", ex.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
 
         request.setAttribute("candidate", candidate);
