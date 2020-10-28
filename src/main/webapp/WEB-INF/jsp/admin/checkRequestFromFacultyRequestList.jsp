@@ -217,6 +217,10 @@
             </thead>
 
         </table>
+        <div>
+            <img src="<c:url value="/resources/img/${admissionRequest.candidate.candidateProfile.fileName}"/>"/>
+        </div>
+        <br>
 
         <div class="container h-100">
             <div class="row h-100 justify-content-center align-items-center">

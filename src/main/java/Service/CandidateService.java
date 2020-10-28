@@ -7,11 +7,17 @@ import model.DAO.DAOFactory;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class CandidateService {
+    final static String PATH = "E:\\JAVA\\admissions\\admissions_servlet\\src\\main\\webapp\\resources\\img";
     DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
 
 
@@ -80,4 +86,48 @@ public class CandidateService {
             throw new DbProcessingException("Can not create Candidate!");
         }
     }
+
+
+
+    public String saveFile(HttpServletRequest request) {
+
+        Part filePart = null;
+        try {
+            filePart = request.getPart("file");
+
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+        String uuidFile = UUID.randomUUID().toString();
+        String fileName = uuidFile + "." + getFileName(filePart);
+
+        try (OutputStream out = new FileOutputStream(new File(PATH + File.separator + fileName));
+             InputStream filecontent = filePart.getInputStream();
+        ) {
+
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
+    }
+
+    private String getFileName(Part part) {
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
 }

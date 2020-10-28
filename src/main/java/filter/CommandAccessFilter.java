@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,10 +38,11 @@ public class CommandAccessFilter implements Filter {
         }
     }
 
-    private boolean accessAllowed(ServletRequest request) {
+    private boolean accessAllowed(ServletRequest request)  {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        String commandName = request.getParameter("command");
+        String commandName  = request.getParameter("command");
+
         if (commandName == null || commandName.isEmpty())
             return false;
 
@@ -51,7 +53,7 @@ public class CommandAccessFilter implements Filter {
         if (session == null)
             return false;
 
-        Role userRole = (Role)session.getAttribute("candidateRole");
+        Role userRole = (Role) session.getAttribute("candidateRole");
         if (userRole == null)
             return false;
 
@@ -79,8 +81,7 @@ public class CommandAccessFilter implements Filter {
     /**
      * Extracts parameter values from string.
      *
-     * @param str
-     *            parameter values string.
+     * @param str parameter values string.
      * @return list of parameter values.
      */
     private List<String> asList(String str) {

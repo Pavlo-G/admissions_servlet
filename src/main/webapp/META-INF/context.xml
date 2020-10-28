@@ -4,7 +4,7 @@ Data source and connection pool configuration
 (The default Tomcat's DBCP is used)
 =============================================================-->
 
-<Context>
+<Context  allowCasualMultipartParsing="true">
 
     <!--=============================================================
     maxTotal: Maximum number of database connections in pool. Make sure you
@@ -45,5 +45,4 @@ Data source and connection pool configuration
               defaultAutoCommit="true"
               defaultTransactionIsolation="READ_COMMITTED"
               url="jdbc:mysql://localhost:3306/admissions?useSSL=false&amp;serverTimezone=UTC"/>
-
 </Context>

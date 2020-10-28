@@ -111,7 +111,7 @@
     <div class="row">
         <h2 class="text-danger">Candidate Profile</h2>
         <table class="table table-bordered success">
-            <form class="form-inline ml-auto my-2 my-lg-0" action="/controller" method="post">
+            <form class="form-inline ml-auto my-2 my-lg-0" action="/controller" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="command" value="updateCandidateProfile"/>
                 <input type="hidden" name="candidateProfileId" value="${candidateProfile.id}"/>
 
@@ -198,6 +198,25 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>
+                        <label for="file"
+                               class="col-md-4 col-form-label text-md-right"><fmt:message
+                                key="file.certificate"/>
+                        </label>
+                    </th>
+                    <td>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="file" id="file"
+                                       class="form-control"
+                                       name="file"
+                                />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
                     <th></th>
                     <td>
                         <div>
@@ -207,6 +226,7 @@
                         </div>
                     </td>
                 </tr>
+
 
                 </thead>
             </form>

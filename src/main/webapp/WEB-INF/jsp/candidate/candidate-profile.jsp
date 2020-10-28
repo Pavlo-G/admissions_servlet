@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -45,9 +45,11 @@
                                             data-target="#navbarDropdown"><fmt:message key="navbar.Change_Language"/>
                         <b class="caret"></b></a>
                         <div class="dropdown-menu dropdown-menu-right" id="navbarDropdown">
-                            <a class="dropdown-item" href="/controller?command=candidateProfile&sessionLocale=en&candidateId=${faculty.id}">
+                            <a class="dropdown-item"
+                               href="/controller?command=candidateProfile&sessionLocale=en&candidateId=${faculty.id}">
                                 <fmt:message key="navbar.English"/></a>
-                            <a class="dropdown-item" href="/controller?command=candidateProfile&sessionLocale=uk&candidateId=${faculty.id}">
+                            <a class="dropdown-item"
+                               href="/controller?command=candidateProfile&sessionLocale=uk&candidateId=${faculty.id}">
                                 <fmt:message key="navbar.Ukrainian"/></a>
                         </div>
 
@@ -102,8 +104,6 @@
 </nav>
 
 
-
-
 <br>
 <jsp:useBean id="candidateProfile" type="model.entity.CandidateProfile" scope="request"/>
 
@@ -111,7 +111,8 @@
     <div class="row">
         <h2 class="text-danger"><fmt:message key="navbar.my_profile"/></h2>
         <form class="form-inline ml-auto my-2 my-lg-0">
-        <a class="btn btn-primary" href="/controller?command=candidateProfileEdit" role="button"><fmt:message key="profile.edit.edit"/></a>
+            <a class="btn btn-primary" href="/controller?command=candidateProfileEdit" role="button"><fmt:message
+                    key="profile.edit.edit"/></a>
         </form>
 
         <table class="table table-bordered success">
@@ -155,6 +156,11 @@
             </thead>
 
         </table>
+
+        <div>
+            <img src="<c:url value="/resources/img/${candidateProfile.fileName}"/>"/>
+        </div>
+
     </div>
 </div>
 </body>

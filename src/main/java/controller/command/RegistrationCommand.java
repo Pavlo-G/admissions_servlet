@@ -11,11 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.validation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RegistrationCommand implements Command {
@@ -34,10 +37,10 @@ public class RegistrationCommand implements Command {
         String errorMessage = null;
         String forward = "WEB-INF\\jsp\\registration.jsp";
         FieldValidator fieldValidator = new FieldValidator();
-        PhoneValidator phoneValidator= new PhoneValidator();
-        EmailValidator emailValidator= new EmailValidator();
-        RegistrationValidator registrationValidator=
-                new RegistrationValidator(lang,fieldValidator,emailValidator,phoneValidator);
+        PhoneValidator phoneValidator = new PhoneValidator();
+        EmailValidator emailValidator = new EmailValidator();
+        RegistrationValidator registrationValidator =
+                new RegistrationValidator(lang, fieldValidator, emailValidator, phoneValidator);
         Map<String, String> registrationParameters = request.getParameterMap().entrySet().stream()
                 .filter(entry -> !("command".equals(entry.getKey())))
                 .collect(Collectors.toMap(Map.Entry::getKey, stringEntry -> request.getParameter(stringEntry.getKey())));
@@ -48,6 +51,8 @@ public class RegistrationCommand implements Command {
             errors.entrySet().stream().forEach(entity -> request.setAttribute(entity.getKey(), entity.getValue()));
             return "WEB-INF/jsp/registration.jsp";
         }
+
+        String fileName = candidateService.saveFile(request);
 
 
         Candidate candidate = new Candidate();
@@ -60,16 +65,17 @@ public class RegistrationCommand implements Command {
         CandidateProfile candidateProfile = new CandidateProfile();
         candidateProfile.setEmail(registrationParameters.get("email"));
         candidateProfile.setFirstName(registrationParameters.get("firstName"));
-        candidateProfile.setLastName( registrationParameters.get("lastName"));
+        candidateProfile.setLastName(registrationParameters.get("lastName"));
         candidateProfile.setAddress(registrationParameters.get("address"));
         candidateProfile.setCity(registrationParameters.get("city"));
         candidateProfile.setRegion(registrationParameters.get("region"));
         candidateProfile.setSchool(registrationParameters.get("school"));
         candidateProfile.setPhoneNumber(registrationParameters.get("phoneNumber"));
+        candidateProfile.setFileName(fileName);
         candidateProfile.setCandidate(candidate);
 
         try {
-           candidateService.create(candidate, candidateProfile);
+            candidateService.create(candidate, candidateProfile);
         } catch (DbProcessingException e) {
             if (lang != null
                     && lang.equals("uk")) {
@@ -94,4 +100,6 @@ public class RegistrationCommand implements Command {
 
         return forward;
     }
+
+
 }

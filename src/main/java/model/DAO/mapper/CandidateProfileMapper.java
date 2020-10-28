@@ -21,6 +21,7 @@ public class CandidateProfileMapper implements ObjectMapper<CandidateProfile> {
         candidateProfile.setRegion(rs.getString("region"));
         candidateProfile.setSchool(rs.getString("school"));
         candidateProfile.setPhoneNumber(rs.getString("phone_number"));
+        candidateProfile.setFileName(rs.getString("certificate_file"));
         return candidateProfile;
     }
 

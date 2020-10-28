@@ -55,7 +55,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(6, candidateProfile.getRegion());
             pstmt.setString(7, candidateProfile.getSchool());
             pstmt.setString(8, candidateProfile.getPhoneNumber());
-            pstmt.setLong(9, candidateId);
+            pstmt.setString(9, candidateProfile.getFileName());
+            pstmt.setLong(10, candidateId);
             pstmt.execute();
             conn.commit();
 
@@ -208,7 +209,8 @@ public class MySqlCandidateDAO implements CandidateDAO {
             pstmt.setString(6, candidateProfile.getRegion());
             pstmt.setString(7, candidateProfile.getSchool());
             pstmt.setString(8, candidateProfile.getPhoneNumber());
-            pstmt.setLong(9, candidateProfile.getId());
+            pstmt.setString(9, candidateProfile.getFileName());
+            pstmt.setLong(10, candidateProfile.getId());
             pstmt.execute();
         } catch (SQLException ex) {
             throw new SQLException("Cannot update candidate profile with id: " + candidateProfile.getId(), ex);

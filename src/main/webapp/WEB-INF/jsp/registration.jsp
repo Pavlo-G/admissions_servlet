@@ -73,7 +73,7 @@
                             </c:otherwise>
                         </c:choose>
 
-                        <form id="registration" method="post" action="controller">
+                        <form id="registration" method="post" action="controller" enctype="multipart/form-data">
                             <input type="hidden" name="command" value="registration"/>
 
 

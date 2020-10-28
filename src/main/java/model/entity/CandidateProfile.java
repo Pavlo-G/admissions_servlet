@@ -12,6 +12,7 @@ public class CandidateProfile {
     private String school;
     private String phoneNumber;
     private Candidate candidate;
+    private String fileName;
 
 
     public Long getId() {
@@ -92,5 +93,13 @@ public class CandidateProfile {
 
     public void setCandidate(Candidate candidate) {
         this.candidate = candidate;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
