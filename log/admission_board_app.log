@@ -403,3 +403,24 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'q
 	at org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:105)
 	at model.DAO.mysql.MySqlCandidateDAO.getGeneratedKey(MySqlCandidateDAO.java:88)
 	... 38 common frames omitted
+2020-10-27 13:24:03,783 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 13:44:04,467 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:34] User q logout. Session destroyed
+2020-10-27 13:57:35,851 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 14:01:04,777 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 14:38:54,573 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 14:53:49,119 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 14:58:42,808 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:03:53,951 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:11:06,489 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:12:45,417 INFO [http-nio-8080-exec-10] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:30:36,396 INFO [http-nio-8080-exec-7] l.SessionListener [SessionListener.java:34] User q logout. Session destroyed
+2020-10-27 15:32:44,382 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:35:18,549 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 15:45:02,746 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 16:02:31,032 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:34] User q logout. Session destroyed
+2020-10-27 16:12:16,158 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 16:21:49,939 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 16:27:15,136 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 16:56:59,127 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 16:59:02,185 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate q logged as USER
+2020-10-27 17:20:48,011 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:34] User q logout. Session destroyed

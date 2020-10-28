@@ -157,8 +157,9 @@
 
 </body>
 </html>
-
-
+<br>
+<br>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"></jsp:include>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

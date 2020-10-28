@@ -179,7 +179,9 @@
 
     </div>
 </div>
-
+<br>
+<br>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"></jsp:include>
 
 </body>
 </html>

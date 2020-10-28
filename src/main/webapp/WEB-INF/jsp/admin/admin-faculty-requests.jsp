@@ -174,13 +174,10 @@
         </div>
     </div>
 </div>
+<br>
+<br>
 
-
-</body>
-
-
-</body>
-</html>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"></jsp:include>
 </body>
 </html>
 <!-- Optional JavaScript -->

@@ -189,7 +189,11 @@
         </div>
     </div>
 </div>
+<br>
+<br>
+<jsp:include page="/WEB-INF/jsp/fragments/footer.jsp"></jsp:include>
 </body>
+
 </html>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

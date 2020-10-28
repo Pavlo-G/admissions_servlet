@@ -82,7 +82,8 @@ public class AdmissionRequestService {
 
 
     /**
-     * Returns list of Admission requests sorted by grade and limited by total capacity of the faculty.
+     * Returns list of Admission requests sorted by grade(then sorted by request creation time)
+     * and limited by total capacity of the faculty.
      * @param faculty
      * @return List<AdmissionRequest>
      */
