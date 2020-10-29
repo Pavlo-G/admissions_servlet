@@ -74,7 +74,7 @@ public class LoginCommand implements Command {
         if (!BCrypt.checkpw(password, candidate.getPassword())) {
             if (lang != null
                     && lang.equals("uk")) {
-                errorMessage = "Юзера з таким логіном/паролем неіснує!";
+                errorMessage = "Не можу знайти юзера з таким логіном/паролем!";
             } else {
                 errorMessage = "Cannot find user with such login/password!";
             }

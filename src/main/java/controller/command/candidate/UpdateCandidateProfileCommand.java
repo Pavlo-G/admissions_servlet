@@ -23,7 +23,7 @@ public class UpdateCandidateProfileCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
 
         CandidateProfile candidateProfile = new CandidateProfile();
@@ -38,7 +38,13 @@ public class UpdateCandidateProfileCommand implements Command {
         candidateProfile.setPhoneNumber(request.getParameter("phoneNumber"));
 
 
-        String fileName = candidateService.saveFile(request);
+        String fileName = null;
+        try {
+            fileName = candidateService.saveFile(request);
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
         if (fileName.isEmpty()) {
             CandidateProfile oldCp = candidateService.getCandidateProfileById(Long.valueOf(request.getParameter("candidateProfileId")))
                     .orElseThrow(() -> new CandidateNotFoundException("Can not find profile"));
@@ -55,7 +61,12 @@ public class UpdateCandidateProfileCommand implements Command {
             return "/WEB-INF/jsp/errorPage.jsp";
         }
 
-        response.sendRedirect("/controller?command=candidateProfile");
+        try {
+            response.sendRedirect("/controller?command=candidateProfile");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
     }

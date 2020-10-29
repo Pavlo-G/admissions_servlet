@@ -22,7 +22,7 @@ public class DeleteAdmissionRequestCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
 
         Long admissionRequestId = Long.valueOf(request.getParameter("admissionRequestId"));
         try {
@@ -32,7 +32,12 @@ public class DeleteAdmissionRequestCommand implements Command {
             request.setAttribute("errorMessage", e.getMessage());
             return "/WEB-INF/jsp/errorPage.jsp";
         }
-        response.sendRedirect("/controller?command=getCandidateRequestsList");
+        try {
+            response.sendRedirect("/controller?command=getCandidateRequestsList");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
     }

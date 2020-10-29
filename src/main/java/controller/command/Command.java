@@ -12,7 +12,7 @@ public interface Command {
 
     DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
 
-    String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException;
+    String execute(HttpServletRequest request, HttpServletResponse response) ;
 
 
 }

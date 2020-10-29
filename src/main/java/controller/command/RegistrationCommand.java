@@ -52,7 +52,13 @@ public class RegistrationCommand implements Command {
             return "WEB-INF/jsp/registration.jsp";
         }
 
-        String fileName = candidateService.saveFile(request);
+        String fileName = null;
+        try {
+            fileName = candidateService.saveFile(request);
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
 
         Candidate candidate = new Candidate();

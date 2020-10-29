@@ -20,7 +20,7 @@ public class DeleteFacultyCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
         try {
@@ -33,7 +33,12 @@ public class DeleteFacultyCommand implements Command {
         }
 
 
-        response.sendRedirect("/controller?command=adminWorkspace");
+        try {
+            response.sendRedirect("/controller?command=adminWorkspace");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
 
         return "";

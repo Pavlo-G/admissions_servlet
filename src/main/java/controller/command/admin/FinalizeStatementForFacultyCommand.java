@@ -28,7 +28,7 @@ public class FinalizeStatementForFacultyCommand implements Command {
 
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
         String action = "block";
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
         Faculty faculty;
@@ -52,7 +52,7 @@ public class FinalizeStatementForFacultyCommand implements Command {
         try {
             response.getOutputStream().
                     write(admissionRequestService.finalizeStatement(faculty));
-        } catch (CanNotMakePDFException e) {
+        } catch (CanNotMakePDFException | IOException e) {
             LOG.error("Error occurred while preparing PDF: {}", e.getMessage());
             request.setAttribute("errorMessage", e.getMessage());
             return "/WEB-INF/jsp/errorPage.jsp";

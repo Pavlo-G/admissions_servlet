@@ -24,7 +24,7 @@ public class ChangeAdmissionRequestStatusCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         AdmissionRequestStatus newAdmissionRequestStatus = AdmissionRequestStatus.valueOf(request.getParameter("admissionRequestStatus"));
         Long admissionRequestId = Long.valueOf(request.getParameter("id"));
@@ -38,7 +38,12 @@ public class ChangeAdmissionRequestStatusCommand implements Command {
             return "/WEB-INF/jsp/errorPage.jsp";
         }
 
-        response.sendRedirect("/controller?command=showRequestsListOfFaculty&facultyId="+facultyId);
+        try {
+            response.sendRedirect("/controller?command=showRequestsListOfFaculty&facultyId="+facultyId);
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
     }

@@ -132,8 +132,8 @@ public class AdmissionRequestService {
 
 
     public byte[] finalizeStatement(Faculty faculty) {
-        List<AdmissionRequest> admissionRequestsListSorted = getSortedListOfRequestForFaculty(faculty);
-        List<StatementElement> statementElementList = getStatementElements(admissionRequestsListSorted);
+
+        List<StatementElement> statementElementList = getStatementElements(getSortedListOfRequestForFaculty(faculty));
 
         ByteArrayOutputStream outputStream = null;
         try {

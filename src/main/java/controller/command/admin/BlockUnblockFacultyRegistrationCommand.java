@@ -20,7 +20,7 @@ public class BlockUnblockFacultyRegistrationCommand implements Command {
 
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
 
         String action = request.getParameter("action");
         Long facultyId = Long.valueOf(request.getParameter("facultyId"));
@@ -33,7 +33,12 @@ public class BlockUnblockFacultyRegistrationCommand implements Command {
             return "/WEB-INF/jsp/errorPage.jsp";
         }
 
-        response.sendRedirect("/controller?command=adminWorkspace");
+        try {
+            response.sendRedirect("/controller?command=adminWorkspace");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", "redirect error");
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
     }

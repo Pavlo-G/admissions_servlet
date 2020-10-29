@@ -27,7 +27,7 @@ public class CreateNewFacultyCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
         String lang = (String) request.getSession().getAttribute("lang");
 
         Map<String, String> facultyParameters = request.getParameterMap().entrySet().stream()
@@ -55,7 +55,12 @@ public class CreateNewFacultyCommand implements Command {
         }
 
 
-        response.sendRedirect("/controller?command=adminWorkspace");
+        try {
+            response.sendRedirect("/controller?command=adminWorkspace");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
         return "";
     }
 

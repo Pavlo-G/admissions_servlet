@@ -21,10 +21,6 @@ import static org.mockito.Mockito.atLeast;
 
 public class AllCandidatesCommandTest {
 
-
-
-
-
     @Test
     public void executeGetAllCandidatesListAndSetAsAttribute() {
         CandidateService candidateService = mock(CandidateService.class);
@@ -39,7 +35,6 @@ public class AllCandidatesCommandTest {
 
         when(candidateService.findAll()).thenReturn(candidates);
         allCandidatesCommand.execute(request, response);
-
 
         verify(candidateService, times(1)).findAll();
         verify(request,times(1)).setAttribute("candidatesList",candidates);

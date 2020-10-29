@@ -4,6 +4,7 @@ import exception.CandidateNotFoundException;
 import exception.DbProcessingException;
 import model.DAO.CandidateDAO;
 import model.DAO.DAOFactory;
+import model.DAO.mysql.ConnectionPoolHolder;
 import model.entity.Candidate;
 import model.entity.CandidateProfile;
 
@@ -14,10 +15,12 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.UUID;
 
 public class CandidateService {
-    final static String PATH = "E:\\JAVA\\admissions\\admissions_servlet\\src\\main\\resources\\files";
+
+
     DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
 
 
@@ -88,7 +91,7 @@ public class CandidateService {
     }
 
 
-    public String saveFile(HttpServletRequest request) {
+    public String saveFile(HttpServletRequest request) throws IOException {
 
 
         Part filePart = null;
@@ -102,30 +105,31 @@ public class CandidateService {
             e.printStackTrace();
         }
 
+        Properties properties = new Properties();
+        try (InputStream in = ConnectionPoolHolder.class.getClassLoader().getResourceAsStream("db\\db.properties")) {
+            properties.load(in);
+        }
 
         String uuidFile = UUID.randomUUID().toString();
         String fileName = uuidFile + "." + getFileName(filePart);
 
-        try (OutputStream out = new FileOutputStream(new File(PATH + File.separator + fileName));
+        try (OutputStream out = new FileOutputStream(new File(properties.getProperty("path") + File.separator + fileName));
              InputStream filecontent = filePart.getInputStream();
         ) {
-
             int read = 0;
             final byte[] bytes = new byte[1024];
 
             while ((read = filecontent.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
-
-
            out.flush();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return fileName;
     }
+
+
 
     private String getFileName(Part part) {
         for (String content : part.getHeader("content-disposition").split(";")) {

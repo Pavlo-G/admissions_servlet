@@ -28,7 +28,7 @@ public class UpdateFacultyCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)  {
 
         String lang = (String) request.getSession().getAttribute("lang");
 
@@ -55,7 +55,12 @@ public class UpdateFacultyCommand implements Command {
             request.setAttribute("errorMessage", e.getMessage());
             return "/WEB-INF/jsp/errorPage.jsp";
         }
-        response.sendRedirect("/controller?command=adminWorkspace");
+        try {
+            response.sendRedirect("/controller?command=adminWorkspace");
+        } catch (IOException e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            return "/WEB-INF/jsp/errorPage.jsp";
+        }
 
         return "";
     }
