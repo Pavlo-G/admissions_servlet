@@ -37,9 +37,10 @@ public final class Constants {
             " Values(?,?,?,?,?,?,?,?,?,?)";
     public static final String SQL_DELETE_CANDIDATE = "DELETE FROM candidate WHERE id=?;";
     public static final String SQL_UPDATE_CANDIDATE = " UPDATE  candidate SET role=?,candidate_status=? WHERE id=?;";
-    public static final String SQL_UPDATE_CANDIDATE_PROFILE ="UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=? cp.certificate_file=? " +
+    public static final String SQL_UPDATE_CANDIDATE_PROFILE ="UPDATE candidate_profile SET first_name=?,last_name=?,email=?,address=?,city=?,region=?,school=?,phone_number=?, certificate_file=? " +
             "WHERE id=?";
     public static final String SQL_FIND_CANDIDATE_PROFILE = "SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, certificate_file, candidate_id From candidate_profile cp Where candidate_id=?";
+    public static final String SQL_FIND_CANDIDATE_PROFILE_BY_ID = "SELECT cp.id, address, city, email, first_name, last_name, phone_number, region, school, certificate_file, candidate_id From candidate_profile cp Where id=?";
 
     public static final String SQL_FIND_CANDIDATE_BY_USERNAME = "SELECT c.id, c.candidate_status, c.password, c.role, c.username " +
             "FROM  candidate c " +

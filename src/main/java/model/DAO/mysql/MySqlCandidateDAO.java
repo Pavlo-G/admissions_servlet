@@ -196,6 +196,26 @@ public class MySqlCandidateDAO implements CandidateDAO {
     }
 
 
+    public Optional<CandidateProfile> getCandidateProfileById(Long id) throws SQLException {
+        Optional<CandidateProfile> candidateProfile = Optional.empty();
+        try (Connection con = connection;
+             PreparedStatement pstmt = con.prepareCall(Constants.SQL_FIND_CANDIDATE_PROFILE_BY_ID)) {
+            pstmt.setLong(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                CandidateProfileMapper mapper = new CandidateProfileMapper();
+                if (rs.next()) {
+                    candidateProfile = Optional.of(mapper.extractFromResultSet(rs));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new SQLException("Cannot get candidate profile for candidate with id: " + id, ex);
+        }
+
+        return candidateProfile;
+    }
+
+
     @Override
     public void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException {
 

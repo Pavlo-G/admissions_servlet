@@ -2,18 +2,16 @@ package controller.command.candidate;
 
 
 import Service.CandidateService;
+import controller.command.Command;
+import exception.CandidateNotFoundException;
 import exception.DbProcessingException;
-import exception.FacultyNotFoundException;
 import model.entity.CandidateProfile;
-import model.entity.Faculty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class UpdateCandidateProfileCommand implements Command {
     static final Logger LOG = LoggerFactory.getLogger(UpdateCandidateProfileCommand.class);
@@ -27,6 +25,7 @@ public class UpdateCandidateProfileCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+
         CandidateProfile candidateProfile = new CandidateProfile();
         candidateProfile.setId(Long.valueOf(request.getParameter("candidateProfileId")));
         candidateProfile.setEmail(request.getParameter("email"));
@@ -37,6 +36,16 @@ public class UpdateCandidateProfileCommand implements Command {
         candidateProfile.setRegion(request.getParameter("region"));
         candidateProfile.setSchool(request.getParameter("school"));
         candidateProfile.setPhoneNumber(request.getParameter("phoneNumber"));
+
+
+        String fileName = candidateService.saveFile(request);
+        if (fileName.isEmpty()) {
+            CandidateProfile oldCp = candidateService.getCandidateProfileById(Long.valueOf(request.getParameter("candidateProfileId")))
+                    .orElseThrow(() -> new CandidateNotFoundException("Can not find profile"));
+            candidateProfile.setFileName(oldCp.getFileName());
+        } else {
+            candidateProfile.setFileName(fileName);
+        }
 
         try {
             candidateService.updateCandidateProfile(candidateProfile);

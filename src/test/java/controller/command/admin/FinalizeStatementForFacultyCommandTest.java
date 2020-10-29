@@ -6,6 +6,7 @@ import controller.command.Command;
 import model.entity.Faculty;
 import org.junit.Test;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class FinalizeStatementForFacultyCommandTest {
 
     @Test
-    public void execute() throws IOException {
+    public void execute() throws IOException, ServletException {
         FacultyService facultyService = mock(FacultyService.class);
         AdmissionRequestService admissionRequestService = mock(AdmissionRequestService.class);
         HttpServletRequest request = mock(HttpServletRequest.class);

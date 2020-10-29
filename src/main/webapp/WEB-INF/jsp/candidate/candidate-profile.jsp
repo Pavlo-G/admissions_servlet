@@ -158,7 +158,7 @@
         </table>
 
         <div>
-            <img src="<c:url value="/resources/img/${candidateProfile.fileName}"/>"/>
+            <img src="<c:url value="/images/${candidateProfile.fileName}"/>"/>
         </div>
 
     </div>

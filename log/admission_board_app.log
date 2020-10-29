@@ -934,3 +934,59 @@ java.sql.SQLException: No value specified for parameter 10
 2020-10-29 01:16:05,054 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
 2020-10-29 01:16:42,337 INFO [http-nio-8080-exec-4] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
 2020-10-29 01:22:16,616 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 09:37:08,160 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 09:53:52,824 INFO [Catalina-utility-1] l.SessionListener [SessionListener.java:34] User ddd logout. Session destroyed
+2020-10-29 10:24:37,619 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:25:00,465 ERROR [http-nio-8080-exec-3] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:27:28,613 ERROR [http-nio-8080-exec-5] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:27:55,143 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:28:51,188 ERROR [http-nio-8080-exec-10] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:30:03,732 ERROR [http-nio-8080-exec-2] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:30:48,704 ERROR [http-nio-8080-exec-4] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:31:58,819 ERROR [http-nio-8080-exec-6] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:32:14,999 ERROR [http-nio-8080-exec-8] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:36:13,757 ERROR [http-nio-8080-exec-1] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:36:44,506 INFO [http-nio-8080-exec-8] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:43:13,256 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:44:30,167 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:45:39,575 ERROR [http-nio-8080-exec-1] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:56] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:46:01,744 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:46:19,373 ERROR [http-nio-8080-exec-1] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:57] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:48:24,846 ERROR [http-nio-8080-exec-3] c.c.c.UpdateCandidateProfileCommand [UpdateCandidateProfileCommand.java:57] Error occurred while updating candidate profile : Can not update candidate profile with id:315
+2020-10-29 10:48:46,830 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 10:56:27,029 INFO [http-nio-8080-exec-4] l.SessionListener [SessionListener.java:34] User ddd logout. Session destroyed
+2020-10-29 10:56:33,856 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-29 10:58:54,438 INFO [http-nio-8080-exec-10] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
+2020-10-29 10:59:06,449 INFO [http-nio-8080-exec-4] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 11:03:30,704 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 11:04:22,003 INFO [http-nio-8080-exec-10] l.SessionListener [SessionListener.java:34] User ddd logout. Session destroyed
+2020-10-29 11:04:26,542 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-29 11:21:18,571 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
+2020-10-29 11:34:52,709 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:144] Candidate zx logged as USER
+2020-10-29 11:45:46,986 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 11:51:01,232 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 11:52:29,676 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 11:58:22,534 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:02:35,481 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:06:08,677 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:11:04,797 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:14:35,770 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:24:04,237 INFO [http-nio-8080-exec-5] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 12:44:41,119 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 12:48:36,973 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 12:50:32,815 INFO [http-nio-8080-exec-7] l.SessionListener [SessionListener.java:34] User zxc logout. Session destroyed
+2020-10-29 12:50:38,611 INFO [http-nio-8080-exec-9] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 12:51:01,017 INFO [http-nio-8080-exec-10] l.SessionListener [SessionListener.java:34] User zxc logout. Session destroyed
+2020-10-29 12:51:07,015 INFO [http-nio-8080-exec-2] c.c.LoginCommand [LoginCommand.java:144] Candidate admin logged as ADMIN
+2020-10-29 12:51:14,823 INFO [http-nio-8080-exec-5] l.SessionListener [SessionListener.java:34] User admin logout. Session destroyed
+2020-10-29 12:51:21,637 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 12:55:51,942 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 12:58:52,540 INFO [http-nio-8080-exec-6] l.SessionListener [SessionListener.java:34] User zxc logout. Session destroyed
+2020-10-29 13:11:40,335 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 13:16:12,553 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 13:31:55,224 INFO [Catalina-utility-2] l.SessionListener [SessionListener.java:34] User ddd logout. Session destroyed
+2020-10-29 13:46:57,537 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 13:51:33,942 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate ddd logged as USER
+2020-10-29 13:51:51,873 INFO [http-nio-8080-exec-3] l.SessionListener [SessionListener.java:34] User ddd logout. Session destroyed
+2020-10-29 13:51:59,028 INFO [http-nio-8080-exec-6] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER
+2020-10-29 13:52:55,086 INFO [http-nio-8080-exec-7] c.c.LoginCommand [LoginCommand.java:144] Candidate zxc logged as USER

@@ -19,4 +19,5 @@ public interface CandidateDAO extends GenericDao<Candidate> {
     void updateCandidateProfile(CandidateProfile candidateProfile) throws SQLException;
 
     Optional<CandidateProfile> getCandidateProfile(Candidate candidate) throws SQLException;
+    Optional<CandidateProfile> getCandidateProfileById(Long id) throws SQLException;
 }

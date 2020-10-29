@@ -4,7 +4,7 @@ Data source and connection pool configuration
 (The default Tomcat's DBCP is used)
 =============================================================-->
 
-<Context  allowCasualMultipartParsing="true">
+<Context docBase="E:\JAVA\admissions\admissions_servlet\src\main\resources\files" path="/images"  allowCasualMultipartParsing="true" >
 
     <!--=============================================================
     maxTotal: Maximum number of database connections in pool. Make sure you

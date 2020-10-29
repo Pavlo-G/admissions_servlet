@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class CandidateService {
-    final static String PATH = "E:\\JAVA\\admissions\\admissions_servlet\\src\\main\\webapp\\resources\\img";
+    final static String PATH = "E:\\JAVA\\admissions\\admissions_servlet\\src\\main\\resources\\files";
     DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
 
 
@@ -88,16 +88,21 @@ public class CandidateService {
     }
 
 
-
     public String saveFile(HttpServletRequest request) {
+
 
         Part filePart = null;
         try {
             filePart = request.getPart("file");
+            if (!(filePart.getSize() > 0)) {
+                return "";
+            }
 
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
+
+
         String uuidFile = UUID.randomUUID().toString();
         String fileName = uuidFile + "." + getFileName(filePart);
 
@@ -112,6 +117,8 @@ public class CandidateService {
                 out.write(bytes, 0, read);
             }
 
+
+           out.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -130,4 +137,11 @@ public class CandidateService {
         return null;
     }
 
+    public Optional<CandidateProfile> getCandidateProfileById(Long candidateProfileId) {
+        try (CandidateDAO dao = daoFactory.getCandidateDAO()) {
+            return dao.getCandidateProfileById(candidateProfileId);
+        } catch (SQLException e) {
+            throw new DbProcessingException(e.getMessage());
+        }
+    }
 }
